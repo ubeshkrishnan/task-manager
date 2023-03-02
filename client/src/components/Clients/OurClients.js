@@ -37,7 +37,7 @@ class OurClients extends React.Component{
                             isMember?<span className="light-info-bg py-1 px-2 rounded-1 d-inline-block fw-bold small-11 mb-0 mt-1">{name}</span>
                             :<span className="py-1 fw-bold small-11 mb-0 mt-1 text-muted">{name}</span>}
                         <div className="video-setting-icon mt-3 pt-3 border-top">
-                            <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices.Vestibulum ante ipsum primis in faucibus orci luctus et ultrices. {details?details:null}</p>
+                            <p>{details}</p>
                         </div>
                         {
                             isMember?

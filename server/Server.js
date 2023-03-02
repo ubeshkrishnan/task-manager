@@ -3,7 +3,9 @@ const bodyparser = require("body-parser");
 const cors = require('cors');
 const app = express();
 const mysql = require("mysql2");
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
+const multer = require('multer');
+const path = require('path');
 
 const db =mysql.createPool({
     host: "192.168.130.20",
@@ -87,6 +89,7 @@ app.post('/login', (req, res) => {
 });
 });
 
+// Mapping for client card 
 app.get("/users", (req, res) => {
   db.query("SELECT * FROM client_master", (error, results, fields) => {
     if (error) throw error;
@@ -94,79 +97,106 @@ app.get("/users", (req, res) => {
   });
 });
 
-app.post('/client', (req, res) => {
-  // Extract data from the request body
-  console.log(req.body);
-  const {
-      clientname,
-      clientshortcode,
-      verticalid,
-      ownername,
-      ownerphone,
-      owneremail,
-      accountscontact,
-      accountsphone,
-      accountsemail,
-     description,
-      // profileimage,
-      gstnumber,
-      address1,
-      address2,
-      city,
-      state,
-      pincode
-  } = req.body;
+// Use of Multer
+const storage = multer.diskStorage({
+  destination: (req, file, callBack) => {
+    callBack(null, path.join(__dirname, 'public', 'images')); // directory name where to save the file
+  },
+  filename: (req, file, callBack) => {
+    callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
 
-  // Create a MySQL query to insert the data into a table
-  const query = `
-      INSERT INTO client_master (
-        client_name,
-        client_shortcode,
-        vertical_id,
-        owner_name,
-          owner_phone,
-          owner_email,
-          accounts_contact,
-          accounts_phone,
-          accounts_email,
-          description,
-          gst_no,
-          address_line_1,
-          address_line_2,
-          city,
-          state,
-          pin_code
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?);
-  `;
-    // Execute the query with the extracted data
-    db.query(query, [
-      clientname,
-      clientshortcode,
-      verticalid,
-      ownername,
-      ownerphone,
-      owneremail,
-      accountscontact,
-      accountsphone,
-      accountsemail,
-      // profileimage,
-    description,
-      gstnumber,
-      address1,
-      address2,
-      city,
-      state,
-      pincode
-  ], (error, results, fields) => {
-      if (error) {
-          console.log(error);
-          res.status(500).send('Error inserting data into the database');
-      } else {
-          res.status(200).send('Data inserted successfully');
-      }
+const upload = multer({ storage });
+
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'client', 'build'))); // assuming client build folder is in client/build
+
+app.post('/upload', upload.single('image'), (req, res) => {
+  if (!req.file) {
+    console.log('No file uploaded');
+    return res.status(400).send('No file uploaded');
+  }
+
+  const imgsrc = `http://127.0.0.1:3001/images/${req.file.filename}`;
+  const insertData = 'INSERT INTO users_file(file_src) VALUES(?)';
+  db.query(insertData, [imgsrc], (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).send('Error inserting data into the database');
+    }
+    console.log('File uploaded');
+    res.status(200).send('File uploaded successfully');
   });
 });
 
+app.post('/client', (req, res) => {
+  const {
+    clientname,
+    clientshortcode,
+    verticalid,
+    ownername,
+    ownerphone,
+    owneremail,
+    accountscontact,
+    accountsphone,
+    accountsemail,
+    description,
+    gstnumber,
+    address1,
+    address2,
+    city,
+    state,
+    pincode
+  } = req.body;
+
+  const query = `
+    INSERT INTO client_master (
+      client_name,
+      client_shortcode,
+      vertical_id,
+      owner_name,
+      owner_phone,
+      owner_email,
+      accounts_contact,
+      accounts_phone,
+      accounts_email,
+      description,
+      gst_no,
+      address_line_1,
+      address_line_2,
+      city,
+      state,
+      pin_code
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+  `;
+
+  db.query(query, [
+    clientname,
+    clientshortcode,
+    verticalid,
+    ownername,
+    ownerphone,
+    owneremail,
+    accountscontact,
+    accountsphone,
+    accountsemail,
+    description,
+    gstnumber,
+    address1,
+    address2,
+    city,
+    state,
+    pincode
+  ], (error, results) => {
+    if (error) {
+      console.log(error);
+      return res.status(500).send('Error inserting data into the database');
+    }
+    res.status(200).send('Data inserted successfully');
+  });
+});
 app.put('/update/:id', (req, res) => {
   const id = req.params.id;
   const clientname = req.body.clientname;
@@ -239,6 +269,6 @@ app.get("/clientsprofile", (req, res) => {
 
 
 app.listen(3001,() => {
-    console.log("server is connected");
+    console.log("server is connected ");
 })
 

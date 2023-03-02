@@ -43,7 +43,7 @@ function Clients() {
   const [accountsphone,setAccountsPhone] =useState('');
   const [accountsemail,setAccountsEmail] =useState('');
   const [description,setDescription]=useState('');
-  // const [profileimage,setProfileImage] =useState('');
+  const [profileimage,setProfileImage] =useState('');
   const [gstnumber,setGstNumber] =useState('');
   const [address1,setAddress1] =useState('');
   const [address2,setAddress2] =useState('');
@@ -51,11 +51,37 @@ function Clients() {
   const [state,setState] =useState('');
   const [pincode,setPincode] =useState('');
 
+
+// IMAGE
+const [file, setFile] = useState();
+      const [fileName, setFileName] = useState("");
+ 
+      const saveFile = (e) => {
+        setFile(e.target.files[0]);
+        setFileName(e.target.files[0].name);
+      };
+ 
+      const uploadFile = async (e) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("fileName", fileName);
+        try {
+          const res = await axios.post(
+            "http://localhost:3001/upload",
+            formData
+          );
+          console.log(res);
+        } catch (ex) {
+          console.log(ex);
+        }
+      };
+
+
+
 //INSERTING THE DATA
   const clients = (e)=>{
     e.preventDefault();
-    // image
-
+    
     
     axios.post("http://localhost:3001/client",{
       clientname:clientname,
@@ -417,9 +443,13 @@ const handleDelete = () => {
             </div>
             
             <div className="mb-3 col-lg-6">
-                <label htmlFor="formFileMultipleoneone" className="form-label">Profile Image</label>   
-                {/* <input className="form-control" onChange={(e) =>setProfileImage(e.target.value) } type="file" id="formFileMultipleoneone" /> */}
-            </div>
+  <label htmlFor="formFileMultipleoneone" className="form-label">Profile Image</label>   
+  <div className="input-group">
+    <input className="form-control" type="file" onChange={saveFile} id="formFileMultipleoneone" accept="image/*" />
+    <button className="btn btn-primary" type="button" onClick={uploadFile}>Upload</button>
+  </div>
+</div>
+
                                 <div className="col-lg-6">
                                     <label htmlFor="exampleFormControlInput177" className="form-label">Gst Number</label>
                                     <input type="text" className="form-control" id="exampleFormControlInput177" value={editModeldata.gst_no} onChange={(e) =>setGstNumber(e.target.value) } placeholder="Gst Number" />
@@ -667,7 +697,7 @@ const handleDelete = () => {
                     </Modal.Body>
                     <Modal.Footer>
                     <button type="button" className="btn btn-secondary" >Done</button>
-                    <button type="button" className="btn btn-primary"  onClick={clients}>Savee</button>
+                    <button type="button" className="btn btn-primary"  onClick={clients} >Savee</button>
                 </Modal.Footer>
             </Modal>
             <Modal show={isModalDelete} centered onHide={() => { setIsModalDelete(false) }}>
@@ -679,7 +709,7 @@ const handleDelete = () => {
                     <p className="mt-4 fs-5 text-center">You can only delete this item Permanently</p>
                 </Modal.Body>
                 <Modal.Footer>
-                <button type="button" className="btn btn-secondary" onClick={() => { setIsModalDelete(false) }}>Cancel</button>
+                <button type="button" className="btn btn-secondary" onClick={() => ({ setIsModalDelete:false })}>Cancel</button>
                     <button type="button" className="btn btn-danger color-fff" onClick={handleDelete}>Delete</button>
                 </Modal.Footer>
             </Modal>

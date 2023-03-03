@@ -3,9 +3,10 @@ const bodyparser = require("body-parser");
 const cors = require('cors');
 const app = express();
 const mysql = require("mysql2");
-// const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
+const mime = require('mime-types');
 
 const db =mysql.createPool({
     host: "192.168.130.20",
@@ -18,6 +19,7 @@ const db =mysql.createPool({
 app.use(cors());
 app.use(express.json());
 app.use(bodyparser.urlencoded({extended:true}));
+app.use(express.static("uploads"));
 
 
 
@@ -96,42 +98,39 @@ app.get("/users", (req, res) => {
     res.send(results);
   });
 });
-
-// Use of Multer
+// img storage confing
 const storage = multer.diskStorage({
-  destination: (req, file, callBack) => {
-    callBack(null, path.join(__dirname, 'public', 'images')); // directory name where to save the file
+  destination: function (req, file, cb) {
+    cb(null, '../uploads');
   },
-  filename: (req, file, callBack) => {
-    callBack(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  filename: function (req, file, cb) {
+    const fileName = `image-${Date.now()}.${file.originalname}`;
+    cb(null, fileName);
   }
 });
 
-const upload = multer({ storage });
+// img filter
+const isImage = (req, file, callback) => {
+  const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+  const extension = mime.extension(file.mimetype);
+  if (allowedExtensions.includes(extension)) {
+    callback(null, true);
+  } else {
+    callback(null, Error("only images with extensions .jpg, .jpeg, .png, .gif are allowed"));
+  }
+};
 
+const upload = multer({
+  storage: storage,
+  fileFilter: isImage,
+});
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'client', 'build'))); // assuming client build folder is in client/build
-
-app.post('/upload', upload.single('image'), (req, res) => {
+app.post('/client', upload.single("photo"), (req, res) => {
   if (!req.file) {
     console.log('No file uploaded');
     return res.status(400).send('No file uploaded');
   }
-
-  const imgsrc = `http://127.0.0.1:3001/images/${req.file.filename}`;
-  const insertData = 'INSERT INTO users_file(file_src) VALUES(?)';
-  db.query(insertData, [imgsrc], (err, result) => {
-    if (err) {
-      console.log(err);
-      return res.status(500).send('Error inserting data into the database');
-    }
-    console.log('File uploaded');
-    res.status(200).send('File uploaded successfully');
-  });
-});
-
-app.post('/client', (req, res) => {
+  
   const {
     clientname,
     clientshortcode,
@@ -148,8 +147,10 @@ app.post('/client', (req, res) => {
     address2,
     city,
     state,
-    pincode
+    pincode,
   } = req.body;
+
+  const filename = req.file.originalname;
 
   const query = `
     INSERT INTO client_master (
@@ -163,13 +164,14 @@ app.post('/client', (req, res) => {
       accounts_phone,
       accounts_email,
       description,
+      file_name,
       gst_no,
       address_line_1,
       address_line_2,
       city,
       state,
       pin_code
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
   `;
 
   db.query(query, [
@@ -183,6 +185,7 @@ app.post('/client', (req, res) => {
     accountsphone,
     accountsemail,
     description,
+    filename,// Use the original file name to insert into the database
     gstnumber,
     address1,
     address2,
@@ -197,6 +200,9 @@ app.post('/client', (req, res) => {
     res.status(200).send('Data inserted successfully');
   });
 });
+
+
+
 app.put('/update/:id', (req, res) => {
   const id = req.params.id;
   const clientname = req.body.clientname;
@@ -267,6 +273,20 @@ app.get("/clientsprofile", (req, res) => {
   });
 });
 
+
+// EMPLOYEEEE
+// ADD EMPLOYEE
+app.post('/employees', (req, res) => {
+  const { employeeName, employeeCompany, employeeID, joiningDate, 
+    employeeUsername, password, emailID, phone, department, designation, description } = req.body;
+  
+  const query = `INSERT INTO employees (employee_name, employee_company, employee_id, joining_date, employee_username, password, email_id, phone, department, designation, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  
+  connection.query(query, [employeeName, employeeCompany, employeeID, joiningDate, employeeUsername, password, emailID, phone, department, designation, description], (error, results, fields) => {
+    if (error) throw error;
+    res.send(results);
+  });
+});
 
 app.listen(3001,() => {
     console.log("server is connected ");

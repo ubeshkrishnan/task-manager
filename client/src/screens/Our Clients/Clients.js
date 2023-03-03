@@ -4,8 +4,11 @@ import OurClients from "../../components/Clients/OurClients";
 import PageHeader from "../../components/common/PageHeader";
 // import { OurClientsData} from "../../components/Data/AppData";
 import axios from "axios";
-import College from "../../assets/images/kvlogo.jpg";
+// import College from "../../assets/images/gct.jpg";
 import {useHistory} from "react-router-dom"
+// import {File_url , Url} from "../Global_variable/"
+
+
 function Clients() {
   const [isModal, setIsModal] = useState(false);
   const [isModalDelete, setIsModalDelete] = useState(false);
@@ -43,73 +46,85 @@ function Clients() {
   const [accountsphone,setAccountsPhone] =useState('');
   const [accountsemail,setAccountsEmail] =useState('');
   const [description,setDescription]=useState('');
-  const [profileimage,setProfileImage] =useState('');
   const [gstnumber,setGstNumber] =useState('');
   const [address1,setAddress1] =useState('');
   const [address2,setAddress2] =useState('');
   const [city,setCity] =useState('');
   const [state,setState] =useState('');
   const [pincode,setPincode] =useState('');
-
+  const [file,setFile] = useState("");
 
 // IMAGE
-const [file, setFile] = useState();
-      const [fileName, setFileName] = useState("");
- 
-      const saveFile = (e) => {
-        setFile(e.target.files[0]);
-        setFileName(e.target.files[0].name);
-      };
- 
-      const uploadFile = async (e) => {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("fileName", fileName);
-        try {
-          const res = await axios.post(
-            "http://localhost:3001/upload",
-            formData
-          );
-          console.log(res);
-        } catch (ex) {
-          console.log(ex);
-        }
-      };
+// const File_url = "http://localhost:3000/uploads/";
+  
+var formData = new  FormData();
+  formData.append("photo",file)
+  
+  const config = {
+    headers:{
+        "Content-Type":"multipart/form-data"
+    }
+  }
+
+  try {
+    const res =  axios.post("/upload", formData, config);
+console.log(res)
+    if(res.data.status === 201){
+      // history("/")
+    } else {
+      console.log("error")
+    }
+  } catch (error) {
+    console.log(error);
+  }
 
 
 
 //INSERTING THE DATA
-  const clients = (e)=>{
-    e.preventDefault();
-    
-    
-    axios.post("http://localhost:3001/client",{
-      clientname:clientname,
-        clientshortcode:clientshortcode,
-        verticalid:verticalid,
-        ownername:ownername,
-        ownerphone:ownerphone,
-        owneremail:owneremail,
-        accountscontact:accountscontact,
-        accountsphone:accountsphone,
-        accountsemail:accountsemail,
-        // profileimage:profileimage,
-        description:description,
-        gstnumber:gstnumber,
-        address1:address1,
-        address2:address2,
-        city:city,
-        state:state,
-        pincode:pincode
-    }).then(response=> {
-        console.log(response);
+const clients = (e) => {
+  e.preventDefault();
 
+  const formData = new FormData();
+  const data = {
+    photo: file,
+    clientname,
+    clientshortcode,
+    verticalid,
+    ownername,
+    ownerphone,
+    owneremail,
+    accountscontact,
+    accountsphone,
+    accountsemail,
+    description,
+    gstnumber,
+    address1,
+    address2,
+    city,
+    state,
+    pincode
+  };
+  Object.entries(data).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+  axios
+    .post("http://localhost:3001/client", formData)
+    .then((response) => {
+      console.log(response);
+      if (response.data.status === 201) {
+        // history("/")
+      } else {
+        console.log("error");
+      }
     })
-    .catch (error=>{
-        console.log(error);
-    })
-    
-}
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+const setimgfile = (e) => {
+  setFile(e.target.files[0]);
+};
 
 //UPDATING THE DATA
 const updateClient = (id) => {
@@ -123,7 +138,7 @@ const updateClient = (id) => {
     accountscontact:accountscontact,
     accountsphone:accountsphone,
     accountsemail:accountsemail,
-    // profileimage:profileimage,
+    // file:file,
     description:description,
     gstnumber:gstnumber,
     address1:address1,
@@ -343,7 +358,7 @@ const handleDelete = () => {
              
               <OurClients
               
-                avatar ={College}
+                avatar ={data.file_name}
                  post={data.owner_name}
                  name={data.client_shortcode}
                  Companyname={data.client_name}
@@ -445,8 +460,9 @@ const handleDelete = () => {
             <div className="mb-3 col-lg-6">
   <label htmlFor="formFileMultipleoneone" className="form-label">Profile Image</label>   
   <div className="input-group">
-    <input className="form-control" type="file" onChange={saveFile} id="formFileMultipleoneone" accept="image/*" />
-    <button className="btn btn-primary" type="button" onClick={uploadFile}>Upload</button>
+    <input className="form-control" type="file" onChange={setimgfile} id="formFileMultipleoneone" name="photo" accept="image/*" />
+    {/* <button className="btn btn-primary" type="button" onClick={uploadFile}>Upload</button> */}
+    
   </div>
 </div>
 

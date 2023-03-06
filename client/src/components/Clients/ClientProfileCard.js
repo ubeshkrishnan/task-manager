@@ -1,7 +1,7 @@
 import React from "react";
-import profileImg from "../../assets/images/lg/avatar3.jpg";
-import axios from "axios";
+import profileImg from "../../assets/uploads/image-1677835712692.jpg"
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 function ClientProfileCard() {
   const [clientsprofile, setClientsProfile] = useState([]);

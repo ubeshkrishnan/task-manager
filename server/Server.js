@@ -101,35 +101,39 @@ app.get("/users", (req, res) => {
 // img storage confing
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, '../uploads');
+    cb(null, '../client/public/uploads');
   },
   filename: function (req, file, cb) {
-    const fileName = `image-${Date.now()}.${file.originalname}`;
-    cb(null, fileName);
+    // const fileName = `image-${Date.now()}.${file.originalname}`;
+    // file.originalname = fileName;
+    cb(null, file.originalname);
   }
 });
 
 // img filter
-const isImage = (req, file, callback) => {
-  const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-  const extension = mime.extension(file.mimetype);
-  if (allowedExtensions.includes(extension)) {
-    callback(null, true);
-  } else {
-    callback(null, Error("only images with extensions .jpg, .jpeg, .png, .gif are allowed"));
-  }
-};
+// const isImage = (req, file, callback) => {
+//   const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+//   const extension = mime.extension(file.mimetype);
+//   if (allowedExtensions.includes(extension)) {
+//     callback(null, true);
+//   } else {
+//     callback(null, Error("only images with extensions .jpg, .jpeg, .png, .gif are allowed"));
+//   }
+// };
 
-const upload = multer({
-  storage: storage,
-  fileFilter: isImage,
-});
+var uploads = multer({ storage: storage }).single("photo");
 
-app.post('/client', upload.single("photo"), (req, res) => {
-  if (!req.file) {
-    console.log('No file uploaded');
-    return res.status(400).send('No file uploaded');
-  }
+// const upload = multer({
+//   storage: storage,
+//   fileFilter: isImage,
+// });
+
+// app.post('/client', upload.single("photo"), (req, res) => {
+//   if (!req.file) {
+//     console.log('No file uploaded');
+//     return res.status(400).send('No file uploaded');
+//   }
+app.post('/client',uploads,(req,res)=>{
   
   const {
     clientname,
@@ -150,7 +154,8 @@ app.post('/client', upload.single("photo"), (req, res) => {
     pincode,
   } = req.body;
 
-  const filename = req.file.originalname;
+  var filename = req.file.originalname;
+  console.log(filename);
 
   const query = `
     INSERT INTO client_master (

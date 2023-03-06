@@ -4,9 +4,9 @@ import OurClients from "../../components/Clients/OurClients";
 import PageHeader from "../../components/common/PageHeader";
 // import { OurClientsData} from "../../components/Data/AppData";
 import axios from "axios";
-// import College from "../../assets/images/gct.jpg";
+import College from "../../assets/uploads/image-1677835712692.jpg";
 import {useHistory} from "react-router-dom"
-// import {File_url , Url} from "../Global_variable/"
+import {imageUrl , Url} from "../../Global_variable/api_link"
 
 
 function Clients() {
@@ -55,7 +55,7 @@ function Clients() {
   const [file,setFile] = useState("");
 
 // IMAGE
-// const File_url = "http://localhost:3000/uploads/";
+// const imageUrl = "http://localhost:3000/uploads/";
   
 var formData = new  FormData();
   formData.append("photo",file)
@@ -67,7 +67,7 @@ var formData = new  FormData();
   }
 
   try {
-    const res =  axios.post("/upload", formData, config);
+    const res =  axios.post("http://localhost:3001/upload", formData, config);
 console.log(res)
     if(res.data.status === 201){
       // history("/")
@@ -352,13 +352,15 @@ const handleDelete = () => {
 
         <div className="row g-3 row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2 row-deck py-1 pb-4">
         {users.map((data, i) => {
+        console.log("data",data)
           return (
             <div key={"skhd" + i} className="col">
               <div>
              
               <OurClients
               
-                avatar ={data.file_name}
+                avatar ={imageUrl+data.file_name}
+                
                  post={data.owner_name}
                  name={data.client_shortcode}
                  Companyname={data.client_name}
@@ -371,7 +373,7 @@ const handleDelete = () => {
                 onClickDelete={() => {(demoFun(data))
                   setIsModalDelete(true);
 
-
+                  console.log("ubesh",data)
                 }}
                 />
                 
@@ -461,6 +463,7 @@ const handleDelete = () => {
   <label htmlFor="formFileMultipleoneone" className="form-label">Profile Image</label>   
   <div className="input-group">
     <input className="form-control" type="file" onChange={setimgfile} id="formFileMultipleoneone" name="photo" accept="image/*" />
+    
     {/* <button className="btn btn-primary" type="button" onClick={uploadFile}>Upload</button> */}
     
   </div>

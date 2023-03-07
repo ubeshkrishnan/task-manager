@@ -22,74 +22,40 @@ app.use(bodyparser.urlencoded({extended:true}));
 app.use(express.static("uploads"));
 
 
-
-
-
 // Insert
 app.post("/insert", (req, res)=>{
-    console.log(req.body);
-    const fullname = req.body.fullname+ ' '+ req.body.lastname;
-    const email = req.body.email; 
-    const password = req.body.password;
-    const confirmpassword = req.body.confirmpassword;
+  console.log(req.body);
+  const fullname = req.body.fullname+ ' '+ req.body.lastname;
+  const email = req.body.email; 
+  const password = req.body.password;
+  const confirmpassword = req.body.confirmpassword;
 
-    const sqlInsert = "INSERT INTO sign_in(fullname, email, password,confirmpassword) VALUES (?,?,?,?)";
-    db.query(sqlInsert,[fullname, email, password, confirmpassword],(err,result)=>  {
-       if (err) throw err;
-    });
+  const sqlInsert = "INSERT INTO sign_in(fullname, email, password,confirmpassword) VALUES (?,?,?,?)";
+  db.query(sqlInsert,[fullname, email, password, confirmpassword],(err,result)=>  {
+     if (err) throw err;
+  });
 });
 
 app.post('/login', (req, res) => {
-    const { email, password } = req.body;
-    const sql = `SELECT * FROM sign_in WHERE email = '${email}' AND password = '${password}'`;
-    db.query(sql, (err, result) => {
-      if (err) {
-        res.status(500).send({ message: 'Error occurred' });
-      } else if (result.length === 0) {
-        res.status(401).send({ message: 'Invalid username or password' });
-      } else {
-        const user = result[0];
-        // generate an access token or session cookie here
-        res.status(200).send({ message: 'Login successful', user });
-      }
-    });
+  const { email, password } = req.body;
+  const sql = `SELECT * FROM sign_in WHERE email = '${email}' AND password = '${password}'`;
+  db.query(sql, (err, result) => {
+    if (err) {
+      res.status(500).send({ message: 'Error occurred' });
+    } else if (result.length === 0) {
+      res.status(401).send({ message: 'Invalid username or password' });
+    } else {
+      const user = result[0];
+      // generate an access token or session cookie here
+      res.status(200).send({ message: 'Login successful', user });
+    }
   });
-
-
-  app.post('/history', (req, res) => {
-    console.log(req.body);
-    // const { ipAddress, username, password, attemptCount, badAttempt, message } = req.body;
-    const ip_address = req.body.ip_address;
-    
-    const email = req.body.email;
-    const password = req.body.password;
-    const attempt_count =req.body.attempt_count;
-    const bad_attempt = req.body.bad_attempt;
-    const message = req.body.message;
-
-
-     // Hash the password using bcrypt
-     bcrypt.hash(password, 10, (err, hashedPassword) => {
-        if (err) {
-            console.error('Error hashing password: ' + err.stack);
-            res.status(500).send({ error: 'Error hashing password' });
-            return;
-        }
-    
-
-    // Insert the login history into the database
-
-    const loginHistory ="INSERT INTO login_history (ip_address, email, password, attempt_count, bad_attempt, message,created_date,updated_date) VALUES (?, ?, ?, ?, ?, ?,NOW(),NOW())";
-    db.query(loginHistory, [ip_address, email, hashedPassword, attempt_count, bad_attempt, message], (error, results) => {
-        if (error) {
-            console.error('Error inserting data into database: ' + error.stack);
-            res.status(500).send({ error: 'Error inserting data into database' });
-            return;
-        }
-        res.send({ message: 'Login history stored successfully' });
-    });
 });
-});
+
+
+
+
+
 
 // Mapping for client card 
 app.get("/users", (req, res) => {
@@ -98,43 +64,21 @@ app.get("/users", (req, res) => {
     res.send(results);
   });
 });
-// img storage confing
+
+// img storage config
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, '../client/public/uploads');
   },
   filename: function (req, file, cb) {
-    // const fileName = `image-${Date.now()}.${file.originalname}`;
-    // file.originalname = fileName;
     cb(null, file.originalname);
   }
 });
 
-// img filter
-// const isImage = (req, file, callback) => {
-//   const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-//   const extension = mime.extension(file.mimetype);
-//   if (allowedExtensions.includes(extension)) {
-//     callback(null, true);
-//   } else {
-//     callback(null, Error("only images with extensions .jpg, .jpeg, .png, .gif are allowed"));
-//   }
-// };
+const upload = multer({ storage: storage }).single("photo");
 
-var uploads = multer({ storage: storage }).single("photo");
-
-// const upload = multer({
-//   storage: storage,
-//   fileFilter: isImage,
-// });
-
-// app.post('/client', upload.single("photo"), (req, res) => {
-//   if (!req.file) {
-//     console.log('No file uploaded');
-//     return res.status(400).send('No file uploaded');
-//   }
-app.post('/client',uploads,(req,res)=>{
-  
+app.post('/client', upload, (req, res) => {
+  res.json({ imageUrl: `../client/public/uploads${req.file.filename}` });
   const {
     clientname,
     clientshortcode,
@@ -154,7 +98,7 @@ app.post('/client',uploads,(req,res)=>{
     pincode,
   } = req.body;
 
-  var filename = req.file.originalname;
+  const filename = req.file.originalname;
   console.log(filename);
 
   const query = `
@@ -190,7 +134,7 @@ app.post('/client',uploads,(req,res)=>{
     accountsphone,
     accountsemail,
     description,
-    filename,// Use the original file name to insert into the database
+    filename,
     gstnumber,
     address1,
     address2,
@@ -205,7 +149,6 @@ app.post('/client',uploads,(req,res)=>{
     res.status(200).send('Data inserted successfully');
   });
 });
-
 
 
 app.put('/update/:id', (req, res) => {
@@ -279,19 +222,50 @@ app.get("/clientsprofile", (req, res) => {
 });
 
 
+// Ticket insert
+
+
+
+
 // EMPLOYEEEE
 // ADD EMPLOYEE
-app.post('/employees', (req, res) => {
-  const { employeeName, employeeCompany, employeeID, joiningDate, 
-    employeeUsername, password, emailID, phone, department, designation, description } = req.body;
+// app.post('/employees', (req, res) => {
+//   const { employeeName, employeeCompany, employeeID, joiningDate, 
+//     employeeUsername, password, emailID, phone, department, designation, description } = req.body;
   
-  const query = `INSERT INTO employees (employee_name, employee_company, employee_id, joining_date, employee_username, password, email_id, phone, department, designation, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+//   const query = `INSERT INTO employees (employee_name, employee_company, employee_id, joining_date, employee_username, password, email_id, phone, department, designation, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
   
-  connection.query(query, [employeeName, employeeCompany, employeeID, joiningDate, employeeUsername, password, emailID, phone, department, designation, description], (error, results, fields) => {
-    if (error) throw error;
-    res.send(results);
+//   connection.query(query, [employeeName, employeeCompany, employeeID, joiningDate, employeeUsername, password, emailID, phone, department, designation, description], (error, results, fields) => {
+//     if (error) throw error;
+//     res.send(results);
+//   });
+// });
+
+app.post('/', async (req, res) => {
+  try {
+    const { subject, assigned, image, createdate, status } = req.body;
+    const [rows, fields] = await pool.execute(
+      'INSERT INTO tickets (subject, assigned, image, createdate, status) VALUES (?, ?, ?, ?, ?)',
+      [subject, assigned, image, createdate, status]
+    );
+    res.status(200).send(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
+
+
+app.delete('/delete/:id', (req, res) => {
+  const id = req.params.id;
+  const sql = `DELETE FROM your_table_name WHERE id=${id}`;
+  connection.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send('Data deleted successfully!');
   });
 });
+
+
 
 app.listen(3001,() => {
     console.log("server is connected ");

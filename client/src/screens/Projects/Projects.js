@@ -120,14 +120,7 @@ class Projects extends React.Component{
                                 <option >UI/UX Design</option>
                                 <option value="1">Website Design</option>
                                 <option value="2">App Development</option>
-                                <option value="3">Quality Assurance</option>
-                                <option value="4">Development</option>
-                                <option value="5">Backend Development</option>
-                                <option value="6">Software Testing</option>
-                                <option value="7">Website Design</option>
-                                <option value="8">Marketing</option>
-                                <option value="9">SEO</option>
-                                <option value="10">Other</option>
+                            
                             </select>
                         </div>
                         <div className="mb-3">
@@ -159,12 +152,7 @@ class Projects extends React.Component{
                                         <label htmlFor="formFileMultipleone" className="form-label">Task Assign Person</label>
                                         <select className="form-select" multiple="" >
                                             <option >Lucinda Massey</option>
-                                            <option value="1">Ryan Nolan</option>
-                                            <option value="2">Oliver Black</option>
-                                            <option value="3">Adam Walker</option>
-                                            <option value="4">Brian Skinner</option>
-                                            <option value="5">Dan Short</option>
-                                            <option value="5">Jack Glover</option>
+                                           
                                         </select>
                                     </div>
                                 </div>

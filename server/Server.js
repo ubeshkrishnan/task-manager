@@ -88,6 +88,7 @@ app.post('/login', (req, res) => {
 });
 });
 
+
 app.get("/users", (req, res) => {
   db.query("SELECT * FROM client_master", (error, results, fields) => {
     if (error) throw error;
@@ -204,71 +205,7 @@ app.put('/update/:id', (req, res) => {
   });
 })
 
-
-
-
-
-
-
-
-
-
-
-// app.put('/client/:id', (req, res) => {
-//   console.log(req.body);
-//   const clientid = req.params.id;
-//   const clientname = req.body.client_name;
-//   const clientshortcode = req.body.client_shortcode;
-//   const verticalid = req.body.vertical-id;
-//   const ownername = req.body.owner_name;
-//   const ownerphone = req.body.owner_phone;
-//   const owneremail = req.body.owner_email;
-//   const accountscontact = req.body.accounts_contact;
-//   const accountsphone = req.body.accounts_phone;
-//   const accountsemail = req.body.accounts_email;
-//   const gstnumber = req.body.gst_no;
-//   const address1 = req.body.address_line_1;
-//   const address2 = req.body.address_line_2;
-//   const city = req.body.city;
-//   const state = req.body.state;
-//   const pincode = req.body.pin_code;
-
-//   const sql = `UPDATE client_master SET client_name = ?, client_shortcode = ?, vertical_id = ?, owner_name = ?, owner_phone = ?,owner_email = ?,accounts_contact =?,accounts_phone =?,accounts_email =?,gst_no =?,address_line_1 =?,address_line_2 =?,city =?,state =?,pin_code =?  WHERE client_id = ?`;
-//   db.query(sql, [clientname, clientshortcode, verticalid, ownername, ownerphone,owneremail,accountscontact,accountsphone,accountsemail,gstnumber,address1,address2,city,state,pincode, clientid], (err, result) => {
-//     if (err) {
-//       throw err;
-//     }
-//     console.log(result);
-//     res.send(`Client with ID ${clientid} updated successfully!`);
-//   });
-// });
-
-// Delete a client
-// app.delete('/api/clients/:id', (req, res) => {
-//   const id = req.params.id;
-//   pool.query('DELETE FROM clients WHERE id = ?', id, (err, result) => {
-//     if (err) throw err;
-//     res.send(result);
-//   });
-// });
-// app.post('/deleteDemo', (req, res) => {
-//   const id = req.body.id;
-// // console.log(req.body.id)
-// let sss=db.query(
-//     'DELETE FROM client_master WHERE client_id = ?',
-//     [id],
-//     (error, results) => {
-//       if (error) {
-//         console.error(error);
-//         res.status(500).send('Failed to delete item');
-//       } else {
-//         res.sendStatus(204);
-//         // console.log(sss)
-//       }
-//     }
-//   );
-// });
-// Endpoint to handle DELETE request
+// endpoint to handle DELETE request
 app.delete('/api/clients/:id', (req, res) => {
   const { id } = req.params;
 
@@ -387,6 +324,58 @@ app.put('/memberupdate/:id', (req, res) => {
   });
 })
 
+
+// Task Insert
+app.post('/task', (req, res) => {
+  // Extract data from the request body
+  console.log(req.body);
+  const {
+     
+      task_name,
+      category,
+      start_date,
+      end_date,
+      task_assignperson,
+      deadline,
+      description,
+     
+      
+  } = req.body;
+
+  // Create a MySQL query to insert the data into a table
+  const query = `
+      INSERT INTO task (
+      
+       task_name,
+        category,
+       start_date,
+       end_date,
+      task_assignperson,
+        deadline,
+        description  
+      ) VALUES (?, ?, ?, ?, ?, ?, ?);
+  `;
+    // Execute the query with the extracted data
+    db.query(query, [
+
+      task_name,
+      category,
+      start_date,
+      end_date,
+      task_assignperson,
+      deadline,
+      description,
+    
+     
+  ], (error, results, fields) => {
+      if (error) {
+          console.log(error);
+          res.status(500).send('Error inserting data into the database');
+      } else {
+          res.status(200).send('Data inserted successfully');
+      }
+  });
+})
 
 
 app.listen(3001,() => {

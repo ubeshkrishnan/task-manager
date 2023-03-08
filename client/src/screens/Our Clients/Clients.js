@@ -80,6 +80,7 @@ function Clients() {
 
   //INSERTING THE DATA
   const clients = (e) => {
+    
     e.preventDefault();
     axios
       .post("http://localhost:3001/client", {
@@ -106,6 +107,7 @@ function Clients() {
       .catch((error) => {
         console.log(error);
       });
+    console.log(editModeldata.client_name)
   };
 
   const Updateclient = async (client,id) => {

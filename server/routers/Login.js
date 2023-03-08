@@ -1,14 +1,52 @@
 const express =require("express");
 const bodyparser = require("body-parser");
 const cors = require('cors');
-const app = express();
 const mysql = require("mysql2");
+const app = express();
+const bcrypt = require('bcrypt');
+
+const db = require("../Sql/db")
+
+app.use(cors());
+app.use(express.json());
+app.use(bodyparser.urlencoded({extended:true}));
 
 
 
 
 
-app.post('/history', (req, res) => {
+// Insert
+app.post("/insert", (req, res)=>{
+    console.log(req.body);
+    const fullname = req.body.fullname+ ' '+ req.body.lastname;
+    const email = req.body.email; 
+    const password = req.body.password;
+    const confirmpassword = req.body.confirmpassword;
+
+    const sqlInsert = "INSERT INTO sign_in(fullname, email, password,confirmpassword) VALUES (?,?,?,?)";
+    db.query(sqlInsert,[fullname, email, password, confirmpassword],(err,result)=>  {
+       if (err) throw err;
+    });
+});
+
+app.post('/login', (req, res) => {
+    const { email, password } = req.body;
+    const sql = `SELECT * FROM sign_in WHERE email = '${email}' AND password = '${password}'`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        res.status(500).send({ message: 'Error occurred' });
+      } else if (result.length === 0) {
+        res.status(401).send({ message: 'Invalid username or password' });
+      } else {
+        const user = result[0];
+        // generate an access token or session cookie here
+        res.status(200).send({ message: 'Login successful', user });
+      }
+    });
+  });
+
+
+  app.post('/history', (req, res) => {
     console.log(req.body);
     // const { ipAddress, username, password, attemptCount, badAttempt, message } = req.body;
     const ip_address = req.body.ip_address;
@@ -42,3 +80,12 @@ app.post('/history', (req, res) => {
     });
 });
 });
+
+app.get("/users", (req, res) => {
+  db.query("SELECT * FROM client_master", (error, results, fields) => {
+    if (error) throw error;
+    res.send(results);
+  });
+});
+
+module.exports = app;

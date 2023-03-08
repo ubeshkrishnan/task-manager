@@ -6,10 +6,15 @@ import PageHeader from "../../components/common/PageHeader";
 import axios from "axios";
 // import College from "../../uploads";
 import { useHistory, useParams } from "react-router-dom";
+
+
 function Clients() {
   const [isModal, setIsModal] = useState(false);
   const [isModalDelete, setIsModalDelete] = useState(false);
   const [modalheader, setModalHeader] = useState(null);
+  const [file,setFile] =useState(null)
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const [editModeldata, setEditModelData] = useState({
     client_name: "",
     client_shortcode: "",
@@ -27,6 +32,7 @@ function Clients() {
     state: "",
     pin_code: "",
   });
+
   const handleInputChange = (e) => {
     setEditModelData({
       ...editModeldata,
@@ -298,7 +304,71 @@ function Clients() {
   //     });
   //     // console.log("Delete Is Working")
   // }
+  // Function to handle DELETE request
 
+  const handleDelete = () => {
+    const { client_id } = editModeldata;
+    fetch(`http://localhost:3001/api/clients/${client_id}`, { method: 'DELETE' })
+      .then((res) => res.text())
+      .then((data) => {
+        console.log(data);
+        setIsModalDelete(false);
+        fetchClients(); // Refresh the client list after deletion
+      })
+      .catch((err) => console.error(err));
+  };
+  
+  const fetchClients = () => {
+    fetch('/clients')
+      .then((res) => res.json())
+      .then((data) => {
+        setUsers(data);
+      })
+      .catch((err) => console.error(err));
+  };
+  
+  useEffect(() => {
+    fetchClients();
+  }, []);
+
+
+  // img
+  const [viewphoto,setViewphoto] = useState([]);
+
+  useEffect(()=>{
+    fetch('http://localhost:3002/Viewfile/')
+    .then(response=>response.json())
+    .then(json=>setViewphoto(json));
+},[]);
+
+
+
+const handlesubmit = (event) => {
+    event.preventDefault();
+    var datastring = new FormData(event.target);
+    var config = {headers:{"enctype":"multipart/form-data"}};
+
+    axios.post('http://localhost:3002/Addfile',datastring,config)
+    .then(function(response){
+        if(response.data.status === 'error'){
+            alert('Error');
+            window.location.reload();
+        }
+        else if(response.data.status === 'uploaded'){
+            alert('File Uploaded');
+            window.location.reload();
+        }
+        else{
+            alert('Contact Admin');
+            window.location.reload();
+        }
+    })
+    .catch(function(error){
+        alert(error);
+        window.location.reload();
+    })
+
+}
   return (
     <div className="container-xxl">
       <PageHeader
@@ -402,6 +472,8 @@ function Clients() {
                   }}
                   onClickDelete={() => {
                     setIsModalDelete(true);
+                    setEditModelData({ client_id: data.client_id });
+                    
                   }}
                   id={data.client_id}
                 />
@@ -425,7 +497,7 @@ function Clients() {
         </Modal.Header>
         <Modal.Body>
           <div className="deadline-form">
-            <form>
+            <form  onSubmit={handlesubmit}>
               <div className="row g-3 mb-3">
                 <div className="col-lg-6">
                   <label
@@ -598,7 +670,11 @@ function Clients() {
                     >
                       Profile Image
                     </label>
+                    <input className="form-control"  type="file" id="formFileMultipleoneone" />
+                    <img src={file} alt="no" />
+
                     {/* <input className="form-control" onChange={(e) =>setProfileImage(e.target.value) } type="file" id="formFileMultipleoneone" /> */}
+                 
                   </div>
                   <div className="col-lg-6">
                     <label
@@ -1147,7 +1223,7 @@ function Clients() {
           >
             Cancel
           </button>
-          <button type="button" className="btn btn-danger color-fff">
+          <button type="button" onClick={handleDelete} className="btn btn-danger color-fff">
             Delete
           </button>
         </Modal.Footer>

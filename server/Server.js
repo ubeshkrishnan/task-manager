@@ -4,9 +4,7 @@ const cors = require('cors');
 const app = express();
 const mysql = require("mysql2");
 const bcrypt = require('bcrypt');
-const multer = require('multer');
-const path = require('path');
-const mime = require('mime-types');
+const fileupload = require('express-fileupload');
 
 const db =mysql.createPool({
     host: "192.168.130.20",
@@ -19,45 +17,77 @@ const db =mysql.createPool({
 app.use(cors());
 app.use(express.json());
 app.use(bodyparser.urlencoded({extended:true}));
-app.use(express.static("uploads"));
+
+
+
 
 
 // Insert
 app.post("/insert", (req, res)=>{
-  console.log(req.body);
-  const fullname = req.body.fullname+ ' '+ req.body.lastname;
-  const email = req.body.email; 
-  const password = req.body.password;
-  const confirmpassword = req.body.confirmpassword;
+    console.log(req.body);
+    const fullname = req.body.fullname+ ' '+ req.body.lastname;
+    const email = req.body.email; 
+    const password = req.body.password;
+    const confirmpassword = req.body.confirmpassword;
 
-  const sqlInsert = "INSERT INTO sign_in(fullname, email, password,confirmpassword) VALUES (?,?,?,?)";
-  db.query(sqlInsert,[fullname, email, password, confirmpassword],(err,result)=>  {
-     if (err) throw err;
-  });
+    const sqlInsert = "INSERT INTO sign_in(fullname, email, password,confirmpassword) VALUES (?,?,?,?)";
+    db.query(sqlInsert,[fullname, email, password, confirmpassword],(err,result)=>  {
+       if (err) throw err;
+    });
 });
 
 app.post('/login', (req, res) => {
-  const { email, password } = req.body;
-  const sql = `SELECT * FROM sign_in WHERE email = '${email}' AND password = '${password}'`;
-  db.query(sql, (err, result) => {
-    if (err) {
-      res.status(500).send({ message: 'Error occurred' });
-    } else if (result.length === 0) {
-      res.status(401).send({ message: 'Invalid username or password' });
-    } else {
-      const user = result[0];
-      // generate an access token or session cookie here
-      res.status(200).send({ message: 'Login successful', user });
-    }
+    const { email, password } = req.body;
+    const sql = `SELECT * FROM sign_in WHERE email = '${email}' AND password = '${password}'`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        res.status(500).send({ message: 'Error occurred' });
+      } else if (result.length === 0) {
+        res.status(401).send({ message: 'Invalid username or password' });
+      } else {
+        const user = result[0];
+        // generate an access token or session cookie here
+        res.status(200).send({ message: 'Login successful', user });
+      }
+    });
   });
+
+
+  app.post('/history', (req, res) => {
+    console.log(req.body);
+    // const { ipAddress, username, password, attemptCount, badAttempt, message } = req.body;
+    const ip_address = req.body.ip_address;
+    
+    const email = req.body.email;
+    const password = req.body.password;
+    const attempt_count =req.body.attempt_count;
+    const bad_attempt = req.body.bad_attempt;
+    const message = req.body.message;
+
+
+     // Hash the password using bcrypt
+     bcrypt.hash(password, 10, (err, hashedPassword) => {
+        if (err) {
+            console.error('Error hashing password: ' + err.stack);
+            res.status(500).send({ error: 'Error hashing password' });
+            return;
+        }
+    
+
+    // Insert the login history into the database
+
+    const loginHistory ="INSERT INTO login_history (ip_address, email, password, attempt_count, bad_attempt, message,created_date,updated_date) VALUES (?, ?, ?, ?, ?, ?,NOW(),NOW())";
+    db.query(loginHistory, [ip_address, email, hashedPassword, attempt_count, bad_attempt, message], (error, results) => {
+        if (error) {
+            console.error('Error inserting data into database: ' + error.stack);
+            res.status(500).send({ error: 'Error inserting data into database' });
+            return;
+        }
+        res.send({ message: 'Login history stored successfully' });
+    });
+});
 });
 
-
-
-
-
-
-// Mapping for client card 
 app.get("/users", (req, res) => {
   db.query("SELECT * FROM client_master", (error, results, fields) => {
     if (error) throw error;
@@ -65,120 +95,153 @@ app.get("/users", (req, res) => {
   });
 });
 
-// img storage config
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '../client/public/uploads');
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  }
+
+//get the id
+app.get("/users/:id", (req, res) => {
+ 
+  const id = req.params.id;
+  console.log(id);
+  db.query("SELECT * FROM client_master WHERE client_id = ?", [id], (error, results, fields) => {
+    if (error) throw error;
+    res.send(results[0]); // assuming id is unique, return only the first result
+  });
 });
 
-const upload = multer({ storage: storage }).single("photo");
 
-app.post('/client', upload, (req, res) => {
-  res.json({ imageUrl: `../client/public/uploads${req.file.filename}` });
+// INSERTING A CLIENT
+
+app.post('/client', (req, res) => {
+  // Extract data from the request body
+  console.log(req.body);
   const {
-    clientname,
-    clientshortcode,
-    verticalid,
-    ownername,
-    ownerphone,
-    owneremail,
-    accountscontact,
-    accountsphone,
-    accountsemail,
-    description,
-    gstnumber,
-    address1,
-    address2,
-    city,
-    state,
-    pincode,
-  } = req.body;
-
-  const filename = req.file.originalname;
-  console.log(filename);
-
-  const query = `
-    INSERT INTO client_master (
-      client_name,
-      client_shortcode,
-      vertical_id,
-      owner_name,
-      owner_phone,
-      owner_email,
-      accounts_contact,
-      accounts_phone,
-      accounts_email,
-      description,
-      file_name,
-      gst_no,
-      address_line_1,
-      address_line_2,
+      clientname,
+      clientshortcode,
+      verticalid,
+      ownername,
+      ownerphone,
+      owneremail,
+      accountscontact,
+      accountsphone,
+      accountsemail,
+      // profileimage,
+      gstnumber,
+      address1,
+      address2,
       city,
       state,
-      pin_code
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+      pincode
+  } = req.body;
+
+  // Create a MySQL query to insert the data into a table
+  const query = `
+      INSERT INTO client_master (
+        client_name,
+        client_shortcode,
+        vertical_id,
+        owner_name,
+          owner_phone,
+          owner_email,
+          accounts_contact,
+          accounts_phone,
+          accounts_email,
+         
+          gst_no,
+          address_line_1,
+          address_line_2,
+          city,
+          state,
+          pin_code
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
   `;
-
-  db.query(query, [
-    clientname,
-    clientshortcode,
-    verticalid,
-    ownername,
-    ownerphone,
-    owneremail,
-    accountscontact,
-    accountsphone,
-    accountsemail,
-    description,
-    filename,
-    gstnumber,
-    address1,
-    address2,
-    city,
-    state,
-    pincode
-  ], (error, results) => {
-    if (error) {
-      console.log(error);
-      return res.status(500).send('Error inserting data into the database');
-    }
-    res.status(200).send('Data inserted successfully');
+    // Execute the query with the extracted data
+    db.query(query, [
+      clientname,
+      clientshortcode,
+      verticalid,
+      ownername,
+      ownerphone,
+      owneremail,
+      accountscontact,
+      accountsphone,
+      accountsemail,
+      // profileimage,
+      gstnumber,
+      address1,
+      address2,
+      city,
+      state,
+      pincode
+  ], (error, results, fields) => {
+      if (error) {
+          console.log(error);
+          res.status(500).send('Error inserting data into the database');
+      } else {
+          res.status(200).send('Data inserted successfully');
+      }
   });
-});
-
+})
 
 app.put('/update/:id', (req, res) => {
-  const id = req.params.id;
-  const clientname = req.body.clientname;
-  const clientshortcode = req.body.clientshortcode;
-  const verticalid = req.body.verticalid;
-  const ownername = req.body.ownername;
-  const ownerphone = req.body.ownerphone;
-  const owneremail = req.body.owneremail;
-  const accountscontact = req.body.accountscontact;
-  const accountsphone = req.body.accountsphone;
-  const accountsemail = req.body.accountsemail;
-  const gstnumber = req.body.gstnumber;
-  const description=req.body.description;
-  const address1 = req.body.address1;
-  const address2 = req.body.address2;
-  const city = req.body.city;
-  const state = req.body.state;
-  const pincode = req.body.pincode;
+  // Extract the client ID from the request URL
+  const clientId = req.params.id;
 
-  const sql = `UPDATE clients SET client_name = ?, client_shortcode = ?, vertical_id = ?, owner_name = ?, owner_phone = ?,owner_email = ?,accounts_contact =?,accounts_phone =?,accounts_email =?,description=?,gst_no =?,address_line_1 =?,address_line_2 =?,city =?,state =?,pin_code =?,  WHERE id = ?`;
-  db.query(sql, [clientname, clientshortcode, verticalid, ownername, ownerphone,owneremail,accountscontact,accountsphone,accountsemail,description,gstnumber,address1,address2,city,state,pincode, id], (err, result) => {
-    if (err) {
-      throw err;
+  // Extract the updated values from the request body
+  const updatedClient = req.body;
+  console.log(updatedClient);
+
+  // Update the client record in the database using SQL query
+  const query = `UPDATE client_master SET client_name='${updatedClient.client_name}', client_shortcode='${updatedClient.client_shortcode}', vertical_id='${updatedClient.vertical_id}', owner_name='${updatedClient.owner_name}', owner_phone='${updatedClient.owner_phone}', owner_email='${updatedClient.owner_email}', accounts_contact='${updatedClient.accounts_contact}', accounts_phone='${updatedClient.accounts_phone}', accounts_email='${updatedClient.accounts_email}', gst_no='${updatedClient.gst_no}', address_line_1='${updatedClient.address_line_1}', address_line_2='${updatedClient.address_line_2}', city='${updatedClient.city}' ,state ='${updatedClient.state}',pin_code='${updatedClient.pin_code}' WHERE client_id=${(clientId)}`;
+  
+  db.query(query, (error, results, fields) => {
+    if (error) {
+      // Handle the database error
+      console.log(error);
+      res.status(500).send('Failed to update client record');
+    } else {
+      // Send the success response back to the client
+      res.status(200).send('Client record updated successfully');
     }
-    console.log(result);
-    res.send(`Client with ID ${id} updated successfully!`);
   });
-});
+})
+
+
+
+
+
+
+
+
+
+
+
+// app.put('/client/:id', (req, res) => {
+//   console.log(req.body);
+//   const clientid = req.params.id;
+//   const clientname = req.body.client_name;
+//   const clientshortcode = req.body.client_shortcode;
+//   const verticalid = req.body.vertical-id;
+//   const ownername = req.body.owner_name;
+//   const ownerphone = req.body.owner_phone;
+//   const owneremail = req.body.owner_email;
+//   const accountscontact = req.body.accounts_contact;
+//   const accountsphone = req.body.accounts_phone;
+//   const accountsemail = req.body.accounts_email;
+//   const gstnumber = req.body.gst_no;
+//   const address1 = req.body.address_line_1;
+//   const address2 = req.body.address_line_2;
+//   const city = req.body.city;
+//   const state = req.body.state;
+//   const pincode = req.body.pin_code;
+
+//   const sql = `UPDATE client_master SET client_name = ?, client_shortcode = ?, vertical_id = ?, owner_name = ?, owner_phone = ?,owner_email = ?,accounts_contact =?,accounts_phone =?,accounts_email =?,gst_no =?,address_line_1 =?,address_line_2 =?,city =?,state =?,pin_code =?  WHERE client_id = ?`;
+//   db.query(sql, [clientname, clientshortcode, verticalid, ownername, ownerphone,owneremail,accountscontact,accountsphone,accountsemail,gstnumber,address1,address2,city,state,pincode, clientid], (err, result) => {
+//     if (err) {
+//       throw err;
+//     }
+//     console.log(result);
+//     res.send(`Client with ID ${clientid} updated successfully!`);
+//   });
+// });
 
 // Delete a client
 // app.delete('/api/clients/:id', (req, res) => {
@@ -188,86 +251,144 @@ app.put('/update/:id', (req, res) => {
 //     res.send(result);
 //   });
 // });
-app.post('/deleteDemo', (req, res) => {
-  const id = req.body.id;
-// console.log(req.body.id)
-let sss=db.query(
-    'DELETE FROM client_master WHERE client_id = ?',
-    [id],
-    (error, results) => {
-      if (error) {
-        console.error(error);
-        res.status(500).send('Failed to delete item');
-      } else {
-        res.sendStatus(204);
-        // console.log(sss)
-      }
+// app.post('/deleteDemo', (req, res) => {
+//   const id = req.body.id;
+// // console.log(req.body.id)
+// let sss=db.query(
+//     'DELETE FROM client_master WHERE client_id = ?',
+//     [id],
+//     (error, results) => {
+//       if (error) {
+//         console.error(error);
+//         res.status(500).send('Failed to delete item');
+//       } else {
+//         res.sendStatus(204);
+//         // console.log(sss)
+//       }
+//     }
+//   );
+// });
+// Endpoint to handle DELETE request
+app.delete('/api/clients/:id', (req, res) => {
+  const { id } = req.params;
+
+  // Delete client from MySQL
+  const sql = `DELETE FROM client_master WHERE client_id = ?`;
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error deleting client from database');
+    } else if (result.affectedRows === 0) {
+      res.status(404).send(`Client with ID ${id} not found`);
+    } else {
+      res.send(`Client with ID ${id} deleted successfully!`);
     }
-  );
+  });
 });
 
-// clientprofile card Mapping
-app.get("/clientsprofile", (req, res) => {
-  db.query("SELECT * FROM client_master", (error, results, fields) => {
+
+// INSERTING THE MEMBER
+app.post('/member', (req, res) => {
+  // Extract data from the request body
+  console.log(req.body);
+  const {
+      userId,
+      userGroup,
+      firstname,
+      lastname,
+      email,
+      designation,
+      phone,
+      password,
+      address,
+      
+  } = req.body;
+
+  // Create a MySQL query to insert the data into a table
+  const query = `
+      INSERT INTO users (
+        user_role_id,
+        user_group_id,
+        first_name,
+        last_name,
+        user_email,
+        designation,
+        phone,
+        password,
+        address
+          
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);
+  `;
+    // Execute the query with the extracted data
+    db.query(query, [
+      userId,
+      userGroup,
+      firstname,
+      lastname,
+      email,
+      designation,
+      phone,
+      password,
+      address
+     
+  ], (error, results, fields) => {
+      if (error) {
+          console.log(error);
+          res.status(500).send('Error inserting data into the database');
+      } else {
+          res.status(200).send('Data inserted successfully');
+      }
+  });
+})
+
+app.get('/getmembers', (req, res) => {
+
+  db.query("SELECT * FROM users", (error, results, fields) => {
     if (error) throw error;
     res.send(results);
-//   });
-// });
-
-// app.get("/clientsprofile", (req, res) => {
-//   db.query("SELECT * FROM client_master INNER JOIN client_contact_details ON client_master.client_id = client_contact_details.client_id", (error, results, fields) => {
-//     if (error) throw error;
-//     res.send(results);
   });
 });
 
-
-// Ticket insert
-
-
-
-
-// EMPLOYEEEE
-// ADD EMPLOYEE
-// app.post('/employees', (req, res) => {
-//   const { employeeName, employeeCompany, employeeID, joiningDate, 
-//     employeeUsername, password, emailID, phone, department, designation, description } = req.body;
-  
-//   const query = `INSERT INTO employees (employee_name, employee_company, employee_id, joining_date, employee_username, password, email_id, phone, department, designation, description) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
-  
-//   connection.query(query, [employeeName, employeeCompany, employeeID, joiningDate, employeeUsername, password, emailID, phone, department, designation, description], (error, results, fields) => {
-//     if (error) throw error;
-//     res.send(results);
-//   });
-// });
-
-app.post('/', async (req, res) => {
-  try {
-    const { subject, assigned, image, createdate, status } = req.body;
-    const [rows, fields] = await pool.execute(
-      'INSERT INTO tickets (subject, assigned, image, createdate, status) VALUES (?, ?, ?, ?, ?)',
-      [subject, assigned, image, createdate, status]
-    );
-    res.status(200).send(rows);
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
-  }
-});
-
-
-app.delete('/delete/:id', (req, res) => {
+//get the id
+app.get("/getmembers/:id", (req, res) => {
+ 
   const id = req.params.id;
-  const sql = `DELETE FROM your_table_name WHERE id=${id}`;
-  connection.query(sql, (err, result) => {
-    if (err) throw err;
-    res.send('Data deleted successfully!');
+  console.log(id);
+  db.query("SELECT * FROM users WHERE user_id = ?", [id], (error, results, fields) => {
+    if (error) throw error;
+    res.send(results[0]); // assuming id is unique, return only the first result
   });
 });
+
+
+
+app.put('/memberupdate/:id', (req, res) => {
+  // Extract the client ID from the request URL
+  const userId = req.params.id;
+
+  // Extract the updated values from the request body
+  const updatedMember = req.body;
+  console.log(updatedMember);
+
+  // Update the client record in the database using SQL query
+  const query = `UPDATE users SET user_role_id='${updatedMember.user_role_id}', user_group_id='${updatedMember.user_group_id}', first_name='${updatedMember.first_name}', last_name='${updatedMember.last_name}', user_email='${updatedMember.user_email}', designation='${updatedMember.designation}', phone='${updatedMember.phone}', address='${updatedMember.address}',password='${updatedMember.password}'  WHERE user_id=${(userId)}`;
+  
+  db.query(query, (error, results, fields) => {
+    if (error) {
+      // Handle the database error
+      console.log(error);
+      res.status(500).send('Failed to update member record');
+    } else {
+      // Send the success response back to the client
+      res.status(200).send('Member record updated successfully');
+    }
+
+    // IMGE upload
+  });
+})
 
 
 
 app.listen(3001,() => {
-    console.log("server is connected ");
+    console.log("server is connected");
 })
-

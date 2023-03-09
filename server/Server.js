@@ -377,6 +377,13 @@ app.post('/task', (req, res) => {
   });
 })
 
+// Task card Map
+app.get("/taskcard", (req, res) => {
+  db.query("SELECT * FROM task", (error, results, fields) => {
+    if (error) throw error;
+    res.send(results);
+  });
+});
 
 app.listen(3001,() => {
     console.log("server is connected");

@@ -1,19 +1,18 @@
-import React,{useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button } from 'primereact/button';
-import { Dialog } from 'primereact/dialog'
+import { Button } from "primereact/button";
+import { Dialog } from "primereact/dialog";
 import { FcClock } from "react-icons/fc";
-import { Datepicker,  Page, setOptions } from '@mobiscroll/react';
-import {  Modal } from 'antd';
-
-import { RadioButton } from 'primereact/radiobutton';
-        
+import { Datepicker, Page, setOptions } from "@mobiscroll/react";
+import { Modal } from "antd";
+import { RadioButton } from "primereact/radiobutton";
+import SplitButton from './splitbtn';
 
 setOptions({
-  theme: 'ios',
-  themeVariant: 'dark'
+  theme: "ios",
+  themeVariant: "dark",
 });
-const nsp = { color: "white", fontSize: "1.5em" }
+const nsp = { color: "white", fontSize: "1.5em" };
 
 function NestableCard(props) {
   const {
@@ -29,19 +28,19 @@ function NestableCard(props) {
   const [visible, setVisible] = useState(false);
   const [taskcard, setTaskCard] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [ingredient, setIngredient] = useState('');
+  const [ingredient, setIngredient] = useState("");
   const [showTextArea, setShowTextArea] = useState(false);
   const handleIngredientChange = (event) => {
     const selectedIngredient = event.target.value;
     setIngredient(selectedIngredient);
 
-    if (selectedIngredient === 'Pepper') {
+    if (selectedIngredient === "Pepper") {
       setShowTextArea(true);
     } else {
       setShowTextArea(false);
     }
   };
-    const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -66,6 +65,8 @@ function NestableCard(props) {
   }, []);
 
   return (
+    <div>
+    
     <div className="dd-handle mt-2">
       <div className="task-info d-flex align-items-center justify-content-between">
         <h6
@@ -85,7 +86,7 @@ function NestableCard(props) {
                 />
               ))}
           </div>
-          
+
           <span
             className={`badge ${
               status === "MEDIUM"
@@ -99,15 +100,13 @@ function NestableCard(props) {
           </span>
         </div>
       </div>
-      <p className="py-2 mb-0">
-          Attendance Process Error
-      </p>
-     {/* {taskcard.map((data, i) =>{
+      <p className="py-2 mb-0">Attendance Process Error</p>
+      {/* {taskcard.map((data, i) =>{
       return(
         <div key={"hahha"+i}>
         */}
 
-      <div className="tikit-info row g-3 align-items-center">
+        <div className="tikit-info row g-3 align-items-center">
         <div className="col-sm">
           <ul className="d-flex list-unstyled align-items-center flex-wrap">
             <li className="me-2">
@@ -196,8 +195,8 @@ function NestableCard(props) {
           maxRange={10}
           onClose={() => setIsOpen(false)}
         />
-     </Modal>
-     <div className="card flex justify-content-center">
+     </Modal><br></br>
+     {/* <div className="card flex justify-content-center">
       <div className="flex flex-wrap gap-3">
         <div className="flex align-items-center">
           <input type="radio" id="ingredient1" name="pizza" value="Cheese" onChange={handleIngredientChange} checked={ingredient === 'Cheese'} />
@@ -217,8 +216,12 @@ function NestableCard(props) {
         <div className="popup">
           <textarea></textarea>
         </div>
-      )}
+      )} */}
+      <SplitButton/>
+   
     </div>
+     
+</div>
 
      )
 

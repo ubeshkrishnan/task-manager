@@ -1,0 +1,88 @@
+.con{
+    border-radius: 10px;
+    width: 50%;
+    /* height: 100%; */
+    border: 1px solid #c3c3c3;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;}
+    
+  
+
+.sub{
+    padding-top: 20px;
+}
+
+
+    table { 
+        width: 100%; 
+        border-collapse: collapse;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        
+      }
+      /* Zebra striping */
+      tr:nth-of-type(odd) { 
+        background: #eee; 
+    
+      }
+      th { 
+        background: grey; 
+        color: white; 
+        font-weight: bold;
+        width: 10px;
+        height: 8px;
+        
+      }
+      td, th { 
+        padding: 5px; 
+        border: 1px solid #ccc; 
+        text-align: center;
+        height: 5px;
+    }
+
+
+    .exp-main{
+      color: rgb(20, 20, 20);
+    font-size: 36px;
+    font-weight: 600;
+    }
+
+   /* .MuiTableBody-root tr:hover{
+      color:#15ec0a;
+      transform: translate(-2px,-2px);
+  }  */
+
+  /* .background-ExperienceHr{
+    background: #b8b2b2 url(background.jpeg);
+    background-size: cover;
+    min-width: 100%;
+    min-height:100%;
+    position: absolute;
+    background-position: center;
+  } */
+  
+  .hrtable{
+font-size: 16px;
+font-weight: 600;
+
+  }
+
+  .download{
+    width: 100px;
+    height: 35px;
+    background-color: green;
+    border-radius: 5px;
+    padding-top: 6px;
+    font-weight: 600;
+    color: white;
+margin-left: 140px;
+  }
+  .Search{
+    width: 300px;
+  }
+  /* .row_search{
+    display: flex;
+    flex:row;
+
+  } */

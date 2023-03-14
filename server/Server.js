@@ -332,6 +332,8 @@ app.post('/task', (req, res) => {
   const {
      
       task_name,
+      client,
+      control_code,
       category,
       start_date,
       end_date,
@@ -347,18 +349,22 @@ app.post('/task', (req, res) => {
       INSERT INTO task (
       
        task_name,
+       client,
+       control_code,
         category,
        start_date,
        end_date,
       task_assignperson,
         deadline,
         description  
-      ) VALUES (?, ?, ?, ?, ?, ?, ?);
+      ) VALUES (?, ?, ?, ?, ?, ?, ?,?,?);
   `;
     // Execute the query with the extracted data
     db.query(query, [
 
       task_name,
+      client,
+      control_code,
       category,
       start_date,
       end_date,
@@ -384,7 +390,62 @@ app.get("/taskcard", (req, res) => {
     res.send(results);
   });
 });
+app.delete("/delete_experience/:id", (req, res) => {
+  const { id } = req.params;
+  db.query("delete from task where id=?", [id], (err, result) => {
+    res.send(result);
+  });
+});
 
+app.put("/update_experience", (req, res) => {
+  const {
+    task_name,
+    client,
+    control_code,
+    category,
+    start_date,
+    end_date,
+    task_assignperson,
+    deadline,
+    description,
+    status,
+    comments,
+    id,
+  } = req.body;
+
+  db.query(
+    "update task set task_name=?, client=?, control_code=?, category=?, start_date=?, end_date=?, task_assignperson=?, deadline=?, description=?, status=?, comments=? where id=?",
+    [ task_name, client, control_code, category, start_date, end_date, task_assignperson, deadline, description,status,comments, id ],
+    (error, result) => {
+      if (result) {
+        let s = { status: "Updated" };
+        res.send(s);
+      } else {
+        console.log(error);
+      }
+    }
+  );
+});
+app.put("/task_status_update", (req, res) => {
+
+  const {
+    status,
+    id
+  } = req.body;
+  
+  db.query(
+    "UPDATE task SET status = ? WHERE id = ?",
+    [status, id],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+      } else {
+        let s = { status: "updated" };
+        res.send(s);
+      }
+    }
+  );
+});
 
 app.listen(3001,() => {
     console.log("server is connected");

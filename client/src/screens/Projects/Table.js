@@ -31,11 +31,15 @@ import Search from "antd/lib/transfer/search";
 import Form from "react-bootstrap/Form";
 import { TextArea } from '@react-ui-org/react-ui';
 import Stack from '@mui/material/Stack';
+import Pagination from '@mui/material/Pagination';
+import Typography from '@mui/material/Typography';
+
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
     overflowX: "auto",
   },
   table: {
@@ -179,6 +183,12 @@ function ExpereinceLetter  () {
     });
     setRows(filteredRows);
   };
+  const requestSearchclient = (e) => {
+    const filteredRows = search.filter((row) => {
+      return row.client.toLowerCase().includes(e.target.value.toLowerCase());  
+    });
+    setRows(filteredRows);
+  };
 
   const requestSearchDeadline = (e) => {
     const filteredRows = search.filter((row) => {
@@ -246,6 +256,40 @@ function ExpereinceLetter  () {
       setorder("ASC");
     }
   };
+  const sortingclient = (col) => {
+    if (order === "ASC") {
+      const sorted = [...rows].sort((a, b) =>{
+
+      let valueA = a[col];
+      let valueB = b[col];
+      if (typeof valueA !== "string") {
+        valueA = String(valueA);
+      }
+      if (typeof valueB !== "string") {
+        valueB = String(valueB);
+      }
+      return valueA.toLowerCase() > valueB.toLowerCase() ? 1 : -1;
+    });
+      setRows(sorted);
+      setorder("DSC");
+    }
+    if (order === "DSC") {
+        const sorted = [...rows].sort((a, b) =>{
+  
+        let valueA = a[col];
+        let valueB = b[col];
+        if (typeof valueA !== "string") {
+          valueA = String(valueA);
+        }
+        if (typeof valueB !== "string") {
+          valueB = String(valueB);
+        }
+        return valueA.toLowerCase() < valueB.toLowerCase() ? 1 : -1;
+      });
+      setRows(sorted);
+      setorder("ASC");
+    }
+}
   const sortingcategory = (col) => {
     if (order === "ASC") {
       const sorted = [...rows].sort((a, b) =>
@@ -343,11 +387,15 @@ function ExpereinceLetter  () {
     }
   };
 
-  const [Office, setOffice] = useState("");
-  const [Location, setLocation] = useState("");
-  const [Name, setName] = useState("");
-  const [EmpID, setEmpID] = useState("");
+  const [task_name, setTask_name] = useState("");
+  const [client, setClient] = useState("");
+  const [control_code, setControl_code] = useState("");
+  const [category, setCategory] = useState("");
+  const [start_date, setStart_date] = useState("");
+  const [end_date, setEnd_date] = useState("");
+  const [task_assignperson, setTask_assignperson] = useState("");
   const [searched, setSearched] = useState("");
+  const [deadline, setDeadline] = useState("");
 
   //Backend API
 
@@ -379,20 +427,38 @@ function ExpereinceLetter  () {
     }
   };
 
-  const updateExp = ({ id, office, location, name, empid }) => {
+  const updateExp = ({ id, task_name, client, control_code, start_date,end_date ,task_assignperson,deadline,description,status,comments}) => {
+   console.log(comments); 
+   console.log(status);
     axios
       .put(Url + "/update_experience", {
         id: id,
-        office: office,
-        location: location,
-        name: name,
-        empid: empid,
+        task_name: task_name,
+        client: client,
+        control_code: control_code,
+        start_date: start_date,
+        end_date: end_date,
+        task_assignperson: task_assignperson,
+        deadline: deadline,
+        description: description,
+        status:status,
+        comments:comments,
       })
       .then((response) => {
         console.log("OK");
       });
   };
-
+  const handleStatus = (status, id) => {
+    axios
+      .put(Url + "/task_status_update", {
+        id: id,
+        status: status,
+      })
+      .then((response) => {
+        alert("Status updated");
+        window.location.reload();
+      });
+  };
   //Backend API
   return (
     <div className="background-ExperienceHr">
@@ -443,7 +509,7 @@ function ExpereinceLetter  () {
             <div style={{marginTop:'15px'}}>
               <Stack direction="row" spacing={2}>
       <Button color="secondary">Total:10</Button>
-      <Button variant="contained" color="success">
+      <Button variant="contained" color="error">
         Completed:4
       </Button>
       <Button variant="outlined" color="error">
@@ -459,7 +525,7 @@ function ExpereinceLetter  () {
                 {/* <CCard className="mt-3"> */}
                 {/* <CCardBody> */}
                 <div className=" d-flex flex-row row">
-                  <div className="col-md-2 mb-5">
+                  <div className="col-md-2 mt-2">
                     <Search
                       placeholder="ID"
                       onChange={(searchVal) => requestSearchId(searchVal)}
@@ -467,7 +533,7 @@ function ExpereinceLetter  () {
                       className="advance-search form-control"
                     />
                   </div>
-                  <div className="col-md-4 mb-5">
+                  <div className="col-md-4  mt-2">
                     <Search
                       onChange={(searchVal) => requestSearchtaskname(searchVal)}
                       onCancelSearch={() => cancelSearch()}
@@ -475,11 +541,11 @@ function ExpereinceLetter  () {
                       className="advance-search form-control"
                     />
                   </div>
-                  <div className="col-md-4 mb-5">
+                  <div className="col-md-4  mt-2 mb-1">
                     <Search
                       onChange={(searchVal) => requestSearchDeadline(searchVal)}
                       onCancelSearch={() => cancelSearch()}
-                      placeholder="Location"
+                      placeholder="Deadline"
                       className="advance-search form-control"
                     />
                   </div>
@@ -489,31 +555,41 @@ function ExpereinceLetter  () {
               </CCollapse>
             </div>
             </>
-            <br />
-            <br />
-        
+            
+            <Typography style={{color:'Red',paddingTop:'25px'}}>Page: {page}</Typography>
+            <TablePagination
+  component="div"
+  rowsPerPageOptions={[5, 10, 25, 50]}
+  count={rows.length}
+  page={page}
+  onPageChange={handleChangePage}
+  rowsPerPage={rowsPerPage}
+  onRowsPerPageChange={handleChangeRowsPerPage}
+/>
             <Paper>
               <TableContainer>
                 <Table
                   className={classes.table}
                   aria-label="caption table"
                   ref={tableRef}
+
                   
                 >
                   {/* <caption>A barbone structure table example with a caption</caption> */}
                   <TableHead >
                     <TableRow>
                       <TableCell align="Center">
-                        <h5 className="hrtable">Task ID</h5>
+                        <th className="hrtable">Task ID</th>
                         <i
-                            style={{ paddingLeft: 10 }}
+                            style={{ paddingLeft: '10px' }}
                             onClick={() => sortingid("id")}
                           >
                             <BiSort
                               style={{
                                 fontSize: 18,
                                 color: "white",
-                                marginBottom: "10",
+                                marginBottom: "5px",
+                              
                               }}
                             />
                           </i>
@@ -523,7 +599,7 @@ function ExpereinceLetter  () {
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <h5 className="hrtable table_name">Task Name</h5>
+                          <th className="hrtable table_name">Task Name</th>
                           <i
                             style={{ paddingLeft: 10 }}
                             onClick={() => sortingname("task_name")}
@@ -543,7 +619,47 @@ function ExpereinceLetter  () {
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <h5 className="hrtable table_name">Category</h5>
+                          <th className="hrtable table_name">Client</th>
+                          <i
+                            style={{ paddingLeft: 10 }}
+                            onClick={() => sortingclient("client")}
+                          >
+                            <BiSort
+                              style={{
+                                fontSize: 18,
+                                color: "white",
+                                marginBottom: "10",
+                              }}
+                            />
+                          </i>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          <th className="hrtable table_name">Control_Code</th>
+                          <i
+                            style={{ paddingLeft: 10 }}
+                            onClick={() => sortingclient("client")}
+                          >
+                            <BiSort
+                              style={{
+                                fontSize: 18,
+                                color: "white",
+                                marginBottom: "10",
+                              }}
+                            />
+                          </i>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          <th className="hrtable table_name">Category</th>
                           <i
                             style={{ paddingLeft: 10, color:'red' }}
                             onClick={() => sortingcategory("category")}
@@ -563,7 +679,7 @@ function ExpereinceLetter  () {
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <h5 className="hrtable ">Start Date</h5>
+                          <th className="hrtable ">Start Date</th>
                           <i
                             style={{ paddingLeft: 10 }}
                             onClick={() => sortingstart("start_date")}
@@ -583,7 +699,7 @@ function ExpereinceLetter  () {
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <h5 className="hrtable">End Date</h5>
+                          <th className="hrtable">End Date</th>
                           <i
                             style={{ paddingLeft: 10 }}
                             onClick={() => sortingend("end_date")}
@@ -603,7 +719,7 @@ function ExpereinceLetter  () {
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <h5 className="hrtable">Assigned by</h5>
+                          <th className="hrtable">Assigned<span style={{textAligh:'center'}}> by</span></th>
                           <i
                             style={{ paddingLeft: 10 }}
                             onClick={() => sortingtaskassignperson("task_assignperson")}
@@ -623,11 +739,13 @@ function ExpereinceLetter  () {
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <h5 className="hrtable">Deadline</h5>
+                          <th className="hrtable">Deadline</th>
                           <i
                             style={{ paddingLeft: 10 }}
                             onClick={() => sortingdeadline("deadline")}
+                           
                           >
+                          
                             <BiSort
                               style={{
                                 fontSize: 18,
@@ -643,7 +761,7 @@ function ExpereinceLetter  () {
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <h5 className="hrtable">Description</h5>
+                          <th className="hrtable">Description</th>
                           <i
                             style={{ paddingLeft: 10 }}
                             onClick={() => sortingdescription("description")}
@@ -658,23 +776,15 @@ function ExpereinceLetter  () {
                           </i>
                         </div>
                       </TableCell>
-                      {/* <TableCell>
+                     <TableCell>
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <h5 className="hrtable">Description</h5>
-                        </div>
-                      </TableCell> */}
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          <h5 className="hrtable">Status</h5>
+                          <th className="hrtable">Status</th>
                           <i
                             style={{ paddingLeft: 10 }}
-                            onClick={() => sortingdescription("description")}
+                            onClick={() => sortingdescription("status")}
                           >
                             <BiSort
                               style={{
@@ -691,16 +801,18 @@ function ExpereinceLetter  () {
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <h5 className="hrtable">Comments</h5>
+                          <th className="hrtable">Comments</th>
+                       
                           <i
                             style={{ paddingLeft: 10 }}
-                            onClick={() => sortingdescription("description")}
+                            onClick={() => sortingdescription("comments")}
                           >
                             <BiSort
                               style={{
-                                fontSize: 18,
+                                fontSize: '18px',
                                 color: "white",
                                 marginBottom: "10",
+                                
                               }}
                             />
                           </i>
@@ -711,7 +823,7 @@ function ExpereinceLetter  () {
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <h5 className="hrtable">Actions</h5>
+                          <th className="hrtable" style={{paddingRight:'10px',paddingTop:''}}>Actions</th>
                         </div>
                       </TableCell>
                       
@@ -731,6 +843,12 @@ function ExpereinceLetter  () {
                           <CustomTableCell
                             {...{ row, name: "task_name", onChange }}
                           />
+                           <CustomTableCell
+                            {...{ row, name: "client", onChange }}
+                          />
+                           <CustomTableCell
+                            {...{ row, name: "control_code", onChange }}
+                          />
                           <CustomTableCell
                             {...{ row, name: "category", onChange }}
                           />
@@ -747,37 +865,33 @@ function ExpereinceLetter  () {
                             {...{ row, name: "deadline", onChange }}
                           />
                           
-                          {/* <CustomTableCell
-                            {...{ row, name: "reason", onChange }}
-                          /> */}
                           <CustomTableCell
                             {...{ row, name: "description", onChange }}
                           />
-                          <TableCell
-                            {...{ row, name: "status", onChange }}>
-                                  <Form.Select
-                                    id={row.id}
-                                   style={{width: "133px",backgroundColor:'white'}}
-                                    value={row.status}
-                                  >
-                                    <option>select</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="In Progress">
-                                      In Progress
-                                    </option>
-                                    <option value="Pending">Pending</option>
-                                  </Form.Select>
-                            
-       
-</TableCell>
                           
-                          <TableCell
-                            {...{ row, name: "comments", onChange }}
-                            
-                          ><TextArea style={{backgroundColor:'white'}} />
-                          </TableCell>
+                          {/* <TableCell */}
+                            {/* // {...{ row, name: "status", onChange }}> */}
+                            <Form.Select
+  id={row.id}
+  style={{ width: "133px", backgroundColor: "white" }}
+  value={row.status}
+  onChange={(e) => handleStatus(e.target.value, row.id)}>
+  <option value="">Select</option>
+  <option value="Completed">Completed</option>
+  <option value="In Progress">In Progress</option>
+  <option value="Pending">Pending</option>
+</Form.Select>
+ 
+{/* // </TableCell> */}
+                           {/* <CustomTableCell
+                            {...{ row, name: "status", onChange }}
+                          /> */}
                           
-                        
+                           <CustomTableCell
+                            {...{ row, name: "comments", onChange 
+                            }}
+                          />
+                      
                           <TableCell
                             style={{ display: "flex", width: "100%" }}
                             className={classes.selectTableCell}
@@ -820,15 +934,7 @@ function ExpereinceLetter  () {
                   </TableBody>
                 </Table>
               </TableContainer>
-              <TablePagination
-                rowsPerPageOptions={[5, 10, 25, 50]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-              ></TablePagination>
+              
             </Paper>
           </div>
         </div>

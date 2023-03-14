@@ -8,7 +8,7 @@ import 'react-nestable/dist/styles/index.css';
 import { CompletedData, InProgressTaskData, needReviewData } from "../../components/Data/AppData";
 import TaskNestable1 from "../../components/Projects/TaskNestable1";
 import axios from "axios";
-import Table from './Table'
+import Table from './Table';
 
 
 function Tasks() {
@@ -16,12 +16,15 @@ function Tasks() {
     const [editModeldata, setEditModelData] = useState({
       
       task_name: '',
+      client:'',
+      control_code:'',
       category: '',
       start_date: '',
       end_date: '',
       task_assignperson: '',
       deadline: '',
-      description: ''
+      description: '',
+    
     });
   
     const handleInputChange = (e) => {
@@ -36,6 +39,8 @@ function Tasks() {
      axios.post("http://localhost:3001/task", {
 
   task_name:editModeldata.task_name,
+  client:editModeldata.client,
+  control_code:editModeldata.control_code,
      category:editModeldata.category,
     //  taskImages:editModeldata.taskImages,
     start_date:editModeldata.start_date,
@@ -46,7 +51,6 @@ function Tasks() {
     //  noOfHours:editModeldata.noOfHours,
     //  priority:editModeldata.priority,
      description:editModeldata.description,
-
     })
      .then((response) => {
         console.log(response);
@@ -121,16 +125,38 @@ function Tasks() {
                         </div>
                         <div className="deadline-form">
                          
-                                <div className="row g-3 mb-3">
-                                <div className="col">
-                                    <label htmlFor="datepickerded" className="form-label">Task Start Date</label>
-                                    <input type="date" className="form-control" onChange={handleInputChange}  name="start_date"  id="datepickerded"  value={editModeldata.start_date}/>
-                                </div>
-                                <div className="col">
-                                    <label htmlFor="datepickerdedone" className="form-label">Task End Date</label>
-                                    <input type="date" className="form-control" onChange={handleInputChange} name="end_date"  id="datepickerdedone"  value={editModeldata.end_date}/>
-                                </div>
-                                </div>
+                         <div className="row g-3 mb-3">
+                         <div className="col">
+                             <label htmlFor="datepickerded" className="form-label">Client</label>
+                             <select className="form-select" onChange={handleInputChange} name="client"  value={editModeldata.client} >
+                                <option >Select</option>
+                                <option value="1">KASC</option>
+                                <option value="2">SEC</option>
+                               
+                            </select>
+                         </div>
+                         <div className="col">
+                             <label htmlFor="datepickerdedone" className="form-label">Change Control Code</label>
+                             <select className="form-select" onChange={handleInputChange} name="control_code"  value={editModeldata.control_code} >
+                                <option >Select</option>
+                                <option value="1">D001</option>
+                                <option value="2">N002</option>
+ 
+                            </select>
+                         </div>
+                         </div>
+                                <div className="deadline-form">
+                         
+                         <div className="row g-3 mb-3">
+                         <div className="col">
+                             <label htmlFor="datepickerded" className="form-label">Task Start Date</label>
+                             <input type="date" className="form-control" onChange={handleInputChange}  name="start_date"  id="datepickerded"  value={editModeldata.start_date}/>
+                         </div>
+                         <div className="col">
+                             <label htmlFor="datepickerdedone" className="form-label">Task End Date</label>
+                             <input type="date" className="form-control" onChange={handleInputChange} name="end_date"  id="datepickerdedone"  value={editModeldata.end_date}/>
+                         </div>
+                         </div>
                                 <div className="row g-3 mb-3">
                                     <div className="col-sm-12">
                                         <label className="form-label">Notifation Sent</label>
@@ -153,9 +179,10 @@ function Tasks() {
                                             <option value="5">Jack Glover</option> */}
                                         </select>
                                     </div>
-                                    <div className="col-sm">
+                                    <div className="col-sm-6">
                                     <label htmlFor="formFileMultipleone" className="form-label">Deadline</label>
-                                    <input type="text" className="form-control" onChange={handleInputChange} name="deadline"  value={editModeldata.deadline}/>
+                                    {/* <input type="text" className="form-control" onChange={handleInputChange} name="deadline"  value={editModeldata.deadline}/> */}
+                                    <input type="date" className="form-control" onChange={handleInputChange} name="deadline"  value={editModeldata.deadline}/>
                                 </div>
                                 </div>
                             
@@ -179,6 +206,8 @@ function Tasks() {
                                 <label htmlFor="exampleFormControlTextarea78" className="form-label">Description (optional)</label>
                                 <textarea type="text" className="form-control" onChange={handleInputChange} name="description"  id="exampleFormControlTextarea78" rows="3"  value={editModeldata.description} placeholder="Add any extra details about the request"></textarea>
                             </div>
+                            </div>
+                          
                             </form>
                     </Modal.Body>
                     <Modal.Footer>

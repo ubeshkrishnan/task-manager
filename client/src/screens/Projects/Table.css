@@ -6,19 +6,13 @@
     display: flex;
     flex-wrap: wrap;
     align-content: center;
-    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;}
+    box-shadow: red(0, 0, 0, 0.45) 0px 25px 20px -20px;}
     
-  
-
-.sub{
-    padding-top: 20px;
-}
-
 
     table { 
-        width: 100%; 
+        width: 50%; 
         border-collapse: collapse;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        box-shadow: red(0, 0, 0, 0.35) 0px 5px 15px;
         
       }
       /* Zebra striping */
@@ -30,21 +24,18 @@
         background: grey; 
         color: white; 
         font-weight: bold;
-        width: 10px;
-        height: 8px;
         
       }
       td, th { 
-        padding: 5px; 
+   
         border: 1px solid #ccc; 
         text-align: center;
-        height: 5px;
     }
 
 
     .exp-main{
       color: rgb(20, 20, 20);
-    font-size: 36px;
+    font-size: 33px;
     font-weight: 600;
     }
 
@@ -63,10 +54,11 @@
   } */
   
   .hrtable{
-font-size: 16px;
-font-weight: 600;
 
-  }
+height: 2px;
+/* padding-bottom: 5px; */
+
+  } 
 
   .download{
     width: 100px;
@@ -76,13 +68,18 @@ font-weight: 600;
     padding-top: 6px;
     font-weight: 600;
     color: white;
-margin-left: 140px;
+    margin-left: 140px;
   }
   .Search{
     width: 300px;
+    margin-top: 20px;
   }
   /* .row_search{
     display: flex;
     flex:row;
 
   } */
+.td{
+border-collapse: collapse;
+border:1px solid black;
+  }

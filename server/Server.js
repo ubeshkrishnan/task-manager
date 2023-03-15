@@ -447,7 +447,7 @@ app.put("/task_status_update", (req, res) => {
   );
 });
 
-// filter
+// Task filter
 app.get('/task_filter', (req, res) => {
   const filter = req.query.filter;
   let query = '';

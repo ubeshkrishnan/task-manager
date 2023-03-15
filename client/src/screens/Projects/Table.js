@@ -473,7 +473,10 @@ function ExpereinceLetter  () {
     InProgress: '#FFAF64',
     Pending: '#F75E60',
   };
-  const [filter, setFilter] = useState("All"); // initialize filter state
+  const [filter, setFilter] = useState("All");
+  const [totalCount, setTotalCount] = useState(0);
+  const [pendingCount, setPendingCount] = useState(0);
+  const [incompleteCount, setIncompleteCount] = useState(0); // initialize filter state
 //   const data = [
 //     { status: "Completed" },
 //     {  status: "InProgress" },
@@ -501,30 +504,22 @@ function ExpereinceLetter  () {
 // });
 useEffect(() => {
   axios.get(Url+`/task_filter?filter=${filter}`)
-    .then(res => setRows(res.data))
-    .catch(err => console.log(err));
+  .then(res => {
+    setRows(res.data);
+    setTotalCount(res.data.length);
+    setPendingCount(res.data.filter(row => row.status === 'pending').length);
+    setIncompleteCount(res.data.filter(row => row.status !== 'completed').length);
+    setCompletedCount(res.data.filter(row => row.status !== 'completed').length);
+  })
+  .catch(err => console.log(err));
 }, [filter]);
 
 const handleFilter = (value) => {
-  setFilter(value);
+setFilter(value);
 }
 
-  // Task COunt
-  const [data, setData] = useState({
-    total: 0,
-    completed: 0,
-    in_progress: 0,
-    pending: 0
-  });
-  
-  const { total, completed, in_progress, pending } = data;
-  const [incomplete, setIncomplete] = useState(0);
 
-  useEffect(() => {
-    fetch(Url + "/task_count")
-      .then((response) => response.json())
-      .then((data) => setData(data));
-  }, []);
+
  
   return (
     <div className="background-ExperienceHr">
@@ -567,25 +562,10 @@ const handleFilter = (value) => {
               <br />
             </DownloadTableExcel>
             <div >
-            <Button style={{marginLeft:'10px',backgroundColor:'grey',color:'white',fontWeight:'550'}} onClick={() => handleFilter("All")} >All</Button>
-            <Button style={{marginLeft:'10px',backgroundColor:'#80FFAD',color:'black',fontWeight:'550'}} onClick={() => handleFilter("completed")}  >Completed</Button>
+            <Button style={{marginLeft:'10px',backgroundColor:'grey',color:'white',fontWeight:'550'}}  onClick={() => handleFilter("All")} >All({totalCount})</Button>
+            <Button style={{marginLeft:'10px',backgroundColor:'#80FFAD',color:'black',fontWeight:'550'}} onClick={() => handleFilter("completed")} >Completed ({totalCount})</Button>
             <Button severity="warning" style={{marginLeft:'10px',backgroundColor:'#FFAF64',fontWeight:'550',color:'white'}} onClick={() => handleFilter("Inprogress")}  >InProgress</Button>
-            <Button style={{marginLeft:'10px',backgroundColor:'#DC2626',color:'white',fontWeight:'550'}} onClick={() => handleFilter("pending")} >Pending</Button>
-            </div>
-            <div style={{marginTop:'15px'}}>
-              <Stack direction="row" spacing={2}>
-      <Button color="secondary">Total:{total}</Button>
-      <Button variant="contained" color="error">
-        Completed:{completed}
-      </Button>
-      <Button variant="outlined" color="error">
-        InProgress: {in_progress}
-      </Button>
-      <Button variant="outlined" color="error">
-        Pending:{pending}
-      </Button>
-    </Stack>
-
+            <Button style={{marginLeft:'10px',backgroundColor:'#DC2626',color:'white',fontWeight:'550'}} onClick={() => handleFilter("pending")} >Pending{{pendingCount}}</Button>
             </div>
               <CCollapse visible={visible}>
                 {/* <CCard className="mt-3"> */}

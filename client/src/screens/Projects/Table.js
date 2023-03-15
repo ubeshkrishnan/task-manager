@@ -201,7 +201,8 @@ function ExpereinceLetter  () {
     setSearched("");
     getExperience(searched);
   };
-  // Search//
+  // Search
+   //Backend API
 
   const [order, setorder] = useState("ASC");
 
@@ -459,7 +460,72 @@ function ExpereinceLetter  () {
         window.location.reload();
       });
   };
-  //Backend API
+
+  const tableData = [
+    {  status: 'Completed' },
+    { status: 'InProgress' },
+    {  status: 'Pending' },
+    {  status: 'Completed' },
+  ];
+  // Color Code
+  const colorCode = {
+    Completed: '#80FFAD',
+    InProgress: '#FFAF64',
+    Pending: '#F75E60',
+  };
+  const [filter, setFilter] = useState("All"); // initialize filter state
+//   const data = [
+//     { status: "Completed" },
+//     {  status: "InProgress" },
+//     {  status: "Pending" },
+//   ]; // example data to filter and display in table rows
+
+//   // handle button clicks to update filter state
+//   const handleFilter = (status) => {
+//     setFilter(status);
+//   };
+
+//  // render table rows based on filter state
+// const filteredData  = data.filter((row) => {
+//   if (filter === "All") {
+//     return true; // show all rows
+//   } else if (filter === "Completed") {
+//     return row.status === "Completed"; // show only completed rows
+//   } else if (filter === "InProgress") {
+//     return row.status === "InProgress"; // show only in-progress rows
+//   } else if (filter === "Pending") {
+//     return row.status === "Pending"; // show only pending rows
+//   } else {
+//     return false; // don't show any rows if filter value is invalid
+//   }
+// });
+useEffect(() => {
+  axios.get(Url+`/task_filter?filter=${filter}`)
+    .then(res => setRows(res.data))
+    .catch(err => console.log(err));
+}, [filter]);
+
+const handleFilter = (value) => {
+  setFilter(value);
+}
+
+  // Task COunt
+  const [data, setData] = useState({
+    total: 0,
+    completed: 0,
+    in_progress: 0,
+    pending: 0
+  });
+  
+  const { total, completed, in_progress, pending } = data;
+  const [incomplete, setIncomplete] = useState(0);
+
+  useEffect(() => {
+    fetch(Url + "/task_count")
+      .then((response) => response.json())
+      .then((data) => setData(data));
+  }, []);
+ 
   return (
     <div className="background-ExperienceHr">
       <div className="container">
@@ -501,22 +567,22 @@ function ExpereinceLetter  () {
               <br />
             </DownloadTableExcel>
             <div >
-            <Button style={{marginLeft:'10px',backgroundColor:'grey',color:'white',fontWeight:'550'}}>All</Button>
-            <Button style={{marginLeft:'10px',backgroundColor:'#16A34A',color:'white',fontWeight:'550'}}>Completed</Button>
-            <Button severity="warning" style={{marginLeft:'10px',backgroundColor:'#D97706',fontWeight:'550',color:'white'}}>InProgress</Button>
-            <Button style={{marginLeft:'10px',backgroundColor:'#DC2626',color:'white',fontWeight:'550'}}>Pending</Button>
+            <Button style={{marginLeft:'10px',backgroundColor:'grey',color:'white',fontWeight:'550'}} onClick={() => handleFilter("All")} >All</Button>
+            <Button style={{marginLeft:'10px',backgroundColor:'#80FFAD',color:'black',fontWeight:'550'}} onClick={() => handleFilter("completed")}  >Completed</Button>
+            <Button severity="warning" style={{marginLeft:'10px',backgroundColor:'#FFAF64',fontWeight:'550',color:'white'}} onClick={() => handleFilter("Inprogress")}  >InProgress</Button>
+            <Button style={{marginLeft:'10px',backgroundColor:'#DC2626',color:'white',fontWeight:'550'}} onClick={() => handleFilter("pending")} >Pending</Button>
             </div>
             <div style={{marginTop:'15px'}}>
               <Stack direction="row" spacing={2}>
-      <Button color="secondary">Total:10</Button>
+      <Button color="secondary">Total:{total}</Button>
       <Button variant="contained" color="error">
-        Completed:4
+        Completed:{completed}
       </Button>
       <Button variant="outlined" color="error">
-        InProgress:2
+        InProgress: {in_progress}
       </Button>
       <Button variant="outlined" color="error">
-        Pending:4
+        Pending:{pending}
       </Button>
     </Stack>
 
@@ -556,16 +622,16 @@ function ExpereinceLetter  () {
             </div>
             </>
             
-            <Typography style={{color:'Red',paddingTop:'25px'}}>Page: {page}</Typography>
+            <Typography style={{color:'#F75E60',paddingTop:'25px'}}>Page: {page}</Typography>
             <TablePagination
-  component="div"
-  rowsPerPageOptions={[5, 10, 25, 50]}
-  count={rows.length}
-  page={page}
-  onPageChange={handleChangePage}
-  rowsPerPage={rowsPerPage}
-  onRowsPerPageChange={handleChangeRowsPerPage}
-/>
+              component="div"
+              rowsPerPageOptions={[5, 10, 25, 50]}
+              count={rows.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={rowsPerPage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+            />
             <Paper>
               <TableContainer>
                 <Table
@@ -661,7 +727,7 @@ function ExpereinceLetter  () {
                         >
                           <th className="hrtable table_name">Category</th>
                           <i
-                            style={{ paddingLeft: 10, color:'red' }}
+                            style={{ paddingLeft: 10, color:'#F75E60' }}
                             onClick={() => sortingcategory("category")}
                           >
                             <BiSort
@@ -831,12 +897,14 @@ function ExpereinceLetter  () {
                   </TableHead>
                   <TableBody>
                     {rows
+                    
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
                       )
-                      .map((row, index) => (
-                        <TableRow key={row.id}>
+                     .map((row, index) => (
+                      
+                        <TableRow key={row.id} style={{ backgroundColor: colorCode[row.status] }}>
                           <CustomTableCell
                             {...{ row, name: "id", onChange }}
                           />
@@ -868,36 +936,42 @@ function ExpereinceLetter  () {
                           <CustomTableCell
                             {...{ row, name: "description", onChange }}
                           />
-                          
-                          {/* <TableCell */}
-                            {/* // {...{ row, name: "status", onChange }}> */}
                             <Form.Select
-  id={row.id}
-  style={{ width: "133px", backgroundColor: "white" }}
-  value={row.status}
-  onChange={(e) => handleStatus(e.target.value, row.id)}>
-  <option value="">Select</option>
-  <option value="Completed">Completed</option>
-  <option value="In Progress">In Progress</option>
-  <option value="Pending">Pending</option>
-</Form.Select>
- 
-{/* // </TableCell> */}
-                           {/* <CustomTableCell
-                            {...{ row, name: "status", onChange }}
-                          /> */}
-                          
-                           <CustomTableCell
-                            {...{ row, name: "comments", onChange 
-                            }}
-                          />
+                              style={{
+
+                                width: "133px",
+
+                                            backgroundColor:
+                                            row.status === "completed"
+                                            ? "#80FFAD"
+                                            : row.status === "pending"
+                                            ? "red"
+                                            : row.status === "Inprogress"
+                                            ? "#FFAF64"
+                                              : "grey",
+                                        color: "white",
+                                        fontWeight: "bold"
+                                      }}
+                                    id={row.id}
+                                    // style={{  }}
+                                    value={row.status} 
+                                    onChange={(e) => handleStatus(e.target.value, row.id)}>
+                                    <option value="">Select</option>
+                                    <option value="Completed">Completed</option>
+                                    <option value="InProgress">In Progress</option>
+                                    <option value="Pending">Pending</option>
+                                  </Form.Select>
+                                <CustomTableCell
+                                  {...{ row, name: "comments", onChange 
+                                  }}
+                                />
                       
-                          <TableCell
-                            style={{ display: "flex", width: "100%" }}
-                            className={classes.selectTableCell}
-                            class
-                          >
-                            {row.isEditMode ? (
+                              <TableCell
+                                style={{ display: "flex", width: "100%" }}
+                                className={classes.selectTableCell}
+                                class
+                                >
+                              {row.isEditMode ? (
                               <>
                                 <IconButton
                                   aria-label="done"
@@ -912,7 +986,7 @@ function ExpereinceLetter  () {
                                   <RevertIcon />
                                 </IconButton>
                               </>
-                            ) : (
+                              ) : (
                               <>
                                 <IconButton
                                   aria-label="edit"

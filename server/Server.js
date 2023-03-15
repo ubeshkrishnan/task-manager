@@ -447,6 +447,32 @@ app.put("/task_status_update", (req, res) => {
   );
 });
 
+// filter
+app.get('/task_filter', (req, res) => {
+  const filter = req.query.filter;
+  let query = '';
+
+  if (filter === 'All') {
+    query = 'SELECT * FROM task';
+  } else {
+    query = `SELECT * FROM task WHERE status='${filter}'`;
+  }
+
+  db.query(query, (err, results) => {
+    if (err) throw err;
+    res.json(results);
+  });
+});
+
+// Task Count
+app.get("/task_filter", (req, res) => {
+  const filter = req.query.filter;
+  const query = `SELECT COUNT(*) AS incomplete FROM tasks WHERE status != 'completed' AND category = '${filter}'`;
+  db.query(query, (error, results, fields) => {
+    if (error) throw error;
+    res.send(results[0]);
+  });
+});
 app.listen(3001,() => {
     console.log("server is connected");
 })

@@ -26,14 +26,14 @@ import { CButton } from "@coreui/react";
 import { CCollapse } from "@coreui/react";
 import { CCard } from "@coreui/react";
 import { CCardBody } from "@coreui/react";
-import { Url } from "../../Global_variable/api_link";
+import { Url } from "../../../Global_variable/api_link";
 import Search from "antd/lib/transfer/search";
 import Form from "react-bootstrap/Form";
 import { TextArea } from '@react-ui-org/react-ui';
 import Stack from '@mui/material/Stack';
-import Pagination from '@mui/material/Pagination';
+import { Modal, Nav, Tab } from "react-bootstrap";
 import Typography from '@mui/material/Typography';
-
+import Pagination from '@mui/material/Pagination';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -471,12 +471,10 @@ function ExpereinceLetter  () {
   const colorCode = {
     Completed: '#80FFAD',
     InProgress: '#FFAF64',
-    Pending: '#F75E60',
+    Pending: '#FF7F7F',
   };
-  const [filter, setFilter] = useState("All");
-  const [totalCount, setTotalCount] = useState(0);
-  const [pendingCount, setPendingCount] = useState(0);
-  const [incompleteCount, setIncompleteCount] = useState(0); // initialize filter state
+
+  
 //   const data = [
 //     { status: "Completed" },
 //     {  status: "InProgress" },
@@ -502,13 +500,19 @@ function ExpereinceLetter  () {
 //     return false; // don't show any rows if filter value is invalid
 //   }
 // });
+const [filter, setFilter] = useState("All");
+const [totalCount, setTotalCount] = useState(0);
+const [pendingCount, setPendingCount] = useState(0);
+const [InProgressCount, setProgressCount] = useState(0); // initialize filter state
+const [completedCount, setCompletedCount] = useState(0);
+
 useEffect(() => {
   axios.get(Url+`/task_filter?filter=${filter}`)
   .then(res => {
     setRows(res.data);
     setTotalCount(res.data.length);
-    setPendingCount(res.data.filter(row => row.status === 'pending').length);
-    setIncompleteCount(res.data.filter(row => row.status !== 'completed').length);
+    setPendingCount(res.data.filter(row => row.status !== 'pending').length);
+    setProgressCount(res.data.filter(row => row.status !== 'Inprogress').length);
     setCompletedCount(res.data.filter(row => row.status !== 'completed').length);
   })
   .catch(err => console.log(err));
@@ -518,55 +522,56 @@ const handleFilter = (value) => {
 setFilter(value);
 }
 
-
-
- 
   return (
     <div className="background-ExperienceHr">
       <div className="container">
         <div className="shedule">
           {/* <HrModule /> */}
           <div className="content container-fluid">
+          <div className="row_search">
             <div>
-              <h1 className="exp-main">Task Details</h1>
+              <h3 className="">Task Details</h3>
             </div>
        
-            <div className="Search">
-              <Search
-                placeholder="Search Name"
-                onChange={(searchVal) => requestSearch(searchVal)}
-                onCancelSearch={() => cancelSearch()}
-                className="form-control "
-               
-              />
-            </div>
-            <br />
-            <>
-              <div className="row_search">
-              <CButton style={{width:'135px'}} onClick={() => setVisible(!visible)}>
-                Advance Search
-              </CButton>
-              <DownloadTableExcel
+            <DownloadTableExcel
               filename="Experience Table"
               sheet="users"
               currentTableRef={tableRef.current}
             >
               {" "}
-              <Button type="danger"  style={{marginLeft:'710px'}}>
+              <Button type="danger"  >
              
                 <div className='download' > Download 
                   <DownloadIcon/>
                  
                 </div>
               </Button>
-              <br />
+             
             </DownloadTableExcel>
-            <div >
-            <Button style={{marginLeft:'10px',backgroundColor:'grey',color:'white',fontWeight:'550'}}  onClick={() => handleFilter("All")} >All({totalCount})</Button>
-            <Button style={{marginLeft:'10px',backgroundColor:'#80FFAD',color:'black',fontWeight:'550'}} onClick={() => handleFilter("completed")} >Completed ({totalCount})</Button>
-            <Button severity="warning" style={{marginLeft:'10px',backgroundColor:'#FFAF64',fontWeight:'550',color:'white'}} onClick={() => handleFilter("Inprogress")}  >InProgress</Button>
-            <Button style={{marginLeft:'10px',backgroundColor:'#DC2626',color:'white',fontWeight:'550'}} onClick={() => handleFilter("pending")} >Pending{{pendingCount}}</Button>
             </div>
+         
+            <>
+              <div className="row_search" style={{display:'flex'}}>
+              <CButton style={{height:'37px'}}  onClick={() => setVisible(!visible)}>
+                Advance Search
+              </CButton>
+              <div className="filtb">
+
+<Nav variant="pills" style={{display:'flex'}} className="nav nav-tabs tab-body-header rounded prtab-set w-sm-100">
+  <Nav.Item>
+    <Nav.Link eventKey="All" onClick={() => handleFilter("All")}>All</Nav.Link>
+  </Nav.Item>
+  <Nav.Item>
+    <Nav.Link eventKey="Started" onClick={() => handleFilter("completed")}>Completed</Nav.Link>
+  </Nav.Item>
+  <Nav.Item>
+    <Nav.Link eventKey="Approval" onClick={() => handleFilter("Inprogress")}>Inprogress</Nav.Link>
+  </Nav.Item>
+  <Nav.Item>
+    <Nav.Link eventKey="Completed" onClick={() => handleFilter("pending")}>Pending</Nav.Link>
+  </Nav.Item>
+</Nav>
+
               <CCollapse visible={visible}>
                 {/* <CCard className="mt-3"> */}
                 {/* <CCardBody> */}
@@ -587,7 +592,7 @@ setFilter(value);
                       className="advance-search form-control"
                     />
                   </div>
-                  <div className="col-md-4  mt-2 mb-1">
+                  <div className="col-md-2  mt-2 ">
                     <Search
                       onChange={(searchVal) => requestSearchDeadline(searchVal)}
                       onCancelSearch={() => cancelSearch()}
@@ -600,52 +605,77 @@ setFilter(value);
                 {/* </CCard> */}
               </CCollapse>
             </div>
+              <div className="Search">
+              <Search
+                placeholder="Search Name"
+                onChange={(searchVal) => requestSearch(searchVal)}
+                onCancelSearch={() => cancelSearch()}
+                className="form-control"
+               
+              />
+            </div>
+
+            </div>
+                        {/* <Button style={{backgroundColor:'grey',color:'white',fontWeight:'550'}}  onClick={() => handleFilter("All")} >All({totalCount})</Button>
+<Button style={{marginLeft:'10px',backgroundColor:'#80FFAD',color:'black',fontWeight:'550'}} onClick={() => handleFilter("completed")} >Completed({completedCount}) </Button>
+<Button severity="warning" style={{marginLeft:'10px',backgroundColor:'#FFAF64',fontWeight:'550',color:'white'}} onClick={() => handleFilter("Inprogress")} >InProgress({InProgressCount}) </Button>
+<Button style={{marginLeft:'10px',backgroundColor:'#FF7F7F',color:'white',fontWeight:'550'}} onClick={() => handleFilter("pending")} >Pending({pendingCount})</Button> */}
+
+          
             </>
-            
-            <Typography style={{color:'#F75E60',paddingTop:'25px'}}>Page: {page}</Typography>
-            <TablePagination
+            <div className="flex-row">
+            <div className="row_search">
+            <p style={{color:'red',paddingTop:'10px'}}>Page:{page}</p>
+            <Pagination count={10} color="primary" />
+            </div>
+            </div>
+            {/* <TablePagination
               component="div"
-              rowsPerPageOptions={[5, 10, 25, 50]}
+              rowsPerPageOptions={[2, 10, 25, 50]}
               count={rows.length}
               page={page}
               onPageChange={handleChangePage}
               rowsPerPage={rowsPerPage}
               onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            /> */}
+           
             <Paper>
               <TableContainer>
                 <Table
                   className={classes.table}
+                  style={{paddingTop:'10px'}}
                   aria-label="caption table"
                   ref={tableRef}
-
-                  
-                >
+ >
                   {/* <caption>A barbone structure table example with a caption</caption> */}
                   <TableHead >
                     <TableRow>
-                      <TableCell align="Center">
-                        <th className="hrtable">Task ID</th>
-                        <i
-                            style={{ paddingLeft: '10px' }}
-                            onClick={() => sortingid("id")}
+                      <TableCell >
+                      <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          <th  className="hrtable table_name">Task_ID</th>
+                          <i
+                            style={{ paddingLeft: 10 }}
+                            onClick={() => sortingid("id")} 
                           >
                             <BiSort
                               style={{
                                 fontSize: 18,
                                 color: "white",
-                                marginBottom: "5px",
-                              
+                                marginBottom: "10",
                               }}
                             />
                           </i>
+                        </div>
                       </TableCell>
                       <TableCell>
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <th className="hrtable table_name">Task Name</th>
+                          <th className="hrtable table_name">Task_Name</th>
                           <i
                             style={{ paddingLeft: 10 }}
                             onClick={() => sortingname("task_name")}
@@ -707,7 +737,7 @@ setFilter(value);
                         >
                           <th className="hrtable table_name">Category</th>
                           <i
-                            style={{ paddingLeft: 10, color:'#F75E60' }}
+                            style={{ paddingLeft: 10, color:'#FF7F7F' }}
                             onClick={() => sortingcategory("category")}
                           >
                             <BiSort
@@ -720,7 +750,7 @@ setFilter(value);
                           </i>
                         </div>
                       </TableCell>
-                      <TableCell>
+                      {/* <TableCell>
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
@@ -759,13 +789,13 @@ setFilter(value);
                             />
                           </i>
                         </div>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell>
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <th className="hrtable">Assigned<span style={{textAligh:'center'}}> by</span></th>
+                          <th className="hrtable">Assigned_by<span style={{textAligh:'center'}}> </span></th>
                           <i
                             style={{ paddingLeft: 10 }}
                             onClick={() => sortingtaskassignperson("task_assignperson")}
@@ -827,7 +857,7 @@ setFilter(value);
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <th className="hrtable">Status</th>
+                          <th className="hrtable" style={{borderCollapse:'collapse'}}>Status</th>
                           <i
                             style={{ paddingLeft: 10 }}
                             onClick={() => sortingdescription("status")}
@@ -885,37 +915,48 @@ setFilter(value);
                      .map((row, index) => (
                       
                         <TableRow key={row.id} style={{ backgroundColor: colorCode[row.status] }}>
-                          <CustomTableCell
-                            {...{ row, name: "id", onChange }}
-                          />
-                          <CustomTableCell
-                            {...{ row, name: "task_name", onChange }}
-                          />
-                           <CustomTableCell
-                            {...{ row, name: "client", onChange }}
-                          />
-                           <CustomTableCell
-                            {...{ row, name: "control_code", onChange }}
-                          />
-                          <CustomTableCell
-                            {...{ row, name: "category", onChange }}
-                          />
-                          <CustomTableCell
-                            {...{ row, name: "start_date", onChange }}
-                          />
-                          <CustomTableCell
-                            {...{ row, name: "end_date", onChange }}
-                          />
-                          <CustomTableCell
-                            {...{ row, name: "task_assignperson", onChange }}
-                          />
-                          <CustomTableCell
-                            {...{ row, name: "deadline", onChange }}
-                          />
-                          
-                          <CustomTableCell
-                            {...{ row, name: "description", onChange }}
-                          />
+                        <CustomTableCell
+  {...{ row, name: "id", onChange }}
+  style={{ borderBottom: "1px solid black" }}
+/>
+<CustomTableCell
+  {...{ row, name: "task_name", onChange }}
+  style={{ borderBottom: "1px solid black" }}
+/>
+<CustomTableCell
+  {...{ row, name: "client", onChange }}
+  style={{ borderBottom: "1px solid black" }}
+/>
+<CustomTableCell
+  {...{ row, name: "control_code", onChange }}
+  style={{ borderBottom: "1px solid black" }}
+/>
+
+<CustomTableCell
+  {...{ row, name: "category", onChange }}
+  style={{ borderBottom: "1px solid black" }}
+/>
+{/* <CustomTableCell
+  {...{ row, name: "start_date", onChange }}
+  style={{ borderBottom: "1px solid black" }}
+/>
+<CustomTableCell
+  {...{ row, name: "end_date", onChange }}
+  style={{ borderBottom: "1px solid black" }}
+/> */}
+<CustomTableCell
+  {...{ row, name: "task_assignperson", onChange }}
+  style={{ borderBottom: "1px solid black" }}
+/>
+<CustomTableCell
+  {...{ row, name: "deadline", onChange }}
+  style={{ borderBottom: "1px solid black" }}
+/>
+<CustomTableCell
+  {...{ row, name: "description", onChange }}
+  style={{ borderBottom: "1px solid black" }}
+/>
+
                             <Form.Select
                               style={{
 

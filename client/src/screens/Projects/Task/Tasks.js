@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
-import PageHeader from "../../components/common/PageHeader";
-import AllocatedTask from "../../components/Projects/AllocatedTask";
-import RecentActivity from "../../components/Projects/RecentActivity";
-import TaskProgress from "../../components/Projects/TaskProgress";
+import PageHeader from "../../../components/common/PageHeader";
+import AllocatedTask from "../../../components/Projects/AllocatedTask";
+import RecentActivity from "../../../components/Projects/RecentActivity";
+import TaskProgress from "../../../components/Projects/TaskProgress";
 import 'react-nestable/dist/styles/index.css';
-import { CompletedData, InProgressTaskData, needReviewData } from "../../components/Data/AppData";
-import TaskNestable1 from "../../components/Projects/TaskNestable1";
+import { CompletedData, InProgressTaskData, needReviewData } from "../../../components/Data/AppData";
+import TaskNestable1 from "../../../components/Projects/TaskNestable1";
 import axios from "axios";
 import Table from './Table';
 

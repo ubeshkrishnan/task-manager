@@ -6,13 +6,14 @@
     display: flex;
     flex-wrap: wrap;
     align-content: center;
-    box-shadow: red(0, 0, 0, 0.45) 0px 25px 20px -20px;}
+    box-shadow: red(0, 0, 0, 0.45) 0px 25px 20px -20px;
+  }
     
 
     table { 
         width: 50%; 
         border-collapse: collapse;
-        box-shadow: red(0, 0, 0, 0.35) 0px 5px 15px;
+        /* box-shadow: red(0, 0, 0, 0.35) 0px 5px 15px; */
         
       }
       /* Zebra striping */
@@ -20,17 +21,19 @@
         background: #eee; 
     
       }
+
       th { 
         background: grey; 
         color: white; 
         font-weight: bold;
         
       }
-      td, th { 
-   
-        border: 1px solid #ccc; 
+      /* td, th { 
+        border-collapse: collapse;
+        border: 1px solid black; 
         text-align: center;
-    }
+        
+    } */
 
 
     .exp-main{
@@ -56,30 +59,44 @@
   .hrtable{
 
 height: 2px;
-/* padding-bottom: 5px; */
+width: auto;
+margin-bottom : 20px;
 
   } 
 
   .download{
     width: 100px;
-    height: 35px;
+    padding: 1.5px;
     background-color: green;
-    border-radius: 5px;
-    padding-top: 6px;
-    font-weight: 600;
+    border-radius: 5px; 
+    font-weight: 500;
     color: white;
-    margin-left: 140px;
+
+  }
+  .MuiSvgIcon-root
+  {
+    height: 0.8em;
+
+  }
+  .filtb
+  {
+    margin-top: px;
   }
   .Search{
     width: 300px;
-    margin-top: 20px;
+ 
   }
-  /* .row_search{
-    display: flex;
-    flex:row;
 
-  } */
+  
+  .row_search{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+  }
 .td{
 border-collapse: collapse;
 border:1px solid black;
   }
+ 
+  

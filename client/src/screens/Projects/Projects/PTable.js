@@ -33,10 +33,8 @@ import Stack from '@mui/material/Stack';
 import { Modal, Nav, Tab } from "react-bootstrap";
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
-import "./Table.css";
-import {useDispatch} from 'react-redux';
-import { getExperienceApi } from "../../store/api/task";
-// import {getExperienceApi} from "../../store/api/task"
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -59,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const CustomTableCell = ({ row, name, onChange }) => {
   const classes = useStyles();
   const { isEditMode } = row;
@@ -79,14 +76,15 @@ const CustomTableCell = ({ row, name, onChange }) => {
   );
 };
 
-function ExpereinceLetter  () {
+function PTable  () {
   const tableRef = useRef(null);
+
   const [visible, setVisible] = useState(false);
   
   const [rows, setRows] = useState([]);
   const [previous, setPrevious] = useState({});
   const classes = useStyles();
-const dispatch =useDispatch();
+
   const onToggleEditDone = (id) => {
     console.log(id);
     setRows(() => {
@@ -99,15 +97,6 @@ const dispatch =useDispatch();
       });
     });
   };
-
-// Reducer
-useEffect(() => {
-  console.log('render')
-dispatch(getExperienceApi()).then((res)=> console.log(res,'res'))
-}, [])
-
-
-
 
 //  Pagination
 const [page, setPage] = useState(1);
@@ -216,7 +205,7 @@ useEffect(() => {
     getExperience(searched);
   };
   // Search
-   //Backend API
+//   S
 
   const [order, setorder] = useState("ASC");
 
@@ -255,7 +244,7 @@ useEffect(() => {
     }
 }
 
-  const sortingname = (col) => {
+  const sortingpname = (col) => {
     if (order === "ASC") {
       const sorted = [...rows].sort((a, b) =>
         a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
@@ -271,7 +260,7 @@ useEffect(() => {
       setorder("ASC");
     }
   };
-  const sortingclient = (col) => {
+  const sortingpcategory = (col) => {
     if (order === "ASC") {
       const sorted = [...rows].sort((a, b) =>{
 
@@ -305,7 +294,7 @@ useEffect(() => {
       setorder("ASC");
     }
 }
-  const sortingcategory = (col) => {
+  const sortingclient= (col) => {
     if (order === "ASC") {
       const sorted = [...rows].sort((a, b) =>
         a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
@@ -321,39 +310,7 @@ useEffect(() => {
       setorder("ASC");
     }
   };
-  // const sortingstart = (col) => {
-  //   if (order === "ASC") {
-  //     const sorted = [...rows].sort((a, b) =>
-  //       a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
-  //     );
-  //     setRows(sorted);
-  //     setorder("DSC");
-  //   }
-  //   if (order === "DSC") {
-  //     const sorted = [...rows].sort((a, b) =>
-  //       a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
-  //     );
-  //     setRows(sorted);
-  //     setorder("ASC");
-  //   }
-  // };
-  // const sortingend = (col) => {
-  //   if (order === "ASC") {
-  //     const sorted = [...rows].sort((a, b) =>
-  //       a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
-  //     );
-  //     setRows(sorted);
-  //     setorder("DSC");
-  //   }
-  //   if (order === "DSC") {
-  //     const sorted = [...rows].sort((a, b) =>
-  //       a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
-  //     );
-  //     setRows(sorted);
-  //     setorder("ASC");
-  //   }
-  // };
-  const sortingtaskassignperson = (col) => {
+  const sortingduration= (col) => {
     if (order === "ASC") {
       const sorted = [...rows].sort((a, b) =>
         a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
@@ -369,7 +326,7 @@ useEffect(() => {
       setorder("ASC");
     }
   };
-  const sortingdeadline = (col) => {
+  const sortingstart = (col) => {
     if (order === "ASC") {
       const sorted = [...rows].sort((a, b) =>
         a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
@@ -385,7 +342,7 @@ useEffect(() => {
       setorder("ASC");
     }
   };
-  const sortingdescription = (col) => {
+  const sortingend = (col) => {
     if (order === "ASC") {
       const sorted = [...rows].sort((a, b) =>
         a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
@@ -401,7 +358,70 @@ useEffect(() => {
       setorder("ASC");
     }
   };
-
+  const sortingprojectmanager = (col) => {
+    if (order === "ASC") {
+      const sorted = [...rows].sort((a, b) =>
+        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
+      );
+      setRows(sorted);
+      setorder("DSC");
+    }
+    if (order === "DSC") {
+      const sorted = [...rows].sort((a, b) =>
+        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
+      );
+      setRows(sorted);
+      setorder("ASC");
+    }
+  };
+  const sortingstatus = (col) => {
+    if (order === "ASC") {
+      const sorted = [...rows].sort((a, b) =>
+        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
+      );
+      setRows(sorted);
+      setorder("DSC");
+    }
+    if (order === "DSC") {
+      const sorted = [...rows].sort((a, b) =>
+        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
+      );
+      setRows(sorted);
+      setorder("ASC");
+    }
+  };
+  const sortingdate = (col) => {
+    if (order === "ASC") {
+      const sorted = [...rows].sort((a, b) =>
+        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
+      );
+      setRows(sorted);
+      setorder("DSC");
+    }
+    if (order === "DSC") {
+      const sorted = [...rows].sort((a, b) =>
+        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
+      );
+      setRows(sorted);
+      setorder("ASC");
+    }
+  };
+  const sortingcomments = (col) => {
+    if (order === "ASC") {
+      const sorted = [...rows].sort((a, b) =>
+        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
+      );
+      setRows(sorted);
+      setorder("DSC");
+    }
+    if (order === "DSC") {
+      const sorted = [...rows].sort((a, b) =>
+        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
+      );
+      setRows(sorted);
+      setorder("ASC");
+    }
+  };
   const [task_name, setTask_name] = useState("");
   const [client, setClient] = useState("");
   const [control_code, setControl_code] = useState("");
@@ -442,15 +462,16 @@ useEffect(() => {
     }
   };
 
-  const updateExp = ({ id, task_name, client, control_code, start_date,end_date ,task_assignperson,deadline,description,status,comments}) => {
+  const updateExp = ({ id, project_name, client, control_code, start_date,end_date ,duration,task_assignperson,deadline,description,status,comments}) => {
    console.log(comments); 
    console.log(status);
     axios
       .put(Url + "/update_experience", {
         id: id,
-        task_name: task_name,
+        project_name: project_name,
         client: client,
         control_code: control_code,
+        duration:duration,
         start_date: start_date,
         end_date: end_date,
         task_assignperson: task_assignperson,
@@ -470,13 +491,9 @@ useEffect(() => {
         status: status,
       })
       .then((response) => {
-        console.log(response,'response');
-        if(!response.error) 
-        {
-          alert("Status updated");
-          getExperience();
-        }
+        alert("Status updated");
         // window.location.reload();
+        getExperience();
       });
   };
 
@@ -494,21 +511,17 @@ useEffect(() => {
   };
 
   
-//   const data = [
-//     { status: "Completed" },
-//     {  status: "InProgress" },
-//     {  status: "Pending" },
-//   ]; // example data to filter and display in table rows
+  const data = [
+    { status: "Completed" },
+    {  status: "InProgress" },
+    {  status: "Pending" },
+  ]; // example data to filter and display in table rows
 
-//   // handle button clicks to update filter state
+  // handle button clicks to update filter state
 //   const handleFilter = (status) => {
 //     setFilter(status);
 //   };
-// Pagination
-
-
-
-//  // render table rows based on filter state
+ // render table rows based on filter state
 // const filteredData  = data.filter((row) => {
 //   if (filter === "All") {
 //     return true; // show all rows
@@ -522,27 +535,27 @@ useEffect(() => {
 //     return false; // don't show any rows if filter value is invalid
 //   }
 // });
-const [filter, setFilter] = useState("All");
-const [totalCount, setTotalCount] = useState(0);
-const [pendingCount, setPendingCount] = useState(0);
-const [InProgressCount, setProgressCount] = useState(0); // initialize filter state
-const [completedCount, setCompletedCount] = useState(0);
+// const [filter, setFilter] = useState("All");
+// const [totalCount, setTotalCount] = useState(0);
+// const [pendingCount, setPendingCount] = useState(0);
+// const [InProgressCount, setProgressCount] = useState(0); // initialize filter state
+// const [completedCount, setCompletedCount] = useState(0);
 
-useEffect(() => {
-  axios.get(Url+`/task_filter?filter=${filter}`)
-  .then(res => {
-    setRows(res.data);
-    setTotalCount(res.data.length);
-    setPendingCount(res.data.filter(row => row.status !== 'pending').length);
-    setProgressCount(res.data.filter(row => row.status !== 'Inprogress').length);
-    setCompletedCount(res.data.filter(row => row.status !== 'completed').length);
-  })
-  .catch(err => console.log(err));
-}, [filter]);
+// useEffect(() => {
+//   axios.get(Url+`/task_filter?filter=${filter}`)
+//   .then(res => {
+//     setRows(res.data);
+//     setTotalCount(res.data.length);
+//     setPendingCount(res.data.filter(row => row.status !== 'pending').length);
+//     setProgressCount(res.data.filter(row => row.status !== 'Inprogress').length);
+//     setCompletedCount(res.data.filter(row => row.status !== 'completed').length);
+//   })
+//   .catch(err => console.log(err));
+// }, [filter]);
 
-const handleFilter = (value) => {
-setFilter(value);
-}
+// const handleFilter = (value) => {
+// setFilter(value);
+// }
 
 
   return (
@@ -580,7 +593,7 @@ setFilter(value);
               </CButton>
               <div className="filtb">
 
-<Nav variant="pills" style={{display:'flex'}} className="nav nav-tabs tab-body-header rounded prtab-set w-sm-100">
+{/* <Nav variant="pills" style={{display:'flex'}} className="nav nav-tabs tab-body-header rounded prtab-set w-sm-100">
   <Nav.Item>
     <Nav.Link eventKey="All" onClick={() => handleFilter("All")}>All</Nav.Link>
   </Nav.Item>
@@ -593,9 +606,9 @@ setFilter(value);
   <Nav.Item>
     <Nav.Link eventKey="Completed" onClick={() => handleFilter("pending")}>Pending</Nav.Link>
   </Nav.Item>
-</Nav>
+</Nav> */}
 
-            
+             
             </div>
               <div className="Search">
               <Search
@@ -641,7 +654,6 @@ setFilter(value);
                 {/* </CCardBody> */}
                 {/* </CCard> */}
               </CCollapse>
-
                         {/* <Button style={{backgroundColor:'grey',color:'white',fontWeight:'550'}}  onClick={() => handleFilter("All")} >All({totalCount})</Button>
 <Button style={{marginLeft:'10px',backgroundColor:'#80FFAD',color:'black',fontWeight:'550'}} onClick={() => handleFilter("completed")} >Completed({completedCount}) </Button>
 <Button severity="warning" style={{marginLeft:'10px',backgroundColor:'#FFAF64',fontWeight:'550',color:'white'}} onClick={() => handleFilter("Inprogress")} >InProgress({InProgressCount}) </Button>
@@ -681,7 +693,7 @@ setFilter(value);
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <th  className="hrtable table_name">Task_ID</th>
+                          <th  className="hrtable table_name">Project_Id</th>
                           <i
                             style={{ paddingLeft: 10 }}
                             onClick={() => sortingid("id")} 
@@ -701,10 +713,30 @@ setFilter(value);
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <th className="hrtable table_name">Task_Name</th>
+                          <th className="hrtable table_name">Project_Name</th>
                           <i
                             style={{ paddingLeft: 10 }}
-                            onClick={() => sortingname("task_name")}
+                            onClick={() => sortingpname("project_name")}
+                          >
+                            <BiSort
+                              style={{
+                                fontSize: 18,
+                                color: "white",
+                                marginBottom: "10",
+                              }}
+                            />
+                          </i>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          <th className="hrtable table_name">Category</th>
+                          <i
+                            style={{ paddingLeft: 10 }}
+                            onClick={() => sortingpcategory("category")}
                           >
                             <BiSort
                               style={{
@@ -741,10 +773,10 @@ setFilter(value);
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <th className="hrtable table_name">Control_Code</th>
+                          <th className="hrtable table_name">Duration</th>
                           <i
-                            style={{ paddingLeft: 10 }}
-                            onClick={() => sortingclient("client")}
+                            style={{ paddingLeft: 10, color:'#FF7F7F' }}
+                            onClick={() => sortingduration("duration")}
                           >
                             <BiSort
                               style={{
@@ -757,26 +789,6 @@ setFilter(value);
                         </div>
                       </TableCell>
                       <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          <th className="hrtable table_name">Category</th>
-                          <i
-                            style={{ paddingLeft: 10, color:'#FF7F7F' }}
-                            onClick={() => sortingcategory("category")}
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      {/* <TableCell>
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
@@ -815,16 +827,16 @@ setFilter(value);
                             />
                           </i>
                         </div>
-                      </TableCell> */}
+                      </TableCell>
                       <TableCell>
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <th className="hrtable">Assigned_by<span style={{textAligh:'center'}}> </span></th>
+                          <th className="hrtable">Project Manager<span style={{textAligh:'center'}}> </span></th>
                           <i
                             style={{ paddingLeft: 10 }}
-                            onClick={() => sortingtaskassignperson("task_assignperson")}
+                            onClick={() => sortingprojectmanager("project_manager")}
                           >
                             <BiSort
                               style={{
@@ -841,10 +853,10 @@ setFilter(value);
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <th className="hrtable">Deadline</th>
+                          <th className="hrtable">Status</th>
                           <i
                             style={{ paddingLeft: 10 }}
-                            onClick={() => sortingdeadline("deadline")}
+                            onClick={() => sortingstatus("status")}
                            
                           >
                           
@@ -863,10 +875,10 @@ setFilter(value);
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <th className="hrtable">Description</th>
+                          <th className="hrtable">Date</th>
                           <i
                             style={{ paddingLeft: 10 }}
-                            onClick={() => sortingdescription("description")}
+                            onClick={() => sortingdate("date")}
                           >
                             <BiSort
                               style={{
@@ -878,11 +890,11 @@ setFilter(value);
                           </i>
                         </div>
                       </TableCell>
-                     <TableCell>
+                     {/* <TableCell>
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
-                        >
+                        >   
                           <th className="hrtable" style={{borderCollapse:'collapse'}}>Status</th>
                           <i
                             style={{ paddingLeft: 10 }}
@@ -897,7 +909,7 @@ setFilter(value);
                             />
                           </i>
                         </div>
-                      </TableCell>
+                      </TableCell> */}
                       <TableCell>
                         <div
                           style={{ paddingTop: 15 }}
@@ -907,7 +919,7 @@ setFilter(value);
                        
                           <i
                             style={{ paddingLeft: 10 }}
-                            onClick={() => sortingdescription("comments")}
+                            onClick={() => sortingcomments("comments")}
                           >
                             <BiSort
                               style={{
@@ -965,28 +977,19 @@ setFilter(value);
   {...{ row, name: "category", onChange }}
   style={{ borderBottom: "1px solid black" }}
 />
-{/* <CustomTableCell
+<CustomTableCell
   {...{ row, name: "start_date", onChange }}
   style={{ borderBottom: "1px solid black" }}
 />
 <CustomTableCell
   {...{ row, name: "end_date", onChange }}
   style={{ borderBottom: "1px solid black" }}
-/> */}
+/>
 <CustomTableCell
   {...{ row, name: "task_assignperson", onChange }}
   style={{ borderBottom: "1px solid black" }}
 />
-<CustomTableCell
-  {...{ row, name: "deadline", onChange }}
-  style={{ borderBottom: "1px solid black" }}
-/>
-<CustomTableCell
-  {...{ row, name: "description", onChange }}
-  style={{ borderBottom: "1px solid black" }}
-/>
-
-                            <Form.Select
+<Form.Select
                               style={{
 
                                 width: "133px",
@@ -1011,10 +1014,16 @@ setFilter(value);
                                     <option value="InProgress">In Progress</option>
                                     <option value="Pending">Pending</option>
                                   </Form.Select>
-                                <CustomTableCell
+                                
+<CustomTableCell
+  {...{ row, name: "deadline", onChange }}
+  style={{ borderBottom: "1px solid black" }}
+/>
+<CustomTableCell
                                   {...{ row, name: "comments", onChange 
                                   }}
                                 />
+                          
                       
                               <TableCell
                                 style={{ display: "flex", width: "100%" }}
@@ -1067,4 +1076,4 @@ setFilter(value);
   );
 };
 
-export default ExpereinceLetter;
+export default PTable;

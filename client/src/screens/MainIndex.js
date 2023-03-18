@@ -17,7 +17,7 @@ import ClientProfile from "./Our Clients/ClientProfile";
 import Clients from "./Our Clients/Clients";
 import Salaryslip from "./Payroll/Salaryslip";
 import Leaders from "./Projects/Leaders";
-import Projects from "./Projects/Projects";
+import Projects from "./Projects/Projects/Projects";
 import Tasks from "./Projects/Task/Tasks";
 import Timesheet from "./Projects/Timesheet";
 import TicketsDetail from "./Tickets/TicketsDetail";

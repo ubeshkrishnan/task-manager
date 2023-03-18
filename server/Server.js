@@ -110,68 +110,68 @@ app.get("/users/:id", (req, res) => {
 
 
 // INSERTING A CLIENT
-
 app.post('/client', (req, res) => {
   // Extract data from the request body
-  console.log(req.body);
+  console.log(req.body,"");
   const {
-      clientname,
-      clientshortcode,
-      verticalid,
-      ownername,
-      ownerphone,
-      owneremail,
-      accountscontact,
-      accountsphone,
-      accountsemail,
-      // profileimage,
-      gstnumber,
-      address1,
-      address2,
+      client_name,
+      client_shortcode,
+      vertical_id,
+      owner_name,
+      owner_phone,
+      owner_email,
+      accounts_contact,
+      accounts_phone,
+      accounts_email,
+      profileImage,
+     gst_no,
+     address_line_1,
+     address_line_2,
       city,
       state,
-      pincode
+      pin_code,
   } = req.body;
 
   // Create a MySQL query to insert the data into a table
   const query = `
       INSERT INTO client_master (
-        client_name,
-        client_shortcode,
-        vertical_id,
-        owner_name,
+        client_master (
+          client_name,
+          client_shortcode,
+          vertical_id,
+          owner_name,
           owner_phone,
           owner_email,
           accounts_contact,
           accounts_phone,
           accounts_email,
-         
+          profileImage,
           gst_no,
           address_line_1,
           address_line_2,
           city,
           state,
           pin_code
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
   `;
     // Execute the query with the extracted data
     db.query(query, [
-      clientname,
-      clientshortcode,
-      verticalid,
-      ownername,
-      ownerphone,
-      owneremail,
-      accountscontact,
-      accountsphone,
-      accountsemail,
-      // profileimage,
-      gstnumber,
-      address1,
-      address2,
+      client_name,
+      client_shortcode,
+      vertical_id,
+      owner_name,
+      owner_phone,
+      owner_email,
+      accounts_contact,
+      accounts_phone,
+      accounts_email,
+      profileImage,
+     gst_no,
+     address_line_1,
+     address_line_2,
       city,
       state,
-      pincode
+      pin_code,
   ], (error, results, fields) => {
       if (error) {
           console.log(error);
@@ -337,6 +337,7 @@ app.post('/task', (req, res) => {
       category,
       start_date,
       end_date,
+      project_manager,
       task_assignperson,
       deadline,
       description,
@@ -354,6 +355,7 @@ app.post('/task', (req, res) => {
         category,
        start_date,
        end_date,
+       project_manager,
       task_assignperson,
         deadline,
         description  
@@ -368,6 +370,7 @@ app.post('/task', (req, res) => {
       category,
       start_date,
       end_date,
+      project_manager,
       task_assignperson,
       deadline,
       description,
@@ -473,6 +476,73 @@ app.get("/task_filter", (req, res) => {
     res.send(results[0]);
   });
 });
+
+// Project
+// project inserting 
+app.post('/project', (req, res) => {
+  // Extract data from the request body
+  console.log(req.body);
+  const {
+      project_name,
+      category,
+      client,
+      duration,
+      start_date,
+      end_date,
+      task_assignto,
+      project_manager,
+      deadline,
+      status,
+      date,
+      priority,
+      description, 
+  } = req.body;
+
+  // Create a MySQL query to insert the data into a table
+  const query = `
+  INSERT INTO project (
+    project_name,
+    category,
+    client,
+    duration,
+    start_date,
+    end_date,
+    task_assignto,
+    project_manager,
+    deadline,
+    status,
+    date,
+    priority,
+    description,
+  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);
+`;
+    // Execute the query with the extracted data
+    db.query(query, [
+      project_name,
+      category,
+      client,
+        duration,
+        start_date,
+        end_date,
+        task_assignto,
+        project_manager,
+        deadline,
+        status,
+        date,
+        priority,
+        description,
+      
+     
+  ], (error, results, fields) => {
+      if (error) {
+          console.log(error);
+          res.status(500).send('Error inserting data into the database');
+      } else {
+          res.status(200).send('Data inserted successfully');
+      }
+  });
+})
+
 
 app.listen(3001,() => {
     console.log("server is connected");

@@ -25,6 +25,7 @@ function Clients() {
     accounts_contact: "",
     accounts_phone: "",
     accounts_email: "",
+    profileImage:{},
     gst_no: "",
     address_line_1: "",
     address_line_2: "",
@@ -51,15 +52,19 @@ function Clients() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/users")
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    getUsers();
   }, []);
+const getUsers = () =>{
+  axios
+  .get("http://localhost:3001/users")
+  .then((response) => {
+    setUsers(response.data);
+
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
 
   // const [clientname,setClientName] =useState('');
   // const [clientshortcode,setClientShortCode] =useState('');
@@ -80,29 +85,53 @@ function Clients() {
 
   //INSERTING THE DATA
   const clients = (e) => {
-    
+    const{profileImage,client_name,client_shortcode,vertical_id,owner_name,owner_phone,owner_email,accounts_contact,accounts_phone,accounts_email,gst_no,address_line_1,address_line_2,city,state,pin_code} = editModeldata
+    console.log(editModeldata);
+  //   {
+  //     "client_name": "tTtT",
+  //     "client_shortcode": "T",
+  //     "vertical_id": "T",
+  //     "owner_name": "T",
+  //     "owner_phone": "T",
+  //     "owner_email": "TT",
+  //     "accounts_contact": "T",
+  //     "accounts_phone": "T",
+  //     "accounts_email": "T",
+  //     "profileImage": {},
+  //     "gst_no": "T",
+  //     "address_line_1": "T",
+  //     "address_line_2": "T",
+  //     "city": "T",
+  //     "state": "T",
+  //     "pin_code": "T"
+  // }
+    const fromData = new FormData()
+    fromData.append("profileImage",profileImage);
+    fromData.append("client_name",client_name);
+    fromData.append("client_shortcode",client_shortcode);
+    fromData.append("vertical_id",vertical_id);
+    fromData.append("owner_name",owner_name);
+    fromData.append("owner_phone",owner_phone);
+    fromData.append("owner_email",owner_email);
+    fromData.append("accounts_contact",accounts_contact);
+    fromData.append("accounts_phone",accounts_phone);
+    fromData.append("accounts_email",accounts_email);
+    fromData.append("gst_no",gst_no);
+    fromData.append("address_line_1",address_line_1);
+    fromData.append("address_line_2",address_line_2);
+    fromData.append("city",city);
+    fromData.append("state",state);
+    fromData.append("pin_code",pin_code);
+   
+
     e.preventDefault();
     axios
-      .post("http://localhost:3001/client", {
-        clientname: editModeldata.client_name,
-        clientshortcode: editModeldata.client_shortcode,
-        verticalid: editModeldata.vertical_id,
-        ownername: editModeldata.owner_name,
-        ownerphone: editModeldata.owner_phone,
-        owneremail: editModeldata.owner_email,
-        accountscontact: editModeldata.accounts_contact,
-        accountsphone: editModeldata.accounts_phone,
-        accountsemail: editModeldata.accounts_email,
-        // profileimage:profileimage,
-        gstnumber: editModeldata.gst_no,
-        address1: editModeldata.address_line_1,
-        address2: editModeldata.address_line_2,
-        city: editModeldata.city,
-        state: editModeldata.state,
-        pincode: editModeldata.pin_code,
-      })
+      .post("http://localhost:3001/client", fromData)
       .then((response) => {
-        console.log(response);
+        console.log(response,'res');
+        setIsModal(!isModal);
+        setModalHeader("")
+        getUsers();
       })
       .catch((error) => {
         console.log(error);
@@ -313,9 +342,10 @@ function Clients() {
     fetch(`http://localhost:3001/api/clients/${client_id}`, { method: 'DELETE' })
       .then((res) => res.text())
       .then((data) => {
-        console.log(data);
+        console.log(data,"delete");
         setIsModalDelete(false);
-        fetchClients(); // Refresh the client list after deletion
+        getUsers();
+        // fetchClients(); // Refresh the client list after deletion?
       })
       .catch((err) => console.error(err));
   };
@@ -324,6 +354,7 @@ function Clients() {
     fetch('/clients')
       .then((res) => res.json())
       .then((data) => {
+        console.log(data,"getclinet");
         setUsers(data);
       })
       .catch((err) => console.error(err));
@@ -370,6 +401,12 @@ const handlesubmit = (event) => {
         window.location.reload();
     })
 
+}
+const uploadImage = (e) => {
+console.log(e.target.files[0],'e');
+setEditModelData(prev => {
+  return {...prev,"profileImage":e.target.files[0]}
+})
 }
   return (
     <div className="container-xxl">
@@ -672,7 +709,7 @@ const handlesubmit = (event) => {
                     >
                       Profile Image
                     </label>
-                    <input className="form-control"  type="file" id="formFileMultipleoneone" />
+                    <input className="form-control"  type="file" id="formFileMultipleoneone" onChange={uploadImage} />
                     <img src={file} alt="no" />
 
                     {/* <input className="form-control" onChange={(e) =>setProfileImage(e.target.value) } type="file" id="formFileMultipleoneone" /> */}

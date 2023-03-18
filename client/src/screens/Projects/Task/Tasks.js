@@ -73,11 +73,11 @@ function Tasks() {
                 <div className="row clearfix g-3">
                     <div className="col-lg-12 col-md-12 flex-column">
                         <div className="row g-3 row-deck">
-                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
+                            {/* <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6">
                                 <TaskProgress />
-                            </div>
-                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6"><RecentActivity /></div>
-                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-12"><AllocatedTask /></div>
+                            </div> */}
+                            {/* <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6"><RecentActivity /></div>
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-12"><AllocatedTask /></div> */}
                         </div>
                         {/* <TaskNestable
                         InProgressTaskData={InProgressTaskData}
@@ -108,7 +108,7 @@ function Tasks() {
                             <select className="form-select" onChange={handleInputChange} name="category"  value={editModeldata.category} >
                                 <option >UI/UX Design</option>
                                 <option value="1">Website Design</option>
-                                <option value="2">App Development</option>
+                                <option value="App Development">App Development</option>
                                 <option value="3">Quality Assurance</option>
                                 <option value="4">Development</option>
                                 <option value="5">Backend Development</option>
@@ -130,8 +130,10 @@ function Tasks() {
                              <label htmlFor="datepickerded" className="form-label">Client</label>
                              <select className="form-select" onChange={handleInputChange} name="client"  value={editModeldata.client} >
                                 <option >Select</option>
-                                <option value="1">KASC</option>
-                                <option value="2">SEC</option>
+                                <option value="KASC">KASC</option>
+                                <option value="SEC">SEC</option>
+                                <option value="HRMS">HRMS</option>
+                                <option value="KV">KV</option>
                                
                             </select>
                          </div>
@@ -139,15 +141,16 @@ function Tasks() {
                              <label htmlFor="datepickerdedone" className="form-label">Change Control Code</label>
                              <select className="form-select" onChange={handleInputChange} name="control_code"  value={editModeldata.control_code} >
                                 <option >Select</option>
-                                <option value="1">D001</option>
-                                <option value="2">N002</option>
+                                <option value="D001">D001</option>
+                                <option value="N002">N002</option>
+                                <option value="M002">M002</option>
  
                             </select>
                          </div>
                          </div>
                                 <div className="deadline-form">
                          
-                         <div className="row g-3 mb-3">
+                         {/* <div className="row g-3 mb-3">
                          <div className="col">
                              <label htmlFor="datepickerded" className="form-label">Task Start Date</label>
                              <input type="date" className="form-control" onChange={handleInputChange}  name="start_date"  id="datepickerded"  value={editModeldata.start_date}/>
@@ -156,7 +159,7 @@ function Tasks() {
                              <label htmlFor="datepickerdedone" className="form-label">Task End Date</label>
                              <input type="date" className="form-control" onChange={handleInputChange} name="end_date"  id="datepickerdedone"  value={editModeldata.end_date}/>
                          </div>
-                         </div>
+                         </div> */}
                                 <div className="row g-3 mb-3">
                                     <div className="col-sm-12">
                                         <label className="form-label">Notifation Sent</label>

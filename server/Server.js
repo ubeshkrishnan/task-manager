@@ -5,6 +5,10 @@ const app = express();
 const mysql = require("mysql2");
 const bcrypt = require('bcrypt');
 const fileupload = require('express-fileupload');
+const multer = require('multer');
+const upload = multer({
+  dest:'./uploads/ '
+});
 
 const db =mysql.createPool({
     host: "192.168.130.20",
@@ -17,8 +21,9 @@ const db =mysql.createPool({
 app.use(cors());
 app.use(express.json());
 app.use(bodyparser.urlencoded({extended:true}));
+app.use(bodyparser.json());
 
-
+// Image
 
 
 
@@ -110,52 +115,31 @@ app.get("/users/:id", (req, res) => {
 
 
 // INSERTING A CLIENT
-app.post('/client', (req, res) => {
-  // Extract data from the request body
-  console.log(req.body,"");
+app.post('/client', upload.single('profileImage'), (req, res) => {
+  // Extract data from the request body and file
+  const profileImage = req.file.filename; // Use filename instead of file object
   const {
-      client_name,
-      client_shortcode,
-      vertical_id,
-      owner_name,
-      owner_phone,
-      owner_email,
-      accounts_contact,
-      accounts_phone,
-      accounts_email,
-      profileImage,
-     gst_no,
-     address_line_1,
-     address_line_2,
-      city,
-      state,
-      pin_code,
+    client_name,
+    client_shortcode,
+    vertical_id,
+    owner_name,
+    owner_phone,
+    owner_email,
+    accounts_contact,
+    accounts_phone,
+    accounts_email,
+    gst_no,
+    address_line_1,
+    address_line_2,
+    city,
+    state,
+    pin_code,
   } = req.body;
 
   // Create a MySQL query to insert the data into a table
   const query = `
-      INSERT INTO client_master (
-        client_master (
-          client_name,
-          client_shortcode,
-          vertical_id,
-          owner_name,
-          owner_phone,
-          owner_email,
-          accounts_contact,
-          accounts_phone,
-          accounts_email,
-          profileImage,
-          gst_no,
-          address_line_1,
-          address_line_2,
-          city,
-          state,
-          pin_code
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-  `;
-    // Execute the query with the extracted data
-    db.query(query, [
+    INSERT INTO client_master (
+      profileImage,
       client_name,
       client_shortcode,
       vertical_id,
@@ -165,22 +149,47 @@ app.post('/client', (req, res) => {
       accounts_contact,
       accounts_phone,
       accounts_email,
+      gst_no,
+      address_line_1,
+      address_line_2,
+      city,
+      state,
+      pin_code
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+  `;
+
+  // Execute the query with the extracted data
+  db.query(
+    query,
+    [
       profileImage,
-     gst_no,
-     address_line_1,
-     address_line_2,
+      client_name,
+      client_shortcode,
+      vertical_id,
+      owner_name,
+      owner_phone,
+      owner_email,
+      accounts_contact,
+      accounts_phone,
+      accounts_email,
+      gst_no,
+      address_line_1,
+      address_line_2,
       city,
       state,
       pin_code,
-  ], (error, results, fields) => {
+    ],
+    (error, results, fields) => {
       if (error) {
-          console.log(error);
-          res.status(500).send('Error inserting data into the database');
+        console.log(error);
+        res.status(500).send('Error inserting data into the database');
       } else {
-          res.status(200).send('Data inserted successfully');
+        res.status(200).send('Data inserted successfully');
       }
-  });
-})
+    }
+  );
+});
+
 
 app.put('/update/:id', (req, res) => {
   // Extract the client ID from the request URL
@@ -197,7 +206,7 @@ app.put('/update/:id', (req, res) => {
     if (error) {
       // Handle the database error
       console.log(error);
-      res.status(500).send('Failed to update client record');
+      res.status(500).send('Failed to update client record'); 
     } else {
       // Send the success response back to the client
       res.status(200).send('Client record updated successfully');
@@ -337,7 +346,6 @@ app.post('/task', (req, res) => {
       category,
       start_date,
       end_date,
-      project_manager,
       task_assignperson,
       deadline,
       description,
@@ -355,7 +363,6 @@ app.post('/task', (req, res) => {
         category,
        start_date,
        end_date,
-       project_manager,
       task_assignperson,
         deadline,
         description  
@@ -370,7 +377,6 @@ app.post('/task', (req, res) => {
       category,
       start_date,
       end_date,
-      project_manager,
       task_assignperson,
       deadline,
       description,
@@ -513,7 +519,7 @@ app.post('/project', (req, res) => {
     status,
     date,
     priority,
-    description,
+    description
   ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);
 `;
     // Execute the query with the extracted data

@@ -498,23 +498,23 @@ useEffect(() => {
   };
 
   const tableData = [
+    {  status: 'Started' },
+    { status: 'Approval' },
     {  status: 'Completed' },
-    { status: 'InProgress' },
-    {  status: 'Pending' },
-    {  status: 'Completed' },
+   
   ];
   // Color Code
   const colorCode = {
-    Completed: '#80FFAD',
-    InProgress: '#FFAF64',
-    Pending: '#FF7F7F',
+    Started: '#80FFAD',
+    Approval: '#FFAF64',
+    Completed: '#FF7F7F',
   };
 
   
   const data = [
-    { status: "Completed" },
-    {  status: "InProgress" },
-    {  status: "Pending" },
+    { status: "Started" },
+    {  status: "Approval" },
+    {  status: "Completed" },
   ]; // example data to filter and display in table rows
 
   // handle button clicks to update filter state
@@ -525,12 +525,12 @@ useEffect(() => {
 // const filteredData  = data.filter((row) => {
 //   if (filter === "All") {
 //     return true; // show all rows
+//   } else if (filter === "Started") {
+//     return row.status === "Started"; // show only completed rows
+//   } else if (filter === "Approval") {
+//     return row.status === "Approval"; // show only in-progress rows
 //   } else if (filter === "Completed") {
-//     return row.status === "Completed"; // show only completed rows
-//   } else if (filter === "InProgress") {
-//     return row.status === "InProgress"; // show only in-progress rows
-//   } else if (filter === "Pending") {
-//     return row.status === "Pending"; // show only pending rows
+//     return row.status === "Completed"; // show only pending rows
 //   } else {
 //     return false; // don't show any rows if filter value is invalid
 //   }
@@ -556,7 +556,29 @@ useEffect(() => {
 // const handleFilter = (value) => {
 // setFilter(value);
 // }
-
+  // Project aproval pending
+  const [projectFilter, setProjectFilter] = useState("All");
+  const [projectRows, setProjectRows] = useState([]);
+  const [projectAllCount, setProjectAllCount] = useState(0);
+  const [projectStartedCount, setProjectStartedCount] = useState(0);
+  const [projectApprovalCount, setProjectApprovalCount] = useState(0);
+  const [projectCompletedCount, setProjectCompletedCount] = useState(0);
+  useEffect(() => {
+    axios.get(Url+`/project_filter?filter=${projectFilter}`)
+    .then(res => {
+      setProjectRows(res.data);
+      setProjectAllCount(res.data.length);
+      setProjectStartedCount(res.data.filter(row => row.status !== 'started').length);
+      setProjectApprovalCount(res.data.filter(row => row.status !== 'approval').length);
+      setProjectCompletedCount(res.data.filter(row => row.status !== 'completed').length);
+    })
+    .catch(err => console.log(err));
+  }, [projectFilter]);
+   
+  const handleProjectFilter = (value) => {
+    setProjectFilter(value);
+  }
+  
 
   return (
     <div className="background-ExperienceHr">
@@ -593,20 +615,20 @@ useEffect(() => {
               </CButton>
               <div className="filtb">
 
-{/* <Nav variant="pills" style={{display:'flex'}} className="nav nav-tabs tab-body-header rounded prtab-set w-sm-100">
+              <Nav variant="pills" style={{display:'flex'}} className="nav nav-tabs tab-body-header rounded prtab-set w-sm-100">
   <Nav.Item>
-    <Nav.Link eventKey="All" onClick={() => handleFilter("All")}>All</Nav.Link>
+    <Nav.Link eventKey="All" onClick={() => handleProjectFilter("All")}>All</Nav.Link>
   </Nav.Item>
   <Nav.Item>
-    <Nav.Link eventKey="Started" onClick={() => handleFilter("completed")}>Completed</Nav.Link>
+    <Nav.Link eventKey="Started" onClick={() => handleProjectFilter("started")}>Started</Nav.Link>
   </Nav.Item>
   <Nav.Item>
-    <Nav.Link eventKey="Approval" onClick={() => handleFilter("Inprogress")}>Inprogress</Nav.Link>
+    <Nav.Link eventKey="Approval" onClick={() => handleProjectFilter("approval")}>Approval</Nav.Link>
   </Nav.Item>
   <Nav.Item>
-    <Nav.Link eventKey="Completed" onClick={() => handleFilter("pending")}>Pending</Nav.Link>
+    <Nav.Link eventKey="Completed" onClick={() => handleProjectFilter("completed")}>Completed</Nav.Link>
   </Nav.Item>
-</Nav> */}
+</Nav>
 
              
             </div>
@@ -655,9 +677,9 @@ useEffect(() => {
                 {/* </CCard> */}
               </CCollapse>
                         {/* <Button style={{backgroundColor:'grey',color:'white',fontWeight:'550'}}  onClick={() => handleFilter("All")} >All({totalCount})</Button>
-<Button style={{marginLeft:'10px',backgroundColor:'#80FFAD',color:'black',fontWeight:'550'}} onClick={() => handleFilter("completed")} >Completed({completedCount}) </Button>
-<Button severity="warning" style={{marginLeft:'10px',backgroundColor:'#FFAF64',fontWeight:'550',color:'white'}} onClick={() => handleFilter("Inprogress")} >InProgress({InProgressCount}) </Button>
-<Button style={{marginLeft:'10px',backgroundColor:'#FF7F7F',color:'white',fontWeight:'550'}} onClick={() => handleFilter("pending")} >Pending({pendingCount})</Button> */}
+<Button style={{marginLeft:'10px',backgroundColor:'#80FFAD',color:'black',fontWeight:'550'}} onClick={() => handleFilter("Started")} >Started({startedCount}) </Button>
+<Button severity="warning" style={{marginLeft:'10px',backgroundColor:'#FFAF64',fontWeight:'550',color:'white'}} onClick={() => handleFilter("Approval")} >Approval({approvalCount}) </Button>
+<Button style={{marginLeft:'10px',backgroundColor:'#FF7F7F',color:'white',fontWeight:'550'}} onClick={() => handleFilter("Completed")} >Completed({completdCount})</Button> */}
 
           
             </>
@@ -994,12 +1016,13 @@ useEffect(() => {
 
                                 width: "133px",
 
-                                            backgroundColor:
-                                            row.status === "completed"
+                                          
+                                backgroundColor:
+                                            row.status === "started"
                                             ? "#80FFAD"
-                                            : row.status === "pending"
+                                            : row.status === "approval"
                                             ? "red"
-                                            : row.status === "Inprogress"
+                                            : row.status === "completed"
                                             ? "#FFAF64"
                                               : "grey",
                                         color: "white",
@@ -1010,9 +1033,9 @@ useEffect(() => {
                                     value={row.status} 
                                     onChange={(e) => handleStatus(e.target.value, row.id)}>
                                     <option value="">Select</option>
+                                    <option value="Started">Started</option>
+                                    <option value="Approval">Approval</option>
                                     <option value="Completed">Completed</option>
-                                    <option value="InProgress">In Progress</option>
-                                    <option value="Pending">Pending</option>
                                   </Form.Select>
                                 
 <CustomTableCell

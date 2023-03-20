@@ -112,7 +112,7 @@ dispatch(getExperienceApi()).then((res)=> console.log(res,'res'))
 //  Pagination
 const [page, setPage] = useState(1);
 
-const rowsPerPage = 3;
+const rowsPerPage = 10  ;
 const handleChangePage = (event, newPage) => {
   setPage(newPage);
 };
@@ -481,7 +481,7 @@ useEffect(() => {
   };
 
   const tableData = [
-    {  status: 'Completed' },
+    {  status: 'All' },
     { status: 'InProgress' },
     {  status: 'Pending' },
     {  status: 'Completed' },

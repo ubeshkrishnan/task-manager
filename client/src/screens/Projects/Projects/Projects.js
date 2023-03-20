@@ -19,10 +19,10 @@ function Projects() {
   const [editModeldata, setEditModeldata] = useState({
     // project_name:"", 
     project_name:"",
-      client:"",
+    category:"",  
+    client:"",
      duration:"",
-      category:"",
-      start_date:"",
+     start_date:"",
       end_date:"",
       project_manager:"",
       task_assignto:"",
@@ -50,6 +50,7 @@ function Projects() {
     end_date:editModeldata.end_date,
     project_manager:editModeldata.project_manager,
     task_assignto:editModeldata.task_assignto,
+    deadline:editModeldata.deadline,
     status:editModeldata.status,
     date:editModeldata.date,
     priority:editModeldata.priority,
@@ -117,30 +118,7 @@ const Updateproject = async (project,id) => {
     fetchProject();
   }, []);
   
-  // Project aproval pending
-  const [filter, setFilter] = useState("All");
-  const [totalCount, setTotalCount] = useState(0);
-  const [pendingCount, setPendingCount] = useState(0);
-  const [InProgressCount, setProgressCount] = useState(0); // initialize filter state
-  const [completedCount, setCompletedCount] = useState(0);
-  
 
-  useEffect(() => {
-    axios.get(Url+`/task_filter?filter=${filter}`)
-    .then(res => {
-      setRows(res.data);
-      setTotalCount(res.data.length);
-      setPendingCount(res.data.filter(row => row.status !== 'pending').length);
-      setProgressCount(res.data.filter(row => row.status !== 'Inprogress').length);
-      setCompletedCount(res.data.filter(row => row.status !== 'completed').length);
-    })
-    .catch(err => console.log(err));
-  }, [filter]);
-  
-  const handleFilter = (value) => {
-  setFilter(value);
-  }
-  
 
 
 
@@ -151,21 +129,8 @@ const Updateproject = async (project,id) => {
           headerTitle="Projects"
           renderRight={() => (
             <div  className="d-flex py-2 project-tab flex-wrap w-sm-100">
-        
-              <Nav  variant="pills" className="nav nav-tabs tab-body-header rounded ms-3 prtab-set w-sm-100">
-                <Nav.Item>
-                  <Nav.Link eventKey="All" onClick={() => handleFilter("All")}>All</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="Started" onClick={() => handleFilter("Started")}>Started</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="Approval"  onClick={() => handleFilter("Approval")}>Approval</Nav.Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Nav.Link eventKey="Completed"  onClick={() => handleFilter("Completed")}>Completed</Nav.Link>
-                </Nav.Item>
-              </Nav>
+       
+
               <button
               
                 type="button"
@@ -340,13 +305,13 @@ const Updateproject = async (project,id) => {
                                 </div>
                                 </div>
                                 <div className="row g-3 mb-3">
-                                    <div className="col-sm-6">
-                                        <label className="form-label">Notifation Sent</label>
-                                        <select className="form-select" value={editModeldata.task_assignto} name="notification" onChange={handleInputChange}>
+                                     <div className="col-sm-6">
+                                        <label className="form-label">Task</label> 
+                                      <select className="form-select" value={editModeldata.task_assignto} name="task_assignto" onChange={handleInputChange}>
                                             <option >All</option>
                                             <option value="1">Team Leader Only</option>
                                             <option value="2">Team Member Only</option>
-                                        </select>
+                                        </select> 
                                     </div>
                                     <div className="col-sm">
                                     <label htmlFor="formFileMultipleone" className="form-label">Deadline</label>

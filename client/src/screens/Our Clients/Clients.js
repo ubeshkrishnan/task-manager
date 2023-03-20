@@ -105,8 +105,10 @@ const getUsers = () =>{
   //     "state": "T",
   //     "pin_code": "T"
   // }
+  const fileInput = document.querySelector("input[type='file']");
     const fromData = new FormData()
-    fromData.append("profileImage",profileImage);
+  
+    fromData.append("profileImage",fileInput.files[0]);
     fromData.append("client_name",client_name);
     fromData.append("client_shortcode",client_shortcode);
     fromData.append("vertical_id",vertical_id);
@@ -122,7 +124,7 @@ const getUsers = () =>{
     fromData.append("city",city);
     fromData.append("state",state);
     fromData.append("pin_code",pin_code);
-   
+
 
     e.preventDefault();
     axios
@@ -368,11 +370,11 @@ const getUsers = () =>{
   // img
   const [viewphoto,setViewphoto] = useState([]);
 
-  useEffect(()=>{
-    fetch('http://localhost:3002/Viewfile/')
-    .then(response=>response.json())
-    .then(json=>setViewphoto(json));
-},[]);
+//   useEffect(()=>{
+//     fetch('http://localhost:3001/Viewfile/')
+//     .then(response=>response.json())
+//     .then(json=>setViewphoto(json));
+// },[]);
 
 
 
@@ -536,7 +538,7 @@ setEditModelData(prev => {
         </Modal.Header>
         <Modal.Body>
           <div className="deadline-form">
-            <form  onSubmit={handlesubmit}>
+            <form   onSubmit={handlesubmit}>
               <div className="row g-3 mb-3">
                 <div className="col-lg-6">
                   <label
@@ -710,7 +712,7 @@ setEditModelData(prev => {
                       Profile Image
                     </label>
                     <input className="form-control"  type="file" id="formFileMultipleoneone" onChange={uploadImage} />
-                    <img src={file} alt="no" />
+                    <img src="/server/Uploads/dbt prad.png" alt="no" />
 
                     {/* <input className="form-control" onChange={(e) =>setProfileImage(e.target.value) } type="file" id="formFileMultipleoneone" /> */}
                  

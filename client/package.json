@@ -14,7 +14,7 @@
     "@material-ui/icons": "^4.11.3",
     "@mobiscroll/react": "https://npm.mobiscroll.com/@mobiscroll/react-trial/-/react-trial-5.22.2.tgz",
     "@mui/icons-material": "^5.11.11",
-    "@mui/material": "^5.11.12",
+    "@mui/material": "^5.11.13",
     "@mui/x-date-pickers": "^6.0.1",
     "@react-ui-org/react-ui": "^0.51.0",
     "@reduxjs/toolkit": "^1.9.3",

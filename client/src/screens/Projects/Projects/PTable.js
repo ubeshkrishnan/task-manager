@@ -708,11 +708,11 @@ useEffect(() => {
                   ref={tableRef}
  >
                   {/* <caption>A barbone structure table example with a caption</caption> */}
-                  <TableHead >
-                    <TableRow>
-                      <TableCell >
+                  <TableHead style={{height:"10px"}}>
+                    <TableRow style={{height:"10px"}}>
+                      <TableCell style={{height:"10px"}}>
                       <div
-                          style={{ paddingTop: 15 }}
+                        
                           className="d-flex flex-row justify-content-center"
                         >
                           <th  className="hrtable table_name">Project_Id</th>

@@ -544,7 +544,22 @@ const handleFilter = (value) => {
 setFilter(value);
 }
 
+const [users, setUsers] = useState([]);
+const [selectedUserId, setSelectedUserId] = useState("");
 
+
+
+
+useEffect(() => {
+  // Make an API call to fetch the users data
+  axios.get("http://localhost:3001/getmembers")
+    .then((response) => {
+      setUsers(response.data);
+    })
+    .catch((error) => {
+      console.error("Error fetching users data:", error);
+    });
+}, []);
   return (
     <div className="background-ExperienceHr">
       <div className="container">
@@ -841,6 +856,26 @@ setFilter(value);
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
+                          <th className="hrtable">Assigned_To<span style={{textAligh:'center'}}> </span></th>
+                          <i
+                            style={{ paddingLeft: 10 }}
+                            onClick={() => sortingtaskassignperson("task_assignperson")}
+                          >
+                            <BiSort
+                              style={{
+                                fontSize: 18,
+                                color: "white",
+                                marginBottom: "10",
+                              }}
+                            />
+                          </i>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
                           <th className="hrtable">Deadline</th>
                           <i
                             style={{ paddingLeft: 10 }}
@@ -977,10 +1012,25 @@ setFilter(value);
   {...{ row, name: "task_assignperson", onChange }}
   style={{ borderBottom: "1px solid black" }}
 />
+
+<Form.Select
+value={selectedUserId}
+onChange={(e) => setSelectedUserId(e.target.value)}>
+<option value="">Select user</option>
+{users.map((user) => (
+  <option key={user.id} value={user.id}>
+    {user.first_name}
+  </option>
+))}
+
+</Form.Select>
+
 <CustomTableCell
   {...{ row, name: "deadline", onChange }}
   style={{ borderBottom: "1px solid black" }}
 />
+
+
 <CustomTableCell
   {...{ row, name: "description", onChange }}
   style={{ borderBottom: "1px solid black" }}

@@ -6,7 +6,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 
-function SignIn() {
+function User_login() {
     const history = useHistory();
 
     const[email,setEmail] =useState('');
@@ -19,7 +19,7 @@ function SignIn() {
     
     const sendLoginHistory = (ip_address, email, password, attempt_count, bad_attempt, message) => {
       // Send the login history to the server to store in the database
-      axios.post('http://localhost:3001/history', {
+      axios.post('http://localhost:3001/user_loginHistory', {
         ip_address: ip_address,
         email: email,
         password: password,
@@ -52,7 +52,7 @@ function SignIn() {
   setAttemptCount(attempt_count + 1);
 
     try {
-      const res = await axios.post('http://localhost:3001/login', { email, password });
+      const res = await axios.post('http://localhost:3001/user_login', { email, password });
       // handle successful login here (e.g., store user data in local storage, redirect to dashboard page)
       const { user} =res.data;
       localStorage.setItem('user', JSON.stringify(user));
@@ -126,6 +126,6 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default User_login;
 
 

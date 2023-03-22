@@ -1,12 +1,12 @@
 import React,{useState} from "react";
 import { Link } from "react-router-dom";
-import GoogleImg from "../../assets/images/google.svg";
+import GoogleImg from "../../../assets/images/google.svg";
 import axios from "axios";
 
 import { useHistory } from "react-router-dom";
 
 
-function User_login() {
+function Employee_login() {
     const history = useHistory();
 
     const[email,setEmail] =useState('');
@@ -53,22 +53,24 @@ function User_login() {
 
     try {
       const res = await axios.post('http://localhost:3001/user_login', { email, password });
-      // handle successful login here (e.g., store user data in local storage, redirect to dashboard page)
-      const { user} =res.data;
-      localStorage.setItem('user', JSON.stringify(user));
-      setBadAttempt(false);
-      setMessage('Login successful');
-      sendLoginHistory(ip_address, email, password, attempt_count, false, 'Login successful');
-      
-       history.push('/');
-      
-    } catch (err) {
-      setError(err.response.data.message);
-      setBadAttempt(true);
-    setMessage('Login failed');
-    sendLoginHistory(ip_address, email, password, attempt_count, true, 'Login failed');
-    }
-  };
+ // handle successful login here (e.g., store user data in local storage, redirect to dashboard page)
+ const { user} =res.data;
+ // if(user) user["modulePermission"] = ["Projects"]
+localStorage.setItem('user', JSON.stringify(user));
+setBadAttempt(false);
+setMessage('Login successful');
+sendLoginHistory(ip_address, email, password, attempt_count, false, 'Login successful');
+
+history.push('/');
+
+} catch (err) {
+setError(err.response.data.message);
+setBadAttempt(true);
+setMessage('Login failed');
+sendLoginHistory(ip_address, email, password, attempt_count, true, 'Login failed');
+}
+};
+
 
 
   return (
@@ -126,6 +128,6 @@ function User_login() {
   );
 }
 
-export default User_login;
+export default Employee_login;
 
 

@@ -53,7 +53,9 @@ import PageHeader1 from "../components/common/PageHeader1";
 import Documentation from "./Documentation/Documentation";
 import Changelog from "./Changelog/Changelog";
 import Help from "./Dashboard/Help";
-
+// Moduels
+import Employee from "../modules/Employee_login/EmployeeLogin"
+import Tester from "../modules/TesterLogin/TesterLogin"
 class MainIndex extends React.Component{
     render(){
         const {activekey} = this.props;
@@ -116,6 +118,10 @@ class MainIndex extends React.Component{
                     <Route exact path={`${process.env.PUBLIC_URL}/documentation`} component={Documentation} />
                     <Route exact path={`${process.env.PUBLIC_URL}/changelog`} component={Changelog} />
                     <Route exact path={`${process.env.PUBLIC_URL}/help`} component={Help} />
+
+                    {/* Modules */}
+                    <Route exact path={`${process.env.PUBLIC_URL}/employee`} component={Employee} />
+                    <Route exact path={`${process.env.PUBLIC_URL}/tester`} component={Tester} />
 
 
                 </div>

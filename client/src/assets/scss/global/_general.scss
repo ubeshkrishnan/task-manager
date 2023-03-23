@@ -184,20 +184,18 @@ table.dataTable>tbody>tr.child ul.dtr-details .dtr-data .avatar-list{
 .pulse {
     .pulse-ring {
         border-color: var(--primary-color);
-        display: block;
         position: absolute;
-        -webkit-animation: animation-pulse 3.5s ease-out;
         animation: animation-pulse 3.5s ease-out;
-        -webkit-animation-iteration-count: infinite;
         animation-iteration-count: infinite;
         border-style: solid;
-        top: 0;
-        left: 3px;
+        /* top: 0; */
+        left: -12px;
         border-radius: 45px;
         height: 45px;
         width: 45px;
         opacity: 0;
         border-width: 5px;
+        margin-top: -10px;
     }
 
     &::after{

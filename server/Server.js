@@ -454,9 +454,11 @@ app.post("/task", (req, res) => {
 app.get("/taskcard", (req, res) => {
   db.query("SELECT * FROM task", (error, results, fields) => {
     if (error) throw error;
+    console.log(results,'result')
     res.send(results);
   });
 });
+
 app.delete("/delete_experience/:id", (req, res) => {
   const { id } = req.params;
   db.query("delete from task where id=?", [id], (err, result) => {

@@ -716,6 +716,22 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
               onRowsPerPageChange={handleChangeRowsPerPage}
             /> */}
 
+<<<<<<< HEAD
+            <Paper>
+              <TableContainer
+                style={{
+                  borderRadius: "10px",
+                }}
+              >
+                <Table
+                  className={classes.table}
+                  aria-label="caption table"
+                  ref={tableRef}
+                >
+                  <TableHead className={classes.tableHead}>
+                    <TableRow className="satustable">
+                      <TableCell>
+=======
               <Paper>
                 <TableContainer>
                   <Table
@@ -828,10 +844,14 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           </div>
                         </TableCell>
                         {/* <TableCell>
+>>>>>>> 55ef620eb846488394303e3874ce994b1098ab63
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
+<<<<<<< HEAD
+                          Task_ID
+=======
                           <th className="hrtable ">Start Date</th>
                           <i
                             style={{ paddingLeft: 10 }}
@@ -845,6 +865,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               }}
                             />
                           </i>
+>>>>>>> 55ef620eb846488394303e3874ce994b1098ab63
                         </div>
                       </TableCell>
                       <TableCell>
@@ -852,6 +873,174 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
+<<<<<<< HEAD
+                          Task_Name
+                          <i style={{ paddingLeft: 10 }}>
+                            <BiSort
+                              style={{
+                                fontSize: 18,
+
+                                marginBottom: "10",
+                              }}
+                            />
+                          </i>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Client
+                          <i style={{ paddingLeft: 10 }}>
+                            <BiSort
+                              style={{
+                                fontSize: 18,
+
+                                marginBottom: "10",
+                              }}
+                            />
+                          </i>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Control_Code
+                          <i style={{ paddingLeft: 10 }}>
+                            <BiSort
+                              style={{
+                                fontSize: 18,
+
+                                marginBottom: "10",
+                              }}
+                            />
+                          </i>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          // className="d-flex flex-row justify-content-center"
+                        >
+                          Category
+                          <i style={{ paddingLeft: 10 }}>
+                            <BiSort
+                              style={{
+                                fontSize: 18,
+
+                                marginBottom: "10",
+                              }}
+                            />
+                          </i>
+                        </div>
+                      </TableCell>
+
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Assigned_by
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Assigned_To
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Deadline
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Description
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Status
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Comments
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Actions
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rows
+                      .slice((page - 1) * rowsPerPage, page * rowsPerPage)
+
+                      .map((row, index) => (
+                        <TableRow
+                          key={row.id}
+                          style={{ backgroundColor: colorCode[row.status] }}
+                        >
+                          <CustomTableCell
+                            {...{ row, name: "id", onChange }}
+                            style={{ borderBottom: "1px solid black" }}
+                          />
+                          <CustomTableCell
+                            {...{ row, name: "task_name", onChange }}
+                            style={{ borderBottom: "1px solid black" }}
+                          />
+                          <CustomTableCell
+                            {...{ row, name: "client", onChange }}
+                            style={{ borderBottom: "1px solid black" }}
+                          />
+                          <CustomTableCell
+                            {...{ row, name: "control_code", onChange }}
+                            style={{ borderBottom: "1px solid black" }}
+                          />
+
+                          <CustomTableCell
+                            {...{ row, name: "category", onChange }}
+                            style={{ borderBottom: "1px solid black" }}
+                          />
+
+                          <CustomTableCell
+                            {...{ row, name: "task_assignperson", onChange }}
+                            style={{ borderBottom: "1px solid black" }}
+                          />
+
+                          <Form.Select
+                            value={row?.assignto}
+                            disabled={!row.isEditMode}
+                            onChange={(e) => {
+                              const { value } = e.target;
+                              const temp = rows;
+                              temp[index].assignto = value || "";
+                              setRows(temp);
+=======
                           <th className="hrtable">End Date</th>
                           <i
                             style={{ paddingLeft: 10 }}
@@ -1038,6 +1227,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                             onClick={() => {
                               setSelectedRowData(row); // Set the selected row's data
                               setVisibleTimer(true); // Show the modal
+>>>>>>> 55ef620eb846488394303e3874ce994b1098ab63
                             }}
                           >
                             <CustomTableCell

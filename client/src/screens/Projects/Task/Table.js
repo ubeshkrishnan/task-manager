@@ -65,16 +65,6 @@ const CustomTableCell = ({ row, name, onChange }) => {
   const classes = useStyles();
   const { isEditMode } = row;
 
-  let value = row[name];
-  let formattedValue = value;
-
-  if (name === "deadline") {
-    const date = new Date(row[name]);
-    formattedValue = moment(date).format("DD/MM/YYYY");
-  } else if (name.includes("date")) {
-    const date = new Date(value);
-    formattedValue = moment(date).format("DD/MM/YYYY");
-  }
 
 
   return (
@@ -87,7 +77,7 @@ const CustomTableCell = ({ row, name, onChange }) => {
           className={classes.input}
         />
       ) : (
-        (row[name], formattedValue)
+        (row[name])
       )}
     </TableCell>
   );
@@ -342,38 +332,7 @@ function ExpereinceLetter() {
       setorder("ASC");
     }
   };
-  // const sortingstart = (col) => {
-  //   if (order === "ASC") {
-  //     const sorted = [...rows].sort((a, b) =>
-  //       a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
-  //     );
-  //     setRows(sorted);
-  //     setorder("DSC");
-  //   }
-  //   if (order === "DSC") {
-  //     const sorted = [...rows].sort((a, b) =>
-  //       a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
-  //     );
-  //     setRows(sorted);
-  //     setorder("ASC");
-  //   }
-  // };
-  // const sortingend = (col) => {
-  //   if (order === "ASC") {
-  //     const sorted = [...rows].sort((a, b) =>
-  //       a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
-  //     );
-  //     setRows(sorted);
-  //     setorder("DSC");
-  //   }
-  //   if (order === "DSC") {
-  //     const sorted = [...rows].sort((a, b) =>
-  //       a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
-  //     );
-  //     setRows(sorted);
-  //     setorder("ASC");
-  //   }
-  // };
+ 
   const sortingtaskassignperson = (col) => {
     if (order === "ASC") {
       const sorted = [...rows].sort((a, b) =>
@@ -450,35 +409,22 @@ function ExpereinceLetter() {
       const result = response.data.map(function (el) {
         var o = Object.assign({}, el);
         o.isEditMode = false;
+        o.deadline = el.formatted_deadline;
+
         return o;
       });
-      const dateformat = (e) =>{
-       const date = new Date(e)
-       const result = moment(date).format("DD/MM/YYYY");
-       return result;
-      }
-       const data = result.map(x => {
-        return {...x,"deadline": dateformat(x.deadline)}
-       })
-       console.log(data,'dta')
-       console.table(data)
-      console.log(result, "result");
 
-      setRows(data);
+      setRows(result);
       setSearch(result);
     });
   };
-
+// format the date using JavaScript's Date API
+const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
   useEffect(() => {
     console.log(rows,'rowsa')
   }, [rows])
   
-  const dateformat = (e) =>{
-    console.log(e,'e');
-    const date = new Date(e)
-    const result = moment(date).format("DD/MM/YYYY");
-    return result;
-   }
+
 
   const deleteExperience = async (id) => {
     var result = window.confirm("Are you sure to delete?");
@@ -976,10 +922,12 @@ function ExpereinceLetter() {
                             style={{ paddingTop: 15 }}
                             className="d-flex flex-row justify-content-center"
                           >
+                          
                             <th className="hrtable">Deadline</th>
                             <i
                               style={{ paddingLeft: 10 }}
                               onClick={() => sortingdeadline("deadline")}
+                              
                             >
                               <BiSort
                                 style={{
@@ -1081,8 +1029,7 @@ function ExpereinceLetter() {
                         .slice((page - 1) * rowsPerPage, page * rowsPerPage)
 
                         .map((row, index) => (
-                          // eslint-disable-next-line no-sequences
-                          row["deadline"] = dateformat(row.deadline),
+                      
                           <TableRow
                             key={row.id}
                             style={{ backgroundColor: colorCode[row.status] }}
@@ -1149,6 +1096,7 @@ function ExpereinceLetter() {
                               {...{ row, name: "deadline", onChange }}
                               style={{ borderBottom: "1px solid black" }}
                             />
+                            
                             {console.log( {...{ row, name: "deadline", onChange }},'d')}
 
                             <CustomTableCell

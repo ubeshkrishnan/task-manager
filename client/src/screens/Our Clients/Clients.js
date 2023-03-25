@@ -368,7 +368,14 @@ const getUsers = () =>{
 
 
   // img
-  const [viewphoto,setViewphoto] = useState([]);
+  const [viewphoto, setViewphoto] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3001/Viewfile")
+      .then((response) => response.json())
+      .then((json) => setViewphoto(json));
+  }, []);
+  
 
 //   useEffect(()=>{
 //     fetch('http://localhost:3001/Viewfile/')
@@ -711,12 +718,22 @@ setEditModelData(prev => {
                     >
                       Profile Image
                     </label>
-                    <input className="form-control"  type="file" id="formFileMultipleoneone" onChange={uploadImage} />
-                    <img src="/server/Uploads/dbt prad.png" alt="no" />
+                    <input className="form-control"  type="file" id="formFileMultipleoneone" alt="no" onChange={uploadImage} />
+                    {viewphoto.map((fileInput) => (
+    <img
+      key={fileInput.id}
+      src={`http://localhost:3001/Viewfile/${fileInput.files}`}
+      alt="No ---"
+      width="200px"
+      height="200px"
+    />
+  ))}
 
                     {/* <input className="form-control" onChange={(e) =>setProfileImage(e.target.value) } type="file" id="formFileMultipleoneone" /> */}
                  
                   </div>
+
+                  
                   <div className="col-lg-6">
                     <label
                       htmlFor="exampleFormControlInput177"

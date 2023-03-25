@@ -4,10 +4,10 @@ const cors = require("cors");
 const app = express();
 const mysql = require("mysql2");
 const bcrypt = require("bcrypt");
-const fileupload = require("express-fileupload");
+// const fileupload = require("express-fileupload");
 const multer = require("multer");
 const upload = multer({
-  dest: "./uploads/ ",
+  dest: "./public/uploads/ ",
 });
 
 const db = mysql.createPool({
@@ -21,7 +21,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
-
+app.use('/uploads', express.static('public/uploads'));
 // Image
 
 // Insert
@@ -251,6 +251,15 @@ app.post("/client", upload.single("profileImage"), (req, res) => {
   );
 });
 
+// Imge
+app.get('/Viewfile',(request,response)=>{
+
+  let sql = 'select * from profileImage';
+  db.query(sql,(error,result)=>{
+      response.send(result);
+  })
+})
+
 app.put("/update/:id", (req, res) => {
   // Extract the client ID from the request URL
   const clientId = req.params.id;
@@ -452,8 +461,7 @@ app.post("/task", (req, res) => {
 
 // Task card Map
 app.get("/taskcard", (req, res) => {
-  db.query("SELECT * FROM task", (error, results, fields) => {
-    if (error) throw error;
+  db.query("SELECT *, DATE_FORMAT(deadline, '%d/%m/%Y') AS formatted_deadline FROM task", (error, results, fields) => {    if (error) throw error;
     console.log(results,'result')
     res.send(results);
   });

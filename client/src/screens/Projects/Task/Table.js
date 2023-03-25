@@ -38,7 +38,9 @@ import { useDispatch } from "react-redux";
 import { getExperienceApi } from "../../store/api/task";
 // import {getExperienceApi} from "../../store/api/task"
 import moment from "moment";
-
+import { Toast } from 'primereact/toast';
+import { SplitButton } from 'primereact/splitbutton';
+import TimeInput from "react-widgets/TimeInput";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -53,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tableCell: {
     width: 130,
-    height: 40,
+    height: 60,
   },
   input: {
     width: 130,
@@ -392,6 +394,8 @@ function ExpereinceLetter() {
   const [searched, setSearched] = useState("");
   const [deadline, setDeadline] = useState("");
 
+
+
   // Timer
   const [selectedRowData, setSelectedRowData] = useState(null);
 
@@ -444,6 +448,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
     task_assignperson,
     deadline,
     description,
+    duration,
     status,
     comments,
     assignto, //have to change
@@ -461,6 +466,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
         task_assignperson: task_assignperson,
         deadline: deadline,
         description: description,
+        duration:duration,
         status: status,
         comments: comments,
         assignto: assignto,
@@ -567,6 +573,24 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
         console.error("Error fetching users data:", error);
       });
   }, []);
+  const toast = useRef(null);
+    const items = [
+        {
+            label: 'Edit Row',
+            icon: 'pi pi-refresh',
+            command: () => {
+                toast.current.show({ severity: 'success', summary: 'Updated', detail: 'Data Updated' });
+            }
+        },
+        
+        {
+            label: 'Delete',
+            icon: 'pi pi-times',
+            command: () => {
+                toast.current.show({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted' });
+            }
+        },  
+    ];
 
   return (
     <>
@@ -715,8 +739,6 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
               rowsPerPage={rowsPerPage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             /> */}
-
-<<<<<<< HEAD
             <Paper>
               <TableContainer
                 style={{
@@ -731,12 +753,12 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                   <TableHead className={classes.tableHead}>
                     <TableRow className="satustable">
                       <TableCell>
-=======
+
               <Paper>
                 <TableContainer>
                   <Table
                     className={classes.table}
-                    style={{ paddingTop: "10px" }}
+                    style={{ paddingTop: "45px" }}
                     aria-label="caption table"
                     ref={tableRef}
                   >
@@ -750,7 +772,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           >
                             <th className="hrtable table_name">Task_ID</th>
                             <i
-                              style={{ paddingLeft: 10 }}
+                              style={{ paddingLeft: '2px' }}
                               onClick={() => sortingid("id")}
                             >
                               <BiSort
@@ -770,7 +792,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           >
                             <th className="hrtable table_name">Task_Name</th>
                             <i
-                              style={{ paddingLeft: 10 }}
+                              style={{ paddingLeft: '2px' }}
                               onClick={() => sortingname("task_name")}
                             >
                               <BiSort
@@ -790,7 +812,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           >
                             <th className="hrtable table_name">Client</th>
                             <i
-                              style={{ paddingLeft: 10 }}
+                              style={{ paddingLeft: '2px' }}
                               onClick={() => sortingclient("client")}
                             >
                               <BiSort
@@ -810,7 +832,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           >
                             <th className="hrtable table_name">Control_Code</th>
                             <i
-                              style={{ paddingLeft: 10 }}
+                              style={{ paddingLeft: '2px' }}
                               onClick={() => sortingclient("client")}
                             >
                               <BiSort
@@ -830,7 +852,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           >
                             <th className="hrtable table_name">Category</th>
                             <i
-                              style={{ paddingLeft: 10, color: "#FF7F7F" }}
+                              style={{ paddingLeft: '2px', color: "#FF7F7F" }}
                               onClick={() => sortingcategory("category")}
                             >
                               <BiSort
@@ -844,17 +866,17 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           </div>
                         </TableCell>
                         {/* <TableCell>
->>>>>>> 55ef620eb846488394303e3874ce994b1098ab63
+
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-<<<<<<< HEAD
+
                           Task_ID
-=======
+
                           <th className="hrtable ">Start Date</th>
                           <i
-                            style={{ paddingLeft: 10 }}
+                            style={{ paddingLeft: '2px' }}
                             onClick={() => sortingstart("start_date")}
                           >
                             <BiSort
@@ -875,7 +897,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                         >
 <<<<<<< HEAD
                           Task_Name
-                          <i style={{ paddingLeft: 10 }}>
+                          <i style={{ paddingLeft: '2px' }}>
                             <BiSort
                               style={{
                                 fontSize: 18,
@@ -892,7 +914,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           className="d-flex flex-row justify-content-center"
                         >
                           Client
-                          <i style={{ paddingLeft: 10 }}>
+                          <i style={{ paddingLeft: '2px' }}>
                             <BiSort
                               style={{
                                 fontSize: 18,
@@ -909,7 +931,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           className="d-flex flex-row justify-content-center"
                         >
                           Control_Code
-                          <i style={{ paddingLeft: 10 }}>
+                          <i style={{ paddingLeft: '2px' }}>
                             <BiSort
                               style={{
                                 fontSize: 18,
@@ -926,7 +948,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           // className="d-flex flex-row justify-content-center"
                         >
                           Category
-                          <i style={{ paddingLeft: 10 }}>
+                          <i style={{ paddingLeft: '2px' }}>
                             <BiSort
                               style={{
                                 fontSize: 18,
@@ -1040,10 +1062,10 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               const temp = rows;
                               temp[index].assignto = value || "";
                               setRows(temp);
-=======
+
                           <th className="hrtable">End Date</th>
                           <i
-                            style={{ paddingLeft: 10 }}
+                            style={{ paddingLeft: '2px' }}
                             onClick={() => sortingend("end_date")}
                           >
                             <BiSort
@@ -1066,7 +1088,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               <span style={{ textAligh: "center" }}> </span>
                             </th>
                             <i
-                              style={{ paddingLeft: 10 }}
+                              style={{ paddingLeft: '2px' }}
                               onClick={() =>
                                 sortingtaskassignperson("task_assignperson")
                               }
@@ -1083,7 +1105,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                         </TableCell>
                         <TableCell>
                           <div
-                            style={{ paddingTop: 15 }}
+                            style={{ paddingTop: 18 }}
                             className="d-flex flex-row justify-content-center"
                           >
                             <th className="hrtable">
@@ -1091,7 +1113,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               <span style={{ textAligh: "center" }}> </span>
                             </th>
                             <i
-                              style={{ paddingLeft: 10 }}
+                              style={{ paddingLeft: '2px' }}
                               onClick={() =>
                                 sortingtaskassignperson("task_assignperson")
                               }
@@ -1114,7 +1136,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           
                             <th className="hrtable">Deadline</th>
                             <i
-                              style={{ paddingLeft: 10 }}
+                              style={{ paddingLeft: '2px' }}
                               onClick={() => sortingdeadline("deadline")}
                               
                             >
@@ -1135,7 +1157,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           >
                             <th className="hrtable">Description</th>
                             <i
-                              style={{ paddingLeft: 10 }}
+                              style={{ paddingLeft: '2px' }}
                               onClick={() => sortingdescription("description")}
                             >
                               <BiSort
@@ -1157,10 +1179,23 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               className="hrtable"
                               style={{ borderCollapse: "collapse" }}
                             >
+                              Duration
+                            </th>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th
+                              className="hrtable"
+                              style={{ borderCollapse: "collapse" }}
+                            >
                               Status
                             </th>
                             <i
-                              style={{ paddingLeft: 10 }}
+                              style={{ paddingLeft: '2px' }}
                               onClick={() => sortingdescription("status")}
                             >
                               <BiSort
@@ -1181,7 +1216,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                             <th className="hrtable">Comments</th>
 
                             <i
-                              style={{ paddingLeft: 10 }}
+                              style={{ paddingLeft: '2px' }}
                               onClick={() => sortingdescription("comments")}
                             >
                               <BiSort
@@ -1222,13 +1257,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           <TableRow
                             key={row.id}
                             style={{ backgroundColor: colorCode[row.status] }}
-                            label="Show"
-                            icon="pi pi-external-link"
-                            onClick={() => {
-                              setSelectedRowData(row); // Set the selected row's data
-                              setVisibleTimer(true); // Show the modal
->>>>>>> 55ef620eb846488394303e3874ce994b1098ab63
-                            }}
+                           
                           >
                             <CustomTableCell
                               {...{ row, name: "id", onChange }}
@@ -1287,16 +1316,17 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               style={{ borderBottom: "1px solid black" }}
                             />
                             
-                            {console.log( {...{ row, name: "deadline", onChange }},'d')}
+                            {/* {console.log( {...{ row, name: "deadline", onChange }},'d')} */}
 
                             <CustomTableCell
                               {...{ row, name: "description", onChange }}
                               style={{ borderBottom: "1px solid black" }}
                             />
-
-                            <Form.Select
+                           <Form.Select
                               style={{
                                 width: "133px",
+                                height:"40px",
+                                paddingTop:"5px",
 
                                 backgroundColor:
                                   row.status === "completed"
@@ -1322,10 +1352,13 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               <option value="InProgress">In Progress</option>
                               <option value="Pending">Pending</option>
                             </Form.Select>
+
+                            <TimeInput style={{ width: "auto" }}  {...{ row, name: "duration", onChange }} />
+                            {console.log( {...{ row, name: "duration", onChange }},'d')}
                             <CustomTableCell
                               {...{ row, name: "comments", onChange }}
                             />
-
+ 
                             <TableCell
                               style={{ display: "flex", width: "100%" }}
                               className={classes.selectTableCell}
@@ -1348,10 +1381,22 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                                 </>
                               ) : (
                                 <>
-                                  <IconButton
+                                <div className="flex justify-content-center">
+            <Toast ref={toast}></Toast>
+            <SplitButton label="Details"
+                            onClick={() => {
+                              setSelectedRowData(row); // Set the selected row's data
+                              setVisibleTimer(true); // Show the modal
+
+                            }} model={items} className="custom-button" severity="warning" raised />
+           
+
+           
+                                                  </div>
+                                    <IconButton
                                     aria-label="edit"
                                     onClick={() => onToggleEditMode(row.id)}
-                                  >
+                                      >
                                     <EditIcon />
                                   </IconButton>
                                   <IconButton
@@ -1368,6 +1413,12 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                     </TableBody>
                   </Table>
                 </TableContainer>
+              </Paper>
+              </TableCell>
+              </TableRow>
+              </TableHead>
+              </Table>
+</TableContainer>
               </Paper>
             </div>
           </div>
@@ -1396,5 +1447,4 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
     </>
   );
 }
-
 export default ExpereinceLetter;

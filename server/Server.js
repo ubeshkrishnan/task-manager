@@ -484,6 +484,7 @@ app.put("/update_experience", (req, res) => {
     end_date,
     task_assignperson,
     deadline,
+    duration,
     description,
     status,
     comments,
@@ -491,7 +492,7 @@ app.put("/update_experience", (req, res) => {
   } = req.body;
 
   db.query(
-    "update task set task_name=?, client=?, control_code=?, category=?, start_date=?, end_date=?, task_assignperson=?, deadline=?, description=?, status=?, comments=? where id=?",
+    "update task set task_name=?, client=?, control_code=?, category=?, start_date=?, end_date=?, task_assignperson=?, deadline=?, duration=?, description=?, status=?, comments=? where id=?",
     [
       task_name,
       client,
@@ -501,6 +502,7 @@ app.put("/update_experience", (req, res) => {
       end_date,
       task_assignperson,
       deadline,
+      duration,
       description,
       status,
       comments,

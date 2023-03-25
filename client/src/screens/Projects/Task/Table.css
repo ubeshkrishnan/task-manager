@@ -1,3 +1,13 @@
+.p-button
+{
+  padding: 0px 10px 0px 10px !important;
+  margin-top: 10xp;
+} 
+.p-button.p-button-icon-only
+{
+  width: 2rem !important;
+}
+
 .con{
     border-radius: 10px;
     width: 50%;
@@ -5,8 +15,9 @@
     border: 1px solid #c3c3c3;
     display: flex;
     flex-wrap: wrap;
-    align-content: center;
+    /* align-content: center; */
     box-shadow: red(0, 0, 0, 0.45) 0px 25px 20px -20px;
+    margin-top: 20px;
   }
     
 
@@ -61,6 +72,7 @@
 height: 2px;
 width: auto;
 margin-bottom : 20px;
+font-size: 14px;
 
   } 
 
@@ -86,6 +98,11 @@ margin-bottom : 20px;
     width: 300px;
  
   }
+  select:disabled {
+    opacity: 16;
+    margin-top: 20px;
+}
+
 
   
   .row_search{
@@ -96,9 +113,16 @@ margin-bottom : 20px;
   }
 .td{
 border-collapse: collapse;
-border:1px solid black;
 color: aqua;
 height:"200px"
   }
  
-  
+  .custom-button {
+     
+    height: 30px;
+
+  }
+  .MuiTableCell-root
+  {
+    padding: 8px !important;
+  }

@@ -37,6 +37,8 @@ import "./Table.css";
 import { useDispatch } from "react-redux";
 import { getExperienceApi } from "../../store/api/task";
 // import {getExperienceApi} from "../../store/api/task"
+import moment from "moment";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -62,6 +64,19 @@ const useStyles = makeStyles((theme) => ({
 const CustomTableCell = ({ row, name, onChange }) => {
   const classes = useStyles();
   const { isEditMode } = row;
+
+  let value = row[name];
+  let formattedValue = value;
+
+  if (name === "deadline") {
+    const date = new Date(row[name]);
+    formattedValue = moment(date).format("DD/MM/YYYY");
+  } else if (name.includes("date")) {
+    const date = new Date(value);
+    formattedValue = moment(date).format("DD/MM/YYYY");
+  }
+
+
   return (
     <TableCell align="Center" className={classes.tableCell}>
       {isEditMode ? (
@@ -72,7 +87,7 @@ const CustomTableCell = ({ row, name, onChange }) => {
           className={classes.input}
         />
       ) : (
-        row[name]
+        (row[name], formattedValue)
       )}
     </TableCell>
   );
@@ -81,8 +96,10 @@ const CustomTableCell = ({ row, name, onChange }) => {
 function ExpereinceLetter() {
   const tableRef = useRef(null);
   const [visible, setVisible] = useState(false);
+  const [visibleTimer, setVisibleTimer] = useState(false);
   const [rows, setRows] = useState([]);
   const [previous, setPrevious] = useState({});
+  // Define a new state variable to hold the selected row data
   const classes = useStyles();
   const dispatch = useDispatch();
   const onToggleEditDone = (id) => {
@@ -97,7 +114,11 @@ function ExpereinceLetter() {
       });
     });
   };
-
+  // Update the state variable with the clicked row data
+  const handleRowClick = (rowData) => {
+    setSelectedRowData(rowData);
+    setVisibleTimer(true);
+  };
   // Reducer
   useEffect(() => {
     console.log("render");
@@ -412,6 +433,9 @@ function ExpereinceLetter() {
   const [searched, setSearched] = useState("");
   const [deadline, setDeadline] = useState("");
 
+  // Timer
+  const [selectedRowData, setSelectedRowData] = useState(null);
+
   //Backend API
 
   const [experiencedetails, setExperiencedetails] = useState([]);
@@ -428,10 +452,33 @@ function ExpereinceLetter() {
         o.isEditMode = false;
         return o;
       });
-      setRows(result);
+      const dateformat = (e) =>{
+       const date = new Date(e)
+       const result = moment(date).format("DD/MM/YYYY");
+       return result;
+      }
+       const data = result.map(x => {
+        return {...x,"deadline": dateformat(x.deadline)}
+       })
+       console.log(data,'dta')
+       console.table(data)
+      console.log(result, "result");
+
+      setRows(data);
       setSearch(result);
     });
   };
+
+  useEffect(() => {
+    console.log(rows,'rowsa')
+  }, [rows])
+  
+  const dateformat = (e) =>{
+    console.log(e,'e');
+    const date = new Date(e)
+    const result = moment(date).format("DD/MM/YYYY");
+    return result;
+   }
 
   const deleteExperience = async (id) => {
     var result = window.confirm("Are you sure to delete?");
@@ -491,7 +538,7 @@ function ExpereinceLetter() {
         // window.location.reload();
       });
   };
-
+  // Modal Visible
   const tableData = [
     { status: "All" },
     { status: "InProgress" },
@@ -574,138 +621,146 @@ function ExpereinceLetter() {
         console.error("Error fetching users data:", error);
       });
   }, []);
+
   return (
-    <div className="background-ExperienceHr">
-      <div className="container">
-        <div className="shedule">
-          {/* <HrModule /> */}
-          <div className="content container-fluid">
-            <div className="row_search">
-              <div>{/* <h3 className="">Task Details</h3> */}</div>
+    <>
+      <div className="background-ExperienceHr">
+        <div className="container">
+          <div className="shedule">
+            {/* <HrModule /> */}
+            <div className="content container-fluid">
+              <div className="row_search">
+                <div>{/* <h3 className="">Task Details</h3> */}</div>
 
-              <DownloadTableExcel
-                filename="Experience Table"
-                sheet="users"
-                currentTableRef={tableRef.current}
-              >
-                {" "}
-                <Button type="danger">
-                  <div className="download">
-                    {" "}
-                    Download
-                    <DownloadIcon />
-                  </div>
-                </Button>
-              </DownloadTableExcel>
-            </div>
-
-            <>
-              <div className="row_search" style={{ display: "flex" }}>
-                <CButton
-                  style={{ height: "37px" }}
-                  onClick={() => setVisible(!visible)}
+                <DownloadTableExcel
+                  filename="Experience Table"
+                  sheet="users"
+                  currentTableRef={tableRef.current}
                 >
-                  Advance Search
-                </CButton>
-                <div className="filtb">
-                  <Nav
-                    variant="pills"
-                    style={{ display: "flex" }}
-                    className="nav nav-tabs tab-body-header rounded prtab-set w-sm-100"
-                  >
-                    <Nav.Item>
-                      <Nav.Link
-                        eventKey="All"
-                        onClick={() => handleFilter("All")}
-                      >
-                        All
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link
-                        eventKey="Started"
-                        onClick={() => handleFilter("completed")}
-                      >
-                        Completed
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link
-                        eventKey="Approval"
-                        onClick={() => handleFilter("Inprogress")}
-                      >
-                        Inprogress
-                      </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link
-                        eventKey="Completed"
-                        onClick={() => handleFilter("pending")}
-                      >
-                        Pending
-                      </Nav.Link>
-                    </Nav.Item>
-                  </Nav>
-                </div>
-                <div className="Search">
-                  <Search
-                    placeholder="Search Name"
-                    onChange={(searchVal) => requestSearch(searchVal)}
-                    onCancelSearch={() => cancelSearch()}
-                    className="form-control"
-                  />
-                </div>
+                  {" "}
+                  <Button type="danger">
+                    <div className="download">
+                      {" "}
+                      Download
+                      <DownloadIcon />
+                    </div>
+                  </Button>
+                </DownloadTableExcel>
               </div>
 
-              <CCollapse visible={visible}>
-                {/* <CCard className="mt-3"> */}
-                {/* <CCardBody> */}
-                <div className=" d-flex flex-row row">
-                  <div className="col-md-2 mt-2">
-                    <Search
-                      placeholder="ID"
-                      onChange={(searchVal) => requestSearchId(searchVal)}
-                      onCancelSearch={() => cancelSearch()}
-                      className="advance-search form-control"
-                    />
+              <>
+                <div className="row_search" style={{ display: "flex" }}>
+                  <CButton
+                    style={{ height: "37px" }}
+                    onClick={() => setVisible(!visible)}
+                  >
+                    Advance Search
+                  </CButton>
+                  <div className="filtb">
+                    <Nav
+                      variant="pills"
+                      style={{ display: "flex" }}
+                      className="nav nav-tabs tab-body-header rounded prtab-set w-sm-100"
+                    >
+                      <Nav.Item>
+                        <Nav.Link
+                          eventKey="All"
+                          onClick={() => handleFilter("All")}
+                        >
+                          All
+                        </Nav.Link>
+                      </Nav.Item>
+                      <Nav.Item>
+                        <Nav.Link
+                          eventKey="Started"
+                          onClick={() => handleFilter("completed")}
+                        >
+                          Completed
+                        </Nav.Link>
+                      </Nav.Item>
+                      <Nav.Item>
+                        <Nav.Link
+                          eventKey="Approval"
+                          onClick={() => handleFilter("Inprogress")}
+                        >
+                          Inprogress
+                        </Nav.Link>
+                      </Nav.Item>
+                      <Nav.Item>
+                        <Nav.Link
+                          eventKey="Completed"
+                          onClick={() => handleFilter("pending")}
+                        >
+                          Pending
+                        </Nav.Link>
+                      </Nav.Item>
+                    </Nav>
                   </div>
-                  <div className="col-md-4  mt-2">
+                  <div className="Search">
                     <Search
-                      onChange={(searchVal) => requestSearchtaskname(searchVal)}
+                      placeholder="Search Name"
+                      onChange={(searchVal) => requestSearch(searchVal)}
                       onCancelSearch={() => cancelSearch()}
-                      placeholder="Task Name"
-                      className="advance-search form-control"
-                    />
-                  </div>
-                  <div className="col-md-2  mt-2 ">
-                    <Search
-                      onChange={(searchVal) => requestSearchDeadline(searchVal)}
-                      onCancelSearch={() => cancelSearch()}
-                      placeholder="Deadline"
-                      className="advance-search form-control"
+                      className="form-control"
                     />
                   </div>
                 </div>
-                {/* </CCardBody> */}
-                {/* </CCard> */}
-              </CCollapse>
 
-              {/* <Button style={{backgroundColor:'grey',color:'white',fontWeight:'550'}}  onClick={() => handleFilter("All")} >All({totalCount})</Button>
+                <CCollapse visible={visible}>
+                  {/* <CCard className="mt-3"> */}
+                  {/* <CCardBody> */}
+                  <div className=" d-flex flex-row row">
+                    <div className="col-md-2 mt-2">
+                      <Search
+                        placeholder="ID"
+                        onChange={(searchVal) => requestSearchId(searchVal)}
+                        onCancelSearch={() => cancelSearch()}
+                        className="advance-search form-control"
+                      />
+                    </div>
+                    <div className="col-md-4  mt-2">
+                      <Search
+                        onChange={(searchVal) =>
+                          requestSearchtaskname(searchVal)
+                        }
+                        onCancelSearch={() => cancelSearch()}
+                        placeholder="Task Name"
+                        className="advance-search form-control"
+                      />
+                    </div>
+                    <div className="col-md-2  mt-2 ">
+                      <Search
+                        onChange={(searchVal) =>
+                          requestSearchDeadline(searchVal)
+                        }
+                        onCancelSearch={() => cancelSearch()}
+                        placeholder="Deadline"
+                        className="advance-search form-control"
+                      />
+                    </div>
+                  </div>
+                  {/* </CCardBody> */}
+                  {/* </CCard> */}
+                </CCollapse>
+
+                {/* <Button style={{backgroundColor:'grey',color:'white',fontWeight:'550'}}  onClick={() => handleFilter("All")} >All({totalCount})</Button>
 <Button style={{marginLeft:'10px',backgroundColor:'#80FFAD',color:'black',fontWeight:'550'}} onClick={() => handleFilter("completed")} >Completed({completedCount}) </Button>
 <Button severity="warning" style={{marginLeft:'10px',backgroundColor:'#FFAF64',fontWeight:'550',color:'white'}} onClick={() => handleFilter("Inprogress")} >InProgress({InProgressCount}) </Button>
 <Button style={{marginLeft:'10px',backgroundColor:'#FF7F7F',color:'white',fontWeight:'550'}} onClick={() => handleFilter("pending")} >Pending({pendingCount})</Button> */}
-            </>
-            <div className="flex-row">
-              <div className="row_search">
-                <p style={{ color: "red", paddingTop: "10px" }}>Page:{page}</p>
-                <Pagination
-                  count={Math.ceil(rows.length / rowsPerPage)}
-                  page={page}
-                  onChange={handleChangePage}
-                />
+              </>
+              <div className="flex-row">
+                <div className="row_search">
+                  <p style={{ color: "red", paddingTop: "10px" }}>
+                    Page:{page}
+                  </p>
+                  <Pagination
+                    count={Math.ceil(rows.length / rowsPerPage)}
+                    page={page}
+                    onChange={handleChangePage}
+                  />
+                </div>
               </div>
-            </div>
-            {/* <TablePagination
+              {/* <TablePagination
               component="div"
               rowsPerPageOptions={[2, 10, 25, 50]}
               count={rows.length}
@@ -715,6 +770,7 @@ function ExpereinceLetter() {
               onRowsPerPageChange={handleChangeRowsPerPage}
             /> */}
 
+<<<<<<< HEAD
             <Paper>
               <TableContainer
                 style={{
@@ -729,11 +785,141 @@ function ExpereinceLetter() {
                   <TableHead className={classes.tableHead}>
                     <TableRow className="satustable">
                       <TableCell>
+=======
+              <Paper>
+                <TableContainer>
+                  <Table
+                    className={classes.table}
+                    style={{ paddingTop: "10px" }}
+                    aria-label="caption table"
+                    ref={tableRef}
+                  >
+                    {/* <caption>A barbone structure table example with a caption</caption> */}
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th className="hrtable table_name">Task_ID</th>
+                            <i
+                              style={{ paddingLeft: 10 }}
+                              onClick={() => sortingid("id")}
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: 18,
+                                  color: "white",
+                                  marginBottom: "10",
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th className="hrtable table_name">Task_Name</th>
+                            <i
+                              style={{ paddingLeft: 10 }}
+                              onClick={() => sortingname("task_name")}
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: 18,
+                                  color: "white",
+                                  marginBottom: "10",
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th className="hrtable table_name">Client</th>
+                            <i
+                              style={{ paddingLeft: 10 }}
+                              onClick={() => sortingclient("client")}
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: 18,
+                                  color: "white",
+                                  marginBottom: "10",
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th className="hrtable table_name">Control_Code</th>
+                            <i
+                              style={{ paddingLeft: 10 }}
+                              onClick={() => sortingclient("client")}
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: 18,
+                                  color: "white",
+                                  marginBottom: "10",
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th className="hrtable table_name">Category</th>
+                            <i
+                              style={{ paddingLeft: 10, color: "#FF7F7F" }}
+                              onClick={() => sortingcategory("category")}
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: 18,
+                                  color: "white",
+                                  marginBottom: "10",
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
+                        {/* <TableCell>
+>>>>>>> 55ef620eb846488394303e3874ce994b1098ab63
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
+<<<<<<< HEAD
                           Task_ID
+=======
+                          <th className="hrtable ">Start Date</th>
+                          <i
+                            style={{ paddingLeft: 10 }}
+                            onClick={() => sortingstart("start_date")}
+                          >
+                            <BiSort
+                              style={{
+                                fontSize: 18,
+                                color: "white",
+                                marginBottom: "10",
+                              }}
+                            />
+                          </i>
+>>>>>>> 55ef620eb846488394303e3874ce994b1098ab63
                         </div>
                       </TableCell>
                       <TableCell>
@@ -741,6 +927,7 @@ function ExpereinceLetter() {
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
+<<<<<<< HEAD
                           Task_Name
                           <i style={{ paddingLeft: 10 }}>
                             <BiSort
@@ -907,105 +1094,358 @@ function ExpereinceLetter() {
                               const temp = rows;
                               temp[index].assignto = value || "";
                               setRows(temp);
+=======
+                          <th className="hrtable">End Date</th>
+                          <i
+                            style={{ paddingLeft: 10 }}
+                            onClick={() => sortingend("end_date")}
+                          >
+                            <BiSort
+                              style={{
+                                fontSize: 18,
+                                color: "white",
+                                marginBottom: "10",
+                              }}
+                            />
+                          </i>
+                        </div>
+                      </TableCell> */}
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th className="hrtable">
+                              Assigned_by
+                              <span style={{ textAligh: "center" }}> </span>
+                            </th>
+                            <i
+                              style={{ paddingLeft: 10 }}
+                              onClick={() =>
+                                sortingtaskassignperson("task_assignperson")
+                              }
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: 18,
+                                  color: "white",
+                                  marginBottom: "10",
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th className="hrtable">
+                              Assigned_To
+                              <span style={{ textAligh: "center" }}> </span>
+                            </th>
+                            <i
+                              style={{ paddingLeft: 10 }}
+                              onClick={() =>
+                                sortingtaskassignperson("task_assignperson")
+                              }
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: 18,
+                                  color: "white",
+                                  marginBottom: "10",
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th className="hrtable">Deadline</th>
+                            <i
+                              style={{ paddingLeft: 10 }}
+                              onClick={() => sortingdeadline("deadline")}
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: 18,
+                                  color: "white",
+                                  marginBottom: "10",
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th className="hrtable">Description</th>
+                            <i
+                              style={{ paddingLeft: 10 }}
+                              onClick={() => sortingdescription("description")}
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: 18,
+                                  color: "white",
+                                  marginBottom: "10",
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th
+                              className="hrtable"
+                              style={{ borderCollapse: "collapse" }}
+                            >
+                              Status
+                            </th>
+                            <i
+                              style={{ paddingLeft: 10 }}
+                              onClick={() => sortingdescription("status")}
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: 18,
+                                  color: "white",
+                                  marginBottom: "10",
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th className="hrtable">Comments</th>
+
+                            <i
+                              style={{ paddingLeft: 10 }}
+                              onClick={() => sortingdescription("comments")}
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: "18px",
+                                  color: "white",
+                                  marginBottom: "10",
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th
+                              className="hrtable"
+                              style={{ paddingRight: "10px", paddingTop: "" }}
+                            >
+                              Actions
+                            </th>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {/* .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      ) */}
+                      {rows
+                        .slice((page - 1) * rowsPerPage, page * rowsPerPage)
+
+                        .map((row, index) => (
+                          // eslint-disable-next-line no-sequences
+                          row["deadline"] = dateformat(row.deadline),
+                          <TableRow
+                            key={row.id}
+                            style={{ backgroundColor: colorCode[row.status] }}
+                            label="Show"
+                            icon="pi pi-external-link"
+                            onClick={() => {
+                              setSelectedRowData(row); // Set the selected row's data
+                              setVisibleTimer(true); // Show the modal
+>>>>>>> 55ef620eb846488394303e3874ce994b1098ab63
                             }}
                           >
-                            <option value="">Select user</option>
-                            {users.map((user) => (
-                              <option key={user.id} value={user.id}>
-                                {user.first_name}
-                              </option>
-                            ))}
-                          </Form.Select>
+                            <CustomTableCell
+                              {...{ row, name: "id", onChange }}
+                              style={{ borderBottom: "1px solid black" }}
+                            />
+                            <CustomTableCell
+                              {...{ row, name: "task_name", onChange }}
+                              style={{ borderBottom: "1px solid black" }}
+                            />
+                            <CustomTableCell
+                              {...{ row, name: "client", onChange }}
+                              style={{ borderBottom: "1px solid black" }}
+                            />
+                            <CustomTableCell
+                              {...{ row, name: "control_code", onChange }}
+                              style={{ borderBottom: "1px solid black" }}
+                            />
 
-                          <CustomTableCell
-                            {...{ row, name: "deadline", onChange }}
-                            style={{ borderBottom: "1px solid black" }}
-                          />
+                            <CustomTableCell
+                              {...{ row, name: "category", onChange }}
+                              style={{ borderBottom: "1px solid black" }}
+                            />
+                            {/* <CustomTableCell
+                                {...{ row, name: "start_date", onChange }}
+                                style={{ borderBottom: "1px solid black" }}
+                              />
+                              <CustomTableCell
+                                {...{ row, name: "end_date", onChange }}
+                                style={{ borderBottom: "1px solid black" }}
+                              /> */}
+                            <CustomTableCell
+                              {...{ row, name: "task_assignperson", onChange }}
+                              style={{ borderBottom: "1px solid black" }}
+                            />
 
-                          <CustomTableCell
-                            {...{ row, name: "description", onChange }}
-                            style={{ borderBottom: "1px solid black" }}
-                          />
+                            <Form.Select
+                              value={row?.assignto}
+                              disabled={!row.isEditMode}
+                              onChange={(e) => {
+                                const { value } = e.target;
+                                const temp = rows;
+                                temp[index].assignto = value || "";
+                                setRows(temp);
+                              }}
+                            >
+                              <option value="">Select user</option>
+                              {users.map((user) => (
+                                <option key={user.id} value={user.id}>
+                                  {user.first_name}
+                                </option>
+                              ))}
+                            </Form.Select>
 
-                          <Form.Select
-                            style={{
-                              width: "133px",
+                            <CustomTableCell
+                              {...{ row, name: "deadline", onChange }}
+                              style={{ borderBottom: "1px solid black" }}
+                            />
+                            {console.log( {...{ row, name: "deadline", onChange }},'d')}
 
-                              backgroundColor:
-                                row.status === "completed"
-                                  ? "#80FFAD"
-                                  : row.status === "pending"
-                                  ? "red"
-                                  : row.status === "Inprogress"
-                                  ? "#FFAF64"
-                                  : "grey",
-                              color: "white",
-                              fontWeight: "bold",
-                            }}
-                            id={row.id}
-                            disabled={!row.isEditMode}
-                            // style={{  }}
-                            value={row.status}
-                            onChange={(e) =>
-                              handleStatus(e.target.value, row.id)
-                            }
-                          >
-                            <option value="">Select</option>
-                            <option value="Completed">Completed</option>
-                            <option value="InProgress">In Progress</option>
-                            <option value="Pending">Pending</option>
-                          </Form.Select>
-                          <CustomTableCell
-                            {...{ row, name: "comments", onChange }}
-                          />
+                            <CustomTableCell
+                              {...{ row, name: "description", onChange }}
+                              style={{ borderBottom: "1px solid black" }}
+                            />
 
-                          <TableCell
-                            style={{ display: "flex", width: "100%" }}
-                            className={classes.selectTableCell}
-                            class
-                          >
-                            {row.isEditMode ? (
-                              <>
-                                <IconButton
-                                  aria-label="done"
-                                  onClick={() => onToggleEditDone(row.id)}
-                                >
-                                  <DoneIcon />
-                                </IconButton>
-                                <IconButton
-                                  aria-label="revert"
-                                  onClick={() => getExperience()}
-                                >
-                                  <RevertIcon />
-                                </IconButton>
-                              </>
-                            ) : (
-                              <>
-                                <IconButton
-                                  aria-label="edit"
-                                  onClick={() => onToggleEditMode(row.id)}
-                                >
-                                  <EditIcon />
-                                </IconButton>
-                                <IconButton
-                                  aria-label="delete"
-                                  onClick={() => deleteExperience(row.id)}
-                                >
-                                  <DeleteIcon />
-                                </IconButton>
-                              </>
-                            )}
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Paper>
+                            <Form.Select
+                              style={{
+                                width: "133px",
+
+                                backgroundColor:
+                                  row.status === "completed"
+                                    ? "#80FFAD"
+                                    : row.status === "pending"
+                                    ? "red"
+                                    : row.status === "Inprogress"
+                                    ? "#FFAF64"
+                                    : "grey",
+                                color: "white",
+                                fontWeight: "bold",
+                              }}
+                              id={row.id}
+                              disabled={!row.isEditMode}
+                              // style={{  }}
+                              value={row.status}
+                              onChange={(e) =>
+                                handleStatus(e.target.value, row.id)
+                              }
+                            >
+                              <option value="">Select</option>
+                              <option value="Completed">Completed</option>
+                              <option value="InProgress">In Progress</option>
+                              <option value="Pending">Pending</option>
+                            </Form.Select>
+                            <CustomTableCell
+                              {...{ row, name: "comments", onChange }}
+                            />
+
+                            <TableCell
+                              style={{ display: "flex", width: "100%" }}
+                              className={classes.selectTableCell}
+                              class
+                            >
+                              {row.isEditMode ? (
+                                <>
+                                  <IconButton
+                                    aria-label="done"
+                                    onClick={() => onToggleEditDone(row.id)}
+                                  >
+                                    <DoneIcon />
+                                  </IconButton>
+                                  <IconButton
+                                    aria-label="revert"
+                                    onClick={() => getExperience()}
+                                  >
+                                    <RevertIcon />
+                                  </IconButton>
+                                </>
+                              ) : (
+                                <>
+                                  <IconButton
+                                    aria-label="edit"
+                                    onClick={() => onToggleEditMode(row.id)}
+                                  >
+                                    <EditIcon />
+                                  </IconButton>
+                                  <IconButton
+                                    aria-label="delete"
+                                    onClick={() => deleteExperience(row.id)}
+                                  >
+                                    <DeleteIcon />
+                                  </IconButton>
+                                </>
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Paper>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Modal show={visibleTimer} onHide={() => setVisibleTimer(!visibleTimer)}>
+        <Modal.Header closeButton>
+          <Modal.Title className="fw-bold">
+            {selectedRowData?.task_name}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>ID: {selectedRowData?.id}</div>
+          <div>Task Name: {selectedRowData?.task_name}</div>
+          <div>Client: {selectedRowData?.client}</div>
+          <div>Control Code: {selectedRowData?.control_code}</div>
+          <div>Category: {selectedRowData?.category}</div>
+          <div>Task Assign Person: {selectedRowData?.task_assignperson}</div>
+          <div>Assign To: {selectedRowData?.assignto}</div>
+          <div>Deadline: {selectedRowData?.deadline}</div>
+          <div>Description: {selectedRowData?.description}</div>
+          <div>Comments: {selectedRowData?.comments}</div>
+          <div>Status: {selectedRowData?.status}</div>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 }
 

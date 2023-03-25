@@ -11,9 +11,9 @@ const upload = multer({
 });
 
 const db = mysql.createPool({
-  host: "localhost",
+  host: "192.168.130.20",
   user: "root",
-  password: "",
+  password: "Thirukumaran6",
   database: "dbtask_manager",
 });
 
@@ -454,9 +454,11 @@ app.post("/task", (req, res) => {
 app.get("/taskcard", (req, res) => {
   db.query("SELECT * FROM task", (error, results, fields) => {
     if (error) throw error;
+    console.log(results,'result')
     res.send(results);
   });
 });
+
 app.delete("/delete_experience/:id", (req, res) => {
   const { id } = req.params;
   db.query("delete from task where id=?", [id], (err, result) => {

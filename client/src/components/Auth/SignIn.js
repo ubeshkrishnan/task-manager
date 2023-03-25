@@ -55,6 +55,7 @@ function SignIn() {
       const res = await axios.post('http://localhost:3001/login', { email, password });
       // handle successful login here (e.g., store user data in local storage, redirect to dashboard page)
       const { user} =res.data;
+        // if(user) user["modulePermission"] = ["Projects"]
       localStorage.setItem('user', JSON.stringify(user));
       setBadAttempt(false);
       setMessage('Login successful');

@@ -38,7 +38,7 @@ class Header extends React.Component {
                         </div>
                         <Dropdown className="notifications">
                             <Dropdown.Toggle as="a" className="nav-link dropdown-toggle pulse">
-                                <i className="icofont-alarm fs-5"></i>
+                                <i className="icofont-alarm fs-4"></i>
                                 <span className="pulse-ring"></span>
                             </Dropdown.Toggle>
                             <Dropdown.Menu className=" rounded-lg shadow border-0 dropdown-animation dropdown-menu-sm-end p-0 m-0">

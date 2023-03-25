@@ -716,34 +716,24 @@ function ExpereinceLetter() {
             /> */}
 
             <Paper>
-              <TableContainer>
+              <TableContainer
+                style={{
+                  borderRadius: "10px",
+                }}
+              >
                 <Table
                   className={classes.table}
-                  style={{ paddingTop: "10px" }}
                   aria-label="caption table"
                   ref={tableRef}
                 >
-                  {/* <caption>A barbone structure table example with a caption</caption> */}
-                  <TableHead>
-                    <TableRow>
+                  <TableHead className={classes.tableHead}>
+                    <TableRow className="satustable">
                       <TableCell>
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <th className="hrtable table_name">Task_ID</th>
-                          <i
-                            style={{ paddingLeft: 10 }}
-                            onClick={() => sortingid("id")}
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
+                          Task_ID
                         </div>
                       </TableCell>
                       <TableCell>
@@ -751,251 +741,12 @@ function ExpereinceLetter() {
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <th className="hrtable table_name">Task_Name</th>
-                          <i
-                            style={{ paddingLeft: 10 }}
-                            onClick={() => sortingname("task_name")}
-                          >
+                          Task_Name
+                          <i style={{ paddingLeft: 10 }}>
                             <BiSort
                               style={{
                                 fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          <th className="hrtable table_name">Client</th>
-                          <i
-                            style={{ paddingLeft: 10 }}
-                            onClick={() => sortingclient("client")}
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          <th className="hrtable table_name">Control_Code</th>
-                          <i
-                            style={{ paddingLeft: 10 }}
-                            onClick={() => sortingclient("client")}
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          <th className="hrtable table_name">Category</th>
-                          <i
-                            style={{ paddingLeft: 10, color: "#FF7F7F" }}
-                            onClick={() => sortingcategory("category")}
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      {/* <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          <th className="hrtable ">Start Date</th>
-                          <i
-                            style={{ paddingLeft: 10 }}
-                            onClick={() => sortingstart("start_date")}
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          <th className="hrtable">End Date</th>
-                          <i
-                            style={{ paddingLeft: 10 }}
-                            onClick={() => sortingend("end_date")}
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell> */}
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          <th className="hrtable">
-                            Assigned_by
-                            <span style={{ textAligh: "center" }}> </span>
-                          </th>
-                          <i
-                            style={{ paddingLeft: 10 }}
-                            onClick={() =>
-                              sortingtaskassignperson("task_assignperson")
-                            }
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          <th className="hrtable">
-                            Assigned_To
-                            <span style={{ textAligh: "center" }}> </span>
-                          </th>
-                          <i
-                            style={{ paddingLeft: 10 }}
-                            onClick={() =>
-                              sortingtaskassignperson("task_assignperson")
-                            }
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          <th className="hrtable">Deadline</th>
-                          <i
-                            style={{ paddingLeft: 10 }}
-                            onClick={() => sortingdeadline("deadline")}
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          <th className="hrtable">Description</th>
-                          <i
-                            style={{ paddingLeft: 10 }}
-                            onClick={() => sortingdescription("description")}
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          <th
-                            className="hrtable"
-                            style={{ borderCollapse: "collapse" }}
-                          >
-                            Status
-                          </th>
-                          <i
-                            style={{ paddingLeft: 10 }}
-                            onClick={() => sortingdescription("status")}
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          <th className="hrtable">Comments</th>
 
-                          <i
-                            style={{ paddingLeft: 10 }}
-                            onClick={() => sortingdescription("comments")}
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: "18px",
-                                color: "white",
                                 marginBottom: "10",
                               }}
                             />
@@ -1007,21 +758,112 @@ function ExpereinceLetter() {
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-                          <th
-                            className="hrtable"
-                            style={{ paddingRight: "10px", paddingTop: "" }}
-                          >
-                            Actions
-                          </th>
+                          Client
+                          <i style={{ paddingLeft: 10 }}>
+                            <BiSort
+                              style={{
+                                fontSize: 18,
+
+                                marginBottom: "10",
+                              }}
+                            />
+                          </i>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Control_Code
+                          <i style={{ paddingLeft: 10 }}>
+                            <BiSort
+                              style={{
+                                fontSize: 18,
+
+                                marginBottom: "10",
+                              }}
+                            />
+                          </i>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          // className="d-flex flex-row justify-content-center"
+                        >
+                          Category
+                          <i style={{ paddingLeft: 10 }}>
+                            <BiSort
+                              style={{
+                                fontSize: 18,
+
+                                marginBottom: "10",
+                              }}
+                            />
+                          </i>
+                        </div>
+                      </TableCell>
+
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Assigned_by
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Assigned_To
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Deadline
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Description
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Status
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Comments
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div
+                          style={{ paddingTop: 15 }}
+                          className="d-flex flex-row justify-content-center"
+                        >
+                          Actions
                         </div>
                       </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {/* .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      ) */}
                     {rows
                       .slice((page - 1) * rowsPerPage, page * rowsPerPage)
 
@@ -1051,14 +893,7 @@ function ExpereinceLetter() {
                             {...{ row, name: "category", onChange }}
                             style={{ borderBottom: "1px solid black" }}
                           />
-                          {/* <CustomTableCell
-  {...{ row, name: "start_date", onChange }}
-  style={{ borderBottom: "1px solid black" }}
-/>
-<CustomTableCell
-  {...{ row, name: "end_date", onChange }}
-  style={{ borderBottom: "1px solid black" }}
-/> */}
+
                           <CustomTableCell
                             {...{ row, name: "task_assignperson", onChange }}
                             style={{ borderBottom: "1px solid black" }}

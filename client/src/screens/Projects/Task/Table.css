@@ -97,6 +97,20 @@ margin-bottom : 20px;
 .td{
 border-collapse: collapse;
 border:1px solid black;
+color: aqua;
+height:"200px"
   }
  
+
+  .tablecolor {
+    background: #1111ff;
+    height: 76px;
+    /* width: 182px; */
+  }
+  .satustable {
+    width: 95px;
+    height: 70px;
+    background-color: rgba(182, 0, 0, 0.87);
+    border-bottom:  1px solid #ccc;;
+  }
   

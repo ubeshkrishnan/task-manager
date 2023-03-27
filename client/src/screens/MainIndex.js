@@ -53,9 +53,10 @@ import PageHeader1 from "../components/common/PageHeader1";
 import Documentation from "./Documentation/Documentation";
 import Changelog from "./Changelog/Changelog";
 import Help from "./Dashboard/Help";
-// Moduels
-import Employee from "../modules/Employee_login/EmployeeLogin"
-import Tester from "../modules/TesterLogin/TesterLogin"
+// import NavigationBar from "../components/common/NavigationBar";
+import Employeetask from "./Projects/Task/Employeetask"; 
+import Taskdetails from "./Projects/Task/EmployeeTask_detail"; 
+
 class MainIndex extends React.Component{
     render(){
         const {activekey} = this.props;
@@ -63,6 +64,7 @@ class MainIndex extends React.Component{
             <div className="main px-lg-4 px-md-4">
                 {activekey !=="/chat-app"? activekey === "/documentation"?<PageHeader1 />:<Header/>:""}
                 <div className="body d-flex py-lg-3 py-md-2">
+             
                     <Route exact path={`${process.env.PUBLIC_URL}/`} component={HrDashboard} />
                     <Route exact path={`${process.env.PUBLIC_URL}/hr-dashboard`} component={HrDashboard} />
                     <Route exact path={`${process.env.PUBLIC_URL}/project-dashboard`} component={ProjectDashboard} />
@@ -75,7 +77,7 @@ class MainIndex extends React.Component{
                     <Route exact path={`${process.env.PUBLIC_URL}/clients`} component={Clients} />
                     <Route exact path={`${process.env.PUBLIC_URL}/client-profile/:id`} component={ClientProfile} />
                     <Route exact path={`${process.env.PUBLIC_URL}/members`} component={Members} />
-                    <Route exact path={`${process.env.PUBLIC_URL}/members-profile`} component={EmployeeProfile} />
+                    <Route exact path={`${process.env.PUBLIC_URL}/members-profile/:id`} component={EmployeeProfile} />
                     <Route exact path={`${process.env.PUBLIC_URL}/holidays`} component={Holidays} />
                     <Route exact path={`${process.env.PUBLIC_URL}/attendance-employees`} component={AttendanceEmployees} />
                     <Route exact path={`${process.env.PUBLIC_URL}/attendance`} component={Attendance} />
@@ -93,7 +95,9 @@ class MainIndex extends React.Component{
                     <Route exact path={`${process.env.PUBLIC_URL}/reviews-page`} component={ReviewsPage} />
                     <Route exact path={`${process.env.PUBLIC_URL}/icons`} component={Icons} />
                     <Route exact path={`${process.env.PUBLIC_URL}/widgets`} component={Widgets} />
-
+                     <Route exact path={`${process.env.PUBLIC_URL}/Employeetask`} component={Employeetask} />
+                    <Route exact path={`${process.env.PUBLIC_URL}/Taskdetails`} component={Taskdetails} />
+                    
 
                     <Route exact path={`${process.env.PUBLIC_URL}/ui-alerts`} component={Alerts} />
                     <Route exact path={`${process.env.PUBLIC_URL}/ui-badge`} component={Badges} />
@@ -118,10 +122,6 @@ class MainIndex extends React.Component{
                     <Route exact path={`${process.env.PUBLIC_URL}/documentation`} component={Documentation} />
                     <Route exact path={`${process.env.PUBLIC_URL}/changelog`} component={Changelog} />
                     <Route exact path={`${process.env.PUBLIC_URL}/help`} component={Help} />
-
-                    {/* Modules */}
-                    <Route exact path={`${process.env.PUBLIC_URL}/employee`} component={Employee} />
-                    <Route exact path={`${process.env.PUBLIC_URL}/tester`} component={Tester} />
 
 
                 </div>

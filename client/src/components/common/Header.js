@@ -23,16 +23,16 @@ class Header extends React.Component {
                 <div className="container-xxl">
                     <div className="h-right d-flex align-items-center mr-5 mr-lg-0 order-1">
                         <div className="d-flex">
-                            <Link to="help" className="nav-link text-primary collapsed" title="Get Help">
+                            {/* <Link to="help" className="nav-link text-primary collapsed" title="Get Help">
                                 <i className="icofont-info-square fs-5"></i>
-                            </Link>
+                            </Link> */}
                             <div className="avatar-list avatar-list-stacked px-3">
-                                <img className="avatar rounded-circle" src={Avatar2} alt=""/>
+                                {/* <img className="avatar rounded-circle" src={Avatar2} alt=""/>
                                 <img className="avatar rounded-circle" src={Avatar1} alt=""/>
                                 <img className="avatar rounded-circle" src={Avatar3} alt=""/>
                                 <img className="avatar rounded-circle" src={Avatar4} alt=""/>
                                 <img className="avatar rounded-circle" src={Avatar7} alt=""/>
-                                <img className="avatar rounded-circle" src={Avatar8} alt=""/>
+                                <img className="avatar rounded-circle" src={Avatar8} alt=""/> */}
                                 <span className="avatar rounded-circle text-center pointer" onClick={()=>{ this.setState({isAddUserModa:true }) }}><i className="icofont-ui-add"></i></span>
                             </div>
                         </div>
@@ -116,7 +116,7 @@ class Header extends React.Component {
                         </Dropdown>
                         <Dropdown className="dropdown user-profile ml-2 ml-sm-3 d-flex align-items-center">
                             <div className="u-info me-2">
-                                <p className="mb-0 text-end line-height-sm "><span className="font-weight-bold">Dylan Hunter</span></p>
+                                <p className="mb-0 text-end line-height-sm "><span className="font-weight-bold">Admin Login</span></p>
                                 <small>Admin Profile</small>
                             </div>
                             <Dropdown.Toggle as="a" className="nav-link dropdown-toggle pulse p-0">
@@ -146,7 +146,7 @@ class Header extends React.Component {
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-    
+                    {/* <h1 style={{fontWeight:'600'}}>Projects</h1> */}
                     
                     <button className="navbar-toggler p-0 border-0 menu-toggle order-3" 
                     onClick={()=>{
@@ -166,8 +166,8 @@ class Header extends React.Component {
                     
                     <div className="order-0 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 mb-md-0 ">
                         <div className="input-group flex-nowrap input-group-lg">
-                            <button type="button" className="input-group-text" id="addon-wrapping"><i className="fa fa-search"></i></button>
-                            <input type="search" className="form-control" placeholder="Search" aria-label="search" aria-describedby="addon-wrapping" />
+                            {/* <button type="button" className="input-group-text" id="addon-wrapping"><i className="fa fa-search"></i></button> */}
+                            {/* <input type="search" className="form-control" placeholder="Search" aria-label="search" aria-describedby="addon-wrapping" /> */}
                             <button type="button" className="input-group-text add-member-top" onClick={()=>{ this.setState({isAddUserModa:true }) }}><i className="fa fa-plus"></i></button>
                         </div>
                     </div>

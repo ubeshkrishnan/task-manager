@@ -43,18 +43,25 @@ app.post("/insert", (req, res) => {
   );
 });
 
-app.post("/login", (req, res) => {
+
+app.post('/login', (req, res) => {
   const { email, password } = req.body;
   const sql = `SELECT * FROM sign_in WHERE email = '${email}' AND password = '${password}'`;
   db.query(sql, (err, result) => {
+    console.log(result,'result');
+    const roleSet=result[0].role;
+    console.log(roleSet);
     if (err) {
-      res.status(500).send({ message: "Error occurred" });
+      res.status(500).send({ message: 'Error occurred' });
     } else if (result.length === 0) {
-      res.status(401).send({ message: "Invalid username or password" });
+      res.status(401).send({ message: 'Invalid username or password' });
     } else {
       const user = result[0];
+     
+      // const s={role:roleSet}
       // generate an access token or session cookie here
-      res.status(200).send({ message: "Login successful", user });
+      // console.log(user);
+      res.status(200).send({ message: 'Login successful', user,role:roleSet });
     }
   });
 });
@@ -412,8 +419,6 @@ app.post("/task", (req, res) => {
     client,
     control_code,
     category,
-    start_date,
-    end_date,
     task_assignperson,
     deadline,
     description,
@@ -427,12 +432,10 @@ app.post("/task", (req, res) => {
        client,
        control_code,
         category,
-       start_date,
-       end_date,
       task_assignperson,
         deadline,
         description  
-      ) VALUES (?, ?, ?, ?, ?, ?, ?,?,?);
+      ) VALUES (?, ?, ?, ?, ?, ?, ?);
   `;
   // Execute the query with the extracted data
   db.query(
@@ -442,8 +445,6 @@ app.post("/task", (req, res) => {
       client,
       control_code,
       category,
-      start_date,
-      end_date,
       task_assignperson,
       deadline,
       description,
@@ -461,11 +462,14 @@ app.post("/task", (req, res) => {
 
 // Task card Map
 app.get("/taskcard", (req, res) => {
-  db.query("SELECT *, DATE_FORMAT(deadline, '%d/%m/%Y') AS formatted_deadline FROM task", (error, results, fields) => {    if (error) throw error;
-    console.log(results,'result')
+  // db.query("SELECT * FROM task", (error, results, fields) => {
+    db.query("SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline FROM task", (error, results, fields) => {  
+      if (error) throw error;
+    console.log(results);
     res.send(results);
   });
 });
+
 
 app.delete("/delete_experience/:id", (req, res) => {
   const { id } = req.params;
@@ -480,8 +484,6 @@ app.put("/update_experience", (req, res) => {
     client,
     control_code,
     category,
-    start_date,
-    end_date,
     task_assignperson,
     deadline,
     duration,
@@ -490,16 +492,18 @@ app.put("/update_experience", (req, res) => {
     comments,
     id,
   } = req.body;
+  // Convert duration to number of seconds
+  const durationInSeconds = duration
+    ? duration.split(":").reduce((acc, time) => (60 * acc) + +time)
+    : null;
 
   db.query(
-    "update task set task_name=?, client=?, control_code=?, category=?, start_date=?, end_date=?, task_assignperson=?, deadline=?, duration=?, description=?, status=?, comments=? where id=?",
+    "update task set task_name=?, client=?, control_code=?, category=?, task_assignperson=?, deadline=?, duration=?, description=?, status=?, comments=? where id=?",
     [
       task_name,
       client,
       control_code,
       category,
-      start_date,
-      end_date,
       task_assignperson,
       deadline,
       duration,
@@ -516,8 +520,14 @@ app.put("/update_experience", (req, res) => {
         console.log(error);
       }
     }
+    
   );
 });
+
+
+
+
+
 app.put("/task_status_update", (req, res) => {
   const { status, id } = req.body;
 
@@ -628,6 +638,120 @@ app.post("/project", (req, res) => {
       }
     }
   );
+});
+
+// Project card Map
+app.get("/projectcard", (req, res) => {
+  // db.query("SELECT * FROM project", (error, results, fields) => {
+    db.query("SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline FROM project", (error, results, fields) => {  
+      if (error) throw error;
+    console.log(results);
+    res.send(results);
+  });
+});
+
+
+app.delete("/delete_project/:id", (req, res) => {
+  const { id } = req.params;
+  db.query("delete from project where id=?", [id], (err, result) => {
+    res.send(result);
+  });
+});
+
+
+// Get the time value from the React form input
+// const timeValue = e.target.elements.ftime.value;
+
+app.put("/update_project", (req, res) => {
+  const {
+    project_name,
+    category,
+    client,
+    duration,  
+    start_date,
+    end_date,
+    project_manager,
+    status,
+    date,
+    id,
+  } = req.body;
+  // Convert duration to number of seconds
+  const durationInSeconds = duration
+    ? duration.split(":").reduce((acc, time) => (60 * acc) + +time)
+    : null;
+
+  db.query(
+    "update project set project_name=?, category=?, client=?, category=?, duration=?, start_date=?, end_date=?, project_manager=?, status=?, date=? where id=?",
+    [
+      project_name,
+      category,
+      client,
+      duration,  
+      start_date,
+      end_date,
+      project_manager	,
+      status,
+      date,
+      id,
+    ],
+    (error, result) => {
+      if (result) {
+        let s = { status: "Updated" };
+        res.send(s);
+      } else {
+        console.log(error);
+      }
+    }
+    
+  );
+});
+
+
+
+
+
+app.put("/project_status_update", (req, res) => {
+  const { status, id } = req.body;
+
+  db.query(
+    "UPDATE project SET status = ? WHERE id = ?",
+    [status, id],
+    (error, result) => {
+      if (error) {
+        console.log(error);
+      } else {
+        let s = { status: "updated" };
+        res.send(s);
+      }
+    }
+  );
+});
+
+// Task filter
+app.get("/project_filter", (req, res) => {
+  const filter = req.query.filter;
+  let query = "";
+
+  if (filter === "All") {
+    query = "SELECT * FROM project";
+  } else {
+    query = `SELECT * FROM project WHERE status='${filter}'`;
+  }
+
+  db.query(query, (err, results) => {
+    if (err) throw err;
+    res.json(results);
+  });
+});
+
+// Task Count
+app.get("/project_filter", (req, res) => {
+  const filter = req.query.filter;
+  const query = `SELECT COUNT(*) AS incomplete FROM project WHERE status != 'completed' AND category = '${filter}'`;
+  db.query(query, (error, results, fields) => {
+    if (error) throw error;
+    res.send(results[0]);
+  });
 });
 
 app.listen(3001, () => {

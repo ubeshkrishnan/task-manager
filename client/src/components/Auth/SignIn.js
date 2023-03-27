@@ -1,3 +1,5 @@
+
+
 import React,{useState} from "react";
 import { Link } from "react-router-dom";
 import GoogleImg from "../../assets/images/google.svg";
@@ -55,13 +57,25 @@ function SignIn() {
       const res = await axios.post('http://localhost:3001/login', { email, password });
       // handle successful login here (e.g., store user data in local storage, redirect to dashboard page)
       const { user} =res.data;
-        // if(user) user["modulePermission"] = ["Projects"]
+      const roleSet = res.data.role;
+      console.log(roleSet,'roleSet')
+      console.log("BackendRole : "+roleSet)
+      localStorage.setItem('role', +roleSet)
       localStorage.setItem('user', JSON.stringify(user));
       setBadAttempt(false);
       setMessage('Login successful');
       sendLoginHistory(ip_address, email, password, attempt_count, false, 'Login successful');
-      
-       history.push('/');
+
+      if(roleSet === "0"){ // admin
+        history.push('/');
+      }
+      else if(roleSet === "1"){  // user
+        history.push("/Employeetask");
+      }
+      else{
+        alert("error")
+      }
+      //  history.push('/Employeetask');
       
     } catch (err) {
       setError(err.response.data.message);
@@ -128,5 +142,3 @@ function SignIn() {
 }
 
 export default SignIn;
-
-

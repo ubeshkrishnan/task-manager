@@ -126,7 +126,7 @@ const Updateproject = async (project,id) => {
     <div className="container-xxl">
       <Tab.Container defaultActiveKey="All">
         <PageHeader
-          headerTitle="Projects"
+          headerTitle="Project List"
           renderRight={() => (
             <div  className="d-flex py-2 project-tab flex-wrap w-sm-100">
        

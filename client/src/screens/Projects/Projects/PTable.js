@@ -73,24 +73,35 @@ const CustomTableCell = ({ row, name, onChange }) => {
   const classes = useStyles();
   const { isEditMode } = row;
   const formattedDeadline = new Date(row[name]).toLocaleDateString();
+  const formatted_date = moment(row[name]).fromNow();
+  const formatted_duration = new Date(row[name]).toLocaleDateString();
+  const formatted_start_date = new Date(row[name]).toLocaleDateString();
+  const formatted_end_date = new Date(row[name]).toLocaleDateString();
+  
   return (
     <TableCell align="Center" className={classes.tableCell}>
-      {isEditMode ? (
-        <Input
-          value={row[name]}
-          name={name}
-          onChange={(e) => onChange(e, row)}
-          className={classes.input}
-        />
-      ) : (
-        name === 'deadline' ? formattedDeadline : row[name]
-      )}
-    </TableCell>
+  {isEditMode ? (
+    <Input
+      value={row[name]}
+      name={name}
+      onChange={(e) => onChange(e, row)}
+      className={classes.input}
+    />
+  ) : (
+    name === 'deadline' ? formattedDeadline
+    : name === 'date' ? formatted_date
+    : name === 'duration' ? formatted_duration
+    : name === 'start_date' ? formatted_start_date
+    : name === 'end_date' ? formatted_end_date
+    : row[name]
+  )}
+</TableCell>
+
   );
       };
 
 
-function ExpereinceLetter() {
+function Ptable() {
   const tableRef = useRef(null);
   const [visible, setVisible] = useState(false);
   const [visibleTimer, setVisibleTimer] = useState(false);
@@ -415,7 +426,7 @@ function ExpereinceLetter() {
 
   const getExperience = async () => {
     setRows([]);
-    const response = await axios.get(Url + "/taskcard").then((response) => {
+    const response = await axios.get(Url + "/projectcard").then((response) => {
       const result = response.data.map(function (el) {
         var o = Object.assign({}, el);
         // o.deadline = moment(el.formatted_deadline).format('YYYY-MM-DD');
@@ -428,6 +439,7 @@ function ExpereinceLetter() {
       setSearch(result);
     });
   };
+
 // format the date using JavaScript's Date API
 const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
   useEffect(() => {
@@ -439,7 +451,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
   const deleteExperience = async (id) => {
     var result = window.confirm("Are you sure to delete?");
     if (result) {
-      await axios.delete(Url + `/delete_experience/` + id);
+      await axios.delete(Url + `/delete_project/` + id);
       getExperience();
     }
   };
@@ -1301,6 +1313,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               {...{ row, name: "duration", onChange }}
                               style={{ borderBottom: "1px solid black" }}
                             />
+                            
                             {/* <CustomTableCell
                                 {...{ row, name: "start_date", onChange }}
                                 style={{ borderBottom: "1px solid black" }}
@@ -1447,25 +1460,24 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
         </Modal.Header>
         <Modal.Body>
         <div><span className="Modal_head">ID:</span> {selectedRowData?.id}</div>
-
+          
           <div><span className="Modal_head">Project Name:</span>{selectedRowData?.project_name}</div>
           <div><span className="Modal_head">Category:</span>{selectedRowData?.category}</div>
           <div><span  className="Modal_head">Client:</span> {selectedRowData?.client}</div>
-          <div><span  className="Modal_head">Duration::</span> {selectedRowData?.duration}</div>
+          <div><span  className="Modal_head">Duration:</span> {selectedRowData?.duration}</div>
           <div><span  className="Modal_head">Started On: </span>{selectedRowData?.start_date}</div>
           <div><span  className="Modal_head">Project Manger: </span>{selectedRowData?.project_manager}</div>
           <div><span  className="Modal_head">Deadline: </span>{selectedRowData?.deadline}</div>
           <div><span  className="Modal_head">Status: </span>{selectedRowData?.status}</div>
-      
           <div><span  className="Modal_head">Completed Date:</span> {selectedRowData?.end_date}</div>
           <div><span  className="Modal_head">Date:</span> {selectedRowData?.date}</div>
           <div><span className="Modal_head">Priority:</span>: {selectedRowData?.priority}</div>
-
           <div><span  className="Modal_head">Started Date:</span> {selectedRowData?.start_date}</div>
           <div><span className="Modal_head">Description:</span>{selectedRowData?.description}</div>
+        
         </Modal.Body>
       </Modal>
     </>
   );
 }
-export default ExpereinceLetter;
+export default Ptable;

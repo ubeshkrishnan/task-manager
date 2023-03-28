@@ -48,23 +48,18 @@ app.post('/login', (req, res) => {
   const { email, password } = req.body;
   const sql = `SELECT * FROM sign_in WHERE email = '${email}' AND password = '${password}'`;
   db.query(sql, (err, result) => {
-    console.log(result,'result');
-    const roleSet=result[0].role;
-    console.log(roleSet);
     if (err) {
       res.status(500).send({ message: 'Error occurred' });
     } else if (result.length === 0) {
       res.status(401).send({ message: 'Invalid username or password' });
     } else {
       const user = result[0];
-     
-      // const s={role:roleSet}
-      // generate an access token or session cookie here
-      // console.log(user);
-      res.status(200).send({ message: 'Login successful', user,role:roleSet });
+      const roleSet = user.role || '';
+      res.status(200).send({ message: 'Login successful', user, role: roleSet });
     }
   });
 });
+
 
 app.post("/history", (req, res) => {
   console.log(req.body);
@@ -492,13 +487,14 @@ app.put("/update_experience", (req, res) => {
     comments,
     id,
   } = req.body;
+  
   // Convert duration to number of seconds
   const durationInSeconds = duration
     ? duration.split(":").reduce((acc, time) => (60 * acc) + +time)
     : null;
 
   db.query(
-    "update task set task_name=?, client=?, control_code=?, category=?, task_assignperson=?, deadline=?, duration=?, description=?, status=?, comments=? where id=?",
+    "UPDATE task SET task_name=?, client=?, control_code=?, category=?, task_assignperson=?, deadline=?, duration=?, description=?, status=?, comments=? WHERE id=?",
     [
       task_name,
       client,
@@ -506,7 +502,7 @@ app.put("/update_experience", (req, res) => {
       category,
       task_assignperson,
       deadline,
-      duration,
+      durationInSeconds, // Store duration in seconds
       description,
       status,
       comments,
@@ -519,8 +515,7 @@ app.put("/update_experience", (req, res) => {
       } else {
         console.log(error);
       }
-    }
-    
+    }    
   );
 });
 
@@ -642,9 +637,8 @@ app.post("/project", (req, res) => {
 
 // Project card Map
 app.get("/projectcard", (req, res) => {
-  // db.query("SELECT * FROM project", (error, results, fields) => {
-    db.query("SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline FROM project", (error, results, fields) => {  
-      if (error) throw error;
+  db.query("SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline, IFNULL(duration, 'no data') as duration, start_date, end_date FROM project", (error, results, fields) => {  
+    if (error) throw error;
     console.log(results);
     res.send(results);
   });
@@ -675,13 +669,10 @@ app.put("/update_project", (req, res) => {
     date,
     id,
   } = req.body;
-  // Convert duration to number of seconds
-  const durationInSeconds = duration
-    ? duration.split(":").reduce((acc, time) => (60 * acc) + +time)
-    : null;
+
 
   db.query(
-    "update project set project_name=?, category=?, client=?, category=?, duration=?, start_date=?, end_date=?, project_manager=?, status=?, date=? where id=?",
+    "update project set project_name=?, category=?, client=?, duration=?, start_date=?, end_date=?, project_manager=?, status=?, date=? where id=?",
     [
       project_name,
       category,
@@ -727,7 +718,7 @@ app.put("/project_status_update", (req, res) => {
   );
 });
 
-// Task filter
+// Project filter
 app.get("/project_filter", (req, res) => {
   const filter = req.query.filter;
   let query = "";
@@ -744,7 +735,7 @@ app.get("/project_filter", (req, res) => {
   });
 });
 
-// Task Count
+// Project Count
 app.get("/project_filter", (req, res) => {
   const filter = req.query.filter;
   const query = `SELECT COUNT(*) AS incomplete FROM project WHERE status != 'completed' AND category = '${filter}'`;
@@ -753,6 +744,23 @@ app.get("/project_filter", (req, res) => {
     res.send(results[0]);
   });
 });
+
+// Punch in Punch Out
+
+app.post('/punch', async (req, res) => {
+  const { punchInTime, punchOutTime, workHours } = req.body;
+  const query = `INSERT INTO punchin_punchout (punchin_time,punchout_time,work_hours ) VALUES (?, ?, ?)`;
+// Execute the query with the extracted data
+db.query(query, [punchInTime, punchOutTime, workHours], (error, results, fields) => {
+  if (error) {
+      console.log(error);
+      res.status(500).send('Error inserting data into the database');
+  } else {
+      res.status(200).send('Data inserted successfully');
+  }
+});
+})
+
 
 app.listen(3001, () => {
   console.log("server is connected");

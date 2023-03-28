@@ -9,7 +9,7 @@ import axios from "axios";
 import Table from './PTable'
 import './PTable.css';
 import { Url } from "../../../Global_variable/api_link";
-
+import { DatePicker, Space } from 'antd';
 
 function Projects() {
   const [isModal, setIsModal] = useState(false);
@@ -17,6 +17,7 @@ function Projects() {
   const [isAddUserModa, setIsAddUserModa] = useState(false);
   const [modalHeader, setModalHeader] = useState('');
   const [editModeldata, setEditModeldata] = useState({
+   
     // project_name:"", 
     project_name:"",
     category:"",  
@@ -38,7 +39,7 @@ function Projects() {
       [e.target.name]: e.target.value,
     });
   };
-
+  const { RangePicker } = DatePicker;
   const project =(e)=>{
     e.preventDefault();
     axios.post("http://localhost:3001/project",{
@@ -286,10 +287,8 @@ const Updateproject = async (project,id) => {
                                     <input type="text" className="form-control" name="client" onChange={handleInputChange} value={editModeldata.client}/>
                                 </div>
                                 <div className="col-sm">
-                                <div className="col-sm">
                                     <label htmlFor="formFileMultipleone" className="form-label">Duration</label>
-                                    <input type="date" className="form-control" name="duration"  onChange={handleInputChange} value={editModeldata.duration}/>
-                                </div>
+                                    <RangePicker  name="duration"   onChange={handleInputChange} value={editModeldata.duration}/> 
                                 </div>
                             </div>
                         <div className="deadline-form">

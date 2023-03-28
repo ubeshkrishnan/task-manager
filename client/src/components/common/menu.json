@@ -1,0 +1,108 @@
+{
+    "menu": [
+        {
+            "name": "Tasks",
+            "routerLink": [""],
+            "identifier": "task",
+            "iconClass": "icofont-briefcase",
+            "breadcrumbMessage": "Welcome to Analytics Dashboard.",
+            "isCategory": false,
+            "isApp": false,
+            "children": [
+                {
+                    "name": "TaskList",
+                    "routerLink": ["Employeetask"],
+                    "identifier": "TaskList",
+                    "iconClass": "",
+                    "breadcrumbMessage": "",
+                    "isCategory": false,
+                    "isApp": false,
+                    "children": []
+                },
+                {
+                    "name": "Taskdetails",
+                    "routerLink": ["Taskdetails"],
+                    "identifier": "Taskdetails",
+                    "iconClass": "",
+                    "breadcrumbMessage": "",
+                    "isCategory": false,
+                    "isApp": false,
+                    "children": []
+                }
+            ]
+        },
+        {
+            "name": "Employees",
+            "routerLink": [""],
+            "identifier": "Employees",
+            "iconClass": "icofont-users-alt-5",
+            "breadcrumbMessage": "",
+            "isCategory": false,
+            "isApp": true,
+            "children": [
+                {
+                    "name": "Holidays",
+                    "routerLink": ["holidays"],
+                    "identifier": "Holidays",
+                    "iconClass": "",
+                    "breadcrumbMessage": "",
+                    "isCategory": false,
+                    "isApp": false,
+                    "children": []
+                },
+                {
+                    "name": "Attendance Employees",
+                    "routerLink": ["attendance-employees"],
+                    "identifier": "Attendance Employees",
+                    "iconClass": "",
+                    "breadcrumbMessage": "",
+                    "isCategory": false,
+                    "isApp": false,
+                    "children": []
+                },
+                {
+                    "name": "Attendance",
+                    "routerLink": ["attendance"],
+                    "identifier": "Attendance",
+                    "iconClass": "",
+                    "breadcrumbMessage": "",
+                    "isCategory": false,
+                    "isApp": false,
+                    "children": []
+                },
+                {
+                    "name": "Leave Request",
+                    "routerLink": ["leave-request"],
+                    "identifier": "Leave Request",
+                    "iconClass": "",
+                    "breadcrumbMessage": "",
+                    "isCategory": false,
+                    "isApp": false,
+                    "children": []
+                }
+    ]
+},
+{
+    "name": "Calander",
+    "routerLink": [""],
+    "identifier": "Calander",
+    "iconClass": "icofont-contrast",
+    "breadcrumbMessage": "",
+    "isCategory": false,
+    "isApp": true,
+    "children": [
+        {
+            "name": "Calander",
+            "routerLink": ["calander"],
+            "identifier": "Calander",
+            "iconClass": "",
+            "breadcrumbMessage": "",
+            "isCategory": false,
+            "isApp": false,
+            "children": []
+        }
+    ]
+    }
+
+    ]
+}

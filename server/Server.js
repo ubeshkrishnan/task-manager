@@ -6,14 +6,12 @@ const mysql = require("mysql2");
 // const PORT = process.env.PORT || 3000;
 
 const db = mysql.createConnection({
-  host: "localhost",
+  host: "192.168.130.20",
   user: "root",
-  password: "",
+  password: "Thirukumaran6",
   database: "dbtask_manager",
 });
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(cors());
 
 // Tickets
@@ -40,7 +38,7 @@ app.get("/api/tickets", (req, res) => {
       console.error(error);
       res.status(500).json({ message: "Internal server error" });
     } else {
-      res.json(results);
+      res.send(`Client with ID ${id} deleted successfully!`);
     }
   });
 });

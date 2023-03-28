@@ -45,9 +45,10 @@ class Members extends React.Component{
                     </Modal.Header>
                     <Modal.Body>
                     <div className="modal-body">
-                        <div className="mb-3">
+                        <div className="mb-3 col-lg-6">
                             <label htmlFor="exampleFormControlInput877" className="form-label">Employee Name</label>
                             <input type="text" className="form-control" id="exampleFormControlInput877" placeholder="Explain what the Project Name" />
+                        
                         </div>
                         <div className="mb-3">
                             <label htmlFor="exampleFormControlInput977" className="form-label">Employee Company</label>

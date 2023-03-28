@@ -16,39 +16,57 @@ class Header extends React.Component {
     state={
         isAddUserModa:false
     }
+    constructor(props) {
+        super(props);
+        this.state = {
+          currentTime: new Date(),
+        };
+      }
+    
+      componentDidMount() {
+        this.timer = setInterval(() => {
+          this.setState({ currentTime: new Date() });
+        }, 1000);
+      }
+    
+      componentWillUnmount() {
+        clearInterval(this.timer);
+      }
     render(){
         return(
-        <div className="header">
-            <nav className="navbar py-4">
-                <div className="container-xxl">
-                    <div className="h-right d-flex align-items-center mr-5 mr-lg-0 order-1">
-                        <div className="d-flex">
-                            <Link to="help" className="nav-link text-primary collapsed" title="Get Help">
-                                <i className="icofont-info-square fs-5"></i>
-                            </Link>
-                            <div className="avatar-list avatar-list-stacked px-3">
-                                <img className="avatar rounded-circle" src={Avatar2} alt=""/>
-                                <img className="avatar rounded-circle" src={Avatar1} alt=""/>
-                                <img className="avatar rounded-circle" src={Avatar3} alt=""/>
-                                <img className="avatar rounded-circle" src={Avatar4} alt=""/>
-                                <img className="avatar rounded-circle" src={Avatar7} alt=""/>
-                                <img className="avatar rounded-circle" src={Avatar8} alt=""/>
-                                <span className="avatar rounded-circle text-center pointer" onClick={()=>{ this.setState({isAddUserModa:true }) }}><i className="icofont-ui-add"></i></span>
+            <div className="header">
+                <nav className="navbar py-4">
+                    <div className="container-xxl">
+                        <div className="h-right d-flex align-items-center mr-5 mr-lg-0 order-1">
+                            <span style={{fontWeight:'bold',fontSize:'16px',marginTop:'5px'}}>
+                                {new Date().toLocaleString("en-US", {
+                                    day: "numeric",
+                                    month: "short",
+                                    year: "numeric",
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                    second: "numeric",
+                                    hour12: true,
+                                })}
+                            </span>
+                            <div className="d-flex">
+                                <div className="avatar-list avatar-list-stacked px-3">
+                                    <span className="avatar rounded-circle text-center pointer" style={{marginBottom:'9px'}} onClick={()=>{ this.setState({isAddUserModa:true }) }}><i className="icofont-ui-add"></i></span>
+                                </div>
                             </div>
-                        </div>
-                        <Dropdown className="notifications">
-                            <Dropdown.Toggle as="a" className="nav-link dropdown-toggle pulse">
-                                <i className="icofont-alarm fs-5"></i>
-                                <span className="pulse-ring"></span>
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu className=" rounded-lg shadow border-0 dropdown-animation dropdown-menu-sm-end p-0 m-0">
-                                <div className="card border-0 w380">
-                                    <div className="card-header border-0 p-3">
-                                        <h5 className="mb-0 font-weight-light d-flex justify-content-between">
-                                            <span>Notifications</span>
-                                            <span className="badge text-white">11</span>
-                                        </h5>
-                                    </div>
+                            <Dropdown className="notifications">
+                                <Dropdown.Toggle as="a" className="nav-link dropdown-toggle pulse">
+                                    <i className="icofont-alarm fs-4"></i>
+                                    <span className="pulse-ring"></span>
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu className=" rounded-lg shadow border-0 dropdown-animation dropdown-menu-sm-end p-0 m-0">
+                                    <div className="card border-0 w380">
+                                        <div className="card-header border-0 p-3">
+                                            <h5 className="mb-0 font-weight-light d-flex justify-content-between">
+                                                <span>Notifications</span>
+                                                <span className="badge text-white">11</span>
+                                            </h5>
+                                        </div>
                                     <div className="tab-content card-body">
                                         <div className="tab-pane fade show active">
                                             <ul className="list-unstyled list mb-0">
@@ -114,10 +132,12 @@ class Header extends React.Component {
                             </Dropdown.Menu>
 
                         </Dropdown>
+                        
                         <Dropdown className="dropdown user-profile ml-2 ml-sm-3 d-flex align-items-center">
                             <div className="u-info me-2">
-                                <p className="mb-0 text-end line-height-sm "><span className="font-weight-bold">Dylan Hunter</span></p>
+                                <p className="mb-0 text-end line-height-sm "><span className="font-weight-bold">Admin Login</span></p>
                                 <small>Admin Profile</small>
+                            
                             </div>
                             <Dropdown.Toggle as="a" className="nav-link dropdown-toggle pulse p-0">
                                 <img className="avatar lg rounded-circle img-thumbnail" src={ProfileImg} alt="profile" />
@@ -146,7 +166,7 @@ class Header extends React.Component {
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>
-    
+                    {/* <h1 style={{fontWeight:'600'}}>Projects</h1> */}
                     
                     <button className="navbar-toggler p-0 border-0 menu-toggle order-3" 
                     onClick={()=>{
@@ -166,8 +186,8 @@ class Header extends React.Component {
                     
                     <div className="order-0 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 mb-md-0 ">
                         <div className="input-group flex-nowrap input-group-lg">
-                            <button type="button" className="input-group-text" id="addon-wrapping"><i className="fa fa-search"></i></button>
-                            <input type="search" className="form-control" placeholder="Search" aria-label="search" aria-describedby="addon-wrapping" />
+                            {/* <button type="button" className="input-group-text" id="addon-wrapping"><i className="fa fa-search"></i></button> */}
+                            {/* <input type="search" className="form-control" placeholder="Search" aria-label="search" aria-describedby="addon-wrapping" /> */}
                             <button type="button" className="input-group-text add-member-top" onClick={()=>{ this.setState({isAddUserModa:true }) }}><i className="fa fa-plus"></i></button>
                         </div>
                     </div>

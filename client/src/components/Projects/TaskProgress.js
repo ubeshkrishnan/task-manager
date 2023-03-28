@@ -29,7 +29,7 @@ class TaskProgress extends React.Component{
                     </div>
                     <div className="progress-count mb-4">
                         <div className="d-flex justify-content-between align-items-center mb-1">
-                            <h6 className="mb-0 fw-bold d-flex align-items-center">Quality Assurance</h6>
+                            <h6 className="mb-0 fw-bold d-flex align-items-center">Quality Aassurance</h6>
                             <span className="small text-muted">02/07</span>
                         </div>
                         <ProgressBar style={{height: "10px"}}>

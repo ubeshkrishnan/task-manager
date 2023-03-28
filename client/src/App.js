@@ -3,6 +3,9 @@ import { Switch, withRouter } from "react-router";
 import Sidebar from "./components/common/Sidebar";
 import AuthIndex from "./screens/AuthIndex";
 import MainIndex from "./screens/MainIndex";
+// import NavigationBar from "./components/common/NavigationBar";
+// import EmployeeIndex from "./screens/EmployeeIndex";
+import Sidebar1 from "./components/common/Sidebar1";
 
 class App extends React.Component {
   activekey() {
@@ -26,15 +29,31 @@ class App extends React.Component {
         </div>
       )
     }
+    if (this.activekey() === "/Employeetask" || this.activekey() === "/Taskdetails" ||this.activekey() === "/holidays"
+    ||this.activekey() === "/attendance-employees" || this.activekey() === "/attendance" || this.activekey() === "/leave-request"
+    ||this.activekey() === "/calander"){
+      return (
+        <div id="mytask-layout" className="theme-indigo">
+          <Sidebar1 activekey={this.activekey()} history={this.props.history} />
+          <Switch>
+            <MainIndex activekey={this.activekey()} />
+          </Switch>
+        </div>
+      )
+    }
     return (
       <div id="mytask-layout" className="theme-indigo">
-        <Sidebar activekey={this.activekey()} history={this.props.history}/>
+     {/* <NavigationBar />*/}
+      
+         <Sidebar activekey={this.activekey()} history={this.props.history}/>
         <Switch>
           <MainIndex activekey={this.activekey()}/>
         </Switch>
+        
       </div>
     );
   }
+  
 }
 
 export default withRouter(App);

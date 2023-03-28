@@ -9,7 +9,8 @@ class Sidebar extends React.Component{
         isOpenMenu2:false,
         menuData:[...menu.menu],
         darkLightMode:"light",
-        updateRtl:false
+        updateRtl:false,
+        // role : ["Projects"]
     }
 
     componentDidMount(){
@@ -100,7 +101,9 @@ class Sidebar extends React.Component{
     }
     render(){
         const {activekey} = this.props;
-        const {isSidebarMini,menuData,darkLightMode} = this.state;
+        const {isSidebarMini,menuData,darkLightMode } = this.state;
+        // const {isSidebarMini,menuData,darkLightMode , role } = this.state;
+
         return(
             <div id="mainSideMenu" className={`sidebar px-4 py-4 py-md-5 me-0 ${isSidebarMini?"sidebar-mini":""}`}>
                 <div className="d-flex flex-column h-100">
@@ -117,25 +120,28 @@ class Sidebar extends React.Component{
                     <ul className="menu-list flex-grow-1 mt-3">
                         {
                             menuData.map((d,i)=>{
-                                if(d.isToggled ){
+                                if(d.isToggled){
+                                    {/* console.log(role.includes(d.name),'k') */}
                                     return <li key={"shsdg"+i}> 
                                             <a className={`m-link `} href="#!" onClick={(e)=>{e.preventDefault(); this.GotoChangeMenu(d.name);  }}>
                                                 <i className={d.iconClass}></i> 
-                                                <span>{d.name}</span> 
+                                                <span>{d.name}</span>
                                             </a>
                                         </li>
                                 }
-                                if(d.children.length === 0){
+
+                                if(d.children.length === 0 ){
                                     return <li key={"dsfshsdg"+i} className=" collapsed">
                                                 <Link to={process.env.PUBLIC_URL+"/"+d.routerLink[0]} className={`m-link ${(d.routerLink[0] === activekey)?"active":""}`} >
                                                     <i className={d.iconClass}></i> 
-                                                    <span>{d.name}</span> 
+                                                    <span>{d.name}</span> k
                                                     <span className="arrow icofont-dotted-down ms-auto text-end fs-5">
                                                     </span>
                                                 </Link>
                                             </li>
                                 }
-                                return <li key={"shsdg"+i} className=" collapsed">
+                                {/* else if(role.includes(d.name)){ */}
+                                 return  <li key={"shsdg"+i} className=" collapsed">
                                             <a className={`m-link ${d.children.filter((d)=> "/"+d.routerLink[0] === activekey).length >0?"active":""}`} href="#!" onClick={(e)=>{e.preventDefault(); this.openChildren("menu-Pages"+i) }}>
                                                 <i className={d.iconClass}></i> 
                                                 <span>{d.name}</span> 
@@ -164,11 +170,14 @@ class Sidebar extends React.Component{
                                             }
                                             
                                         </li>
+                                {/* } */}
+                                
                             })
                         }
                         
                         
                     </ul>
+
                     <ul className="list-unstyled mb-0">
                         <li className="d-flex align-items-center justify-content-center">
                             <div className="form-check form-switch theme-switch">

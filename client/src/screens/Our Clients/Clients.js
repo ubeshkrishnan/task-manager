@@ -4,15 +4,53 @@ import OurClients from "../../components/Clients/OurClients";
 import PageHeader from "../../components/common/PageHeader";
 // import { OurClientsData} from "../../components/Data/AppData";
 import axios from "axios";
+<<<<<<< HEAD
 // import College from "../../../src/assets/uploads";
 import { useHistory } from "react-router-dom";
 // import { imageUrl, Url } from "../../Global_variable/api_link";
 
+=======
+// import College from "../../uploads";
+import { useHistory, useParams } from "react-router-dom";
+
+
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
 function Clients() {
   const [isModal, setIsModal] = useState(false);
   const [isModalDelete, setIsModalDelete] = useState(false);
   const [modalheader, setModalHeader] = useState(null);
+<<<<<<< HEAD
   const [editModeldata, setEditModelData] = useState("");
+=======
+  const [file,setFile] =useState(null)
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  const [editModeldata, setEditModelData] = useState({
+    client_name: "",
+    client_shortcode: "",
+    vertical_id: "",
+    owner_name: "",
+    owner_phone: "",
+    owner_email: "",
+    accounts_contact: "",
+    accounts_phone: "",
+    accounts_email: "",
+    profileImage:{},
+    gst_no: "",
+    address_line_1: "",
+    address_line_2: "",
+    city: "",
+    state: "",
+    pin_code: "",
+  });
+
+  const handleInputChange = (e) => {
+    setEditModelData({
+      ...editModeldata,
+      [e.target.name]: e.target.value,
+    });
+  };
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
 
   const [isChecked, setIsChecked] = useState(true);
 
@@ -25,6 +63,7 @@ function Clients() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
+<<<<<<< HEAD
     axios
       .get("http://localhost:3001/users")
       .then((response) => {
@@ -113,10 +152,95 @@ function Clients() {
         } else {
           console.log("error");
         }
+=======
+    getUsers();
+  }, []);
+const getUsers = () =>{
+  axios
+  .get("http://localhost:3001/users")
+  .then((response) => {
+    setUsers(response.data);
+
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+}
+
+  // const [clientname,setClientName] =useState('');
+  // const [clientshortcode,setClientShortCode] =useState('');
+  // const [verticalid,setVertical_Id] =useState('');
+  // const [ownername,setOwnerName] =useState('');
+  // const [ownerphone,setOwnerPhone] =useState('');
+  // const [owneremail,setOwnerEmail] =useState('');
+  // const [accountscontact,setAccountsContact] =useState('');
+  // const [accountsphone,setAccountsPhone] =useState('');
+  // const [accountsemail,setAccountsEmail] =useState('');
+  // // const [profileimage,setProfileImage] =useState('');
+  // const [gstnumber,setGstNumber] =useState('');
+  // const [address1,setAddress1] =useState('');
+  // const [address2,setAddress2] =useState('');
+  // const [city,setCity] =useState('');
+  // const [state,setState] =useState('');
+  // const [pincode,setPincode] =useState('');
+
+  //INSERTING THE DATA
+  const clients = (e) => {
+    const{profileImage,client_name,client_shortcode,vertical_id,owner_name,owner_phone,owner_email,accounts_contact,accounts_phone,accounts_email,gst_no,address_line_1,address_line_2,city,state,pin_code} = editModeldata
+    console.log(editModeldata);
+  //   {
+  //     "client_name": "tTtT",
+  //     "client_shortcode": "T",
+  //     "vertical_id": "T",
+  //     "owner_name": "T",
+  //     "owner_phone": "T",
+  //     "owner_email": "TT",
+  //     "accounts_contact": "T",
+  //     "accounts_phone": "T",
+  //     "accounts_email": "T",
+  //     "profileImage": {},
+  //     "gst_no": "T",
+  //     "address_line_1": "T",
+  //     "address_line_2": "T",
+  //     "city": "T",
+  //     "state": "T",
+  //     "pin_code": "T"
+  // }
+  const fileInput = document.querySelector("input[type='file']");
+    const fromData = new FormData()
+  
+    fromData.append("profileImage",fileInput.files[0]);
+    fromData.append("client_name",client_name);
+    fromData.append("client_shortcode",client_shortcode);
+    fromData.append("vertical_id",vertical_id);
+    fromData.append("owner_name",owner_name);
+    fromData.append("owner_phone",owner_phone);
+    fromData.append("owner_email",owner_email);
+    fromData.append("accounts_contact",accounts_contact);
+    fromData.append("accounts_phone",accounts_phone);
+    fromData.append("accounts_email",accounts_email);
+    fromData.append("gst_no",gst_no);
+    fromData.append("address_line_1",address_line_1);
+    fromData.append("address_line_2",address_line_2);
+    fromData.append("city",city);
+    fromData.append("state",state);
+    fromData.append("pin_code",pin_code);
+
+
+    e.preventDefault();
+    axios
+      .post("http://localhost:3001/client", fromData)
+      .then((response) => {
+        console.log(response,'res');
+        setIsModal(!isModal);
+        setModalHeader("")
+        getUsers();
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
       })
       .catch((error) => {
         console.log(error);
       });
+<<<<<<< HEAD
   };
 
   const setimgfile = (e) => {
@@ -159,6 +283,114 @@ function Clients() {
         console.log(error);
       });
   };
+=======
+    console.log(editModeldata.client_name)
+  };
+
+  const Updateclient = async (client,id) => {
+    console.log(client, "dahgdsa");
+    try {
+       const response = await axios.put(`http://localhost:3001/update/${id}`,client);
+
+      if (response) {
+        // Handle the successful response
+        console.log(response);
+      } else {
+      }
+    } catch (error) {}
+  };
+
+  // const updateClient = async (e) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const response = await axios.put(`http://localhost:3001/update/${clientId}`, {
+  //       client_name: editModeldata.client_name,
+  //       client_shortcode: editModeldata.client_shortcode,
+  //       vertical_id: editModeldata.vertical_id,
+  //       owner_name: editModeldata.owner_name,
+  //       owner_phone: editModeldata.owner_phone,
+  //       owner_email: editModeldata.owner_email,
+  //       accounts_contact: editModeldata.accounts_contact,
+  //       accounts_phone: editModeldata.accounts_phone,
+  //       accounts_email: editModeldata.accounts_email,
+  //       gst_no: editModeldata.gst_no,
+  //       address_line_1: editModeldata.address_line_1,
+  //       address_line_2: editModeldata.address_line_2,
+  //       city: editModeldata.city,
+  //       state: editModeldata.state,
+  //       pin_code: editModeldata.pin_code
+  //     });
+
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  //UPDATING THE DATA
+  // const Updateclient = (client_id) => {
+  //   const data = {
+  //     clientname: clientname,
+
+  //     clientshortcode:clientshortcode,
+  //     verticalid:verticalid,
+  //     ownername:ownername,
+  //     ownerphone:ownerphone,
+  //     owneremail:owneremail,
+  //     accountscontact:accountscontact,
+  //     accountsphone:accountsphone,
+  //     accountsemail:accountsemail,
+  //     // profileimage:profileimage,
+  //     gstnumber:gstnumber,
+  //     address1:address1,
+  //     address2:address2,
+  //     city:city,
+  //     state:state,
+  //     pincode:pincode
+  //   };
+  //   console.log(data);
+
+  //   axios
+  //     .put(`http://localhost:3001/update/${client_id}`, data)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       // Update the client name in the users state variable
+  //       const updatedUsers = users.map((user) =>
+  //         user.client_id === client_id ? { ...user, data } : user
+  //       );
+  //       setUsers(updatedUsers);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  // const {client_id} = useParams();
+
+  // useEffect(() => {
+  // axios.get('http://localhost:3001/users/'+client_id)
+  // .then((response) => response.json())
+  //   .then((response) => {
+  //   setClientName(response[0].client_name);
+  //   setClientShortCode(response[0].client_shortcode);
+  //   setVertical_Id(response[0].vertical_id);
+  //   setOwnerName(response[0].owner_name);
+  //   setOwnerPhone(response[0].owner_phone);
+  //   setOwnerEmail(response[0].owner_email);
+  //   setAccountsContact(response[0].accounts_contact);
+  //   setAccountsPhone(response[0].accounts_phone);
+  //   setAccountsEmail(response[0].accounts_email);
+  //   setGstNumber(response[0].gst_no);
+  //   setAddress1(response[0].address_line_1);
+  //   setAddress2(response[0].address_line_2);
+  //   setCity(response[0].city);
+  //   setState(response[0].state);
+  //   setPincode(response[0].pin_code);
+
+  //   })
+  // },[]);
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
 
   // const handleupdate =() =>{
   //   const data ={
@@ -192,6 +424,7 @@ function Clients() {
   //     });
   //   }
   // delete the fields
+<<<<<<< HEAD
   const demoFun = (e) => {
     // setIsModalDelete(true);
     // console.log(e.client_id)
@@ -255,6 +488,148 @@ function Clients() {
     // console.log("Delete Is Working")
   };
 
+=======
+  // const demoFun=(e)=>{
+  //   setIsModalDelete(true);
+  //   // console.log(e.client_id)
+  //   let empid=e.client_id
+  //   let dataString={
+  //     id:empid
+  //   }
+  //   axios.post('http://localhost:3001/deleteDemo',dataString)
+  //   .then(response => {
+  //     console.log('Data deleted successfully!');
+  //     setIsModalDelete(false);
+  //     // Update the list of data after deletion
+  //     // fetchData();
+  //   })
+  //   .catch(error => {
+  //     console.error('Error deleting data:', error);
+  //   });
+  // }
+  // const history = useHistory();
+  // const handleDelete = () => {
+  //   const data ={
+  //     clientname,
+  //     clientshortcode,
+  //     verticalid,
+  //     ownername,
+  //     ownerphone,
+  //     owneremail,
+  //     accountscontact,
+  //     accountsphone,
+  //     accountsemail,
+  //     gstnumber,
+  //     address1,
+  //     address2,
+  //     city,
+  //     state,
+  //     pincode
+
+  //   }
+
+  //     const fetchData = async () => {
+  //       const response = await fetch("http://localhost:3001/deleteDemo")
+  //       const data = await response.json()
+  //       setUsers(data)
+  //     }
+
+  //   axios.delete(`http://localhost:3001/deleteDemo/${data.id}`)
+  //     .then(response => {
+  //       console.log('Data deleted successfully!');
+  //       setIsModalDelete(false);
+  //       history.push('clients');
+  //       // Update the list of data after deletion
+  //       fetchData();
+  //       // Redirect to the homepage
+
+  //     })
+  //     .catch(error => {
+  //       console.error('Error deleting data:', error);
+  //     });
+  //     // console.log("Delete Is Working")
+  // }
+  // Function to handle DELETE request
+
+  const handleDelete = () => {
+    const { client_id } = editModeldata;
+    fetch(`http://localhost:3001/api/clients/${client_id}`, { method: 'DELETE' })
+      .then((res) => res.text())
+      .then((data) => {
+        console.log(data,"delete");
+        setIsModalDelete(false);
+        getUsers();
+        // fetchClients(); // Refresh the client list after deletion?
+      })
+      .catch((err) => console.error(err));
+  };
+  
+  const fetchClients = () => {
+    fetch('/clients')
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data,"getclinet");
+        setUsers(data);
+      })
+      .catch((err) => console.error(err));
+  };
+  
+  useEffect(() => {
+    fetchClients();
+  }, []);
+
+
+  // img
+  const [viewphoto, setViewphoto] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3001/Viewfile")
+      .then((response) => response.json())
+      .then((json) => setViewphoto(json));
+  }, []);
+  
+
+//   useEffect(()=>{
+//     fetch('http://localhost:3001/Viewfile/')
+//     .then(response=>response.json())
+//     .then(json=>setViewphoto(json));
+// },[]);
+
+
+
+const handlesubmit = (event) => {
+    event.preventDefault();
+    var datastring = new FormData(event.target);
+    var config = {headers:{"enctype":"multipart/form-data"}};
+
+    axios.post('http://localhost:3002/Addfile',datastring,config)
+    .then(function(response){
+        if(response.data.status === 'error'){
+            alert('Error');
+            window.location.reload();
+        }
+        else if(response.data.status === 'uploaded'){
+            alert('File Uploaded');
+            window.location.reload();
+        }
+        else{
+            alert('Contact Admin');
+            window.location.reload();
+        }
+    })
+    .catch(function(error){
+        alert(error);
+        window.location.reload();
+    })
+
+}
+const uploadImage = (e) => {
+console.log(e.target.files[0],'e');
+setEditModelData(prev => {
+  return {...prev,"profileImage":e.target.files[0]}
+})
+}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
   return (
     <div className="container-xxl">
       <PageHeader
@@ -343,27 +718,45 @@ function Clients() {
 
       <div className="row g-3 row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2 row-deck py-1 pb-4">
         {users.map((data, i) => {
+<<<<<<< HEAD
           console.log("data", data);
+=======
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
           return (
             <div key={"skhd" + i} className="col">
               <div>
                 <OurClients
+<<<<<<< HEAD
                   avatar={data.file_name}
                   post={data.owner_name}
                   name={data.client_shortcode}
                   Companyname={data.client_name}
                   details={data.description}
+=======
+                  // avatar={College}
+                  post={data.owner_name}
+                  name={data.client_shortcode}
+                  Companyname={data.client_name}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                   onClickEdit={() => {
                     setIsModal(true);
                     setModalHeader("Edit Client");
                     setEditModelData(data);
                   }}
                   onClickDelete={() => {
+<<<<<<< HEAD
                     // demoFun(data);
                     setIsModalDelete(true);
 
                     console.log("ubesh", data);
                   }}
+=======
+                    setIsModalDelete(true);
+                    setEditModelData({ client_id: data.client_id });
+                    
+                  }}
+                  id={data.client_id}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                 />
               </div>
             </div>
@@ -385,7 +778,11 @@ function Clients() {
         </Modal.Header>
         <Modal.Body>
           <div className="deadline-form">
+<<<<<<< HEAD
             <form>
+=======
+            <form   onSubmit={handlesubmit}>
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
               <div className="row g-3 mb-3">
                 <div className="col-lg-6">
                   <label
@@ -397,9 +794,16 @@ function Clients() {
                   <input
                     type="text"
                     className="form-control"
+<<<<<<< HEAD
                     id="exampleFormControlInput177"
                     value={editModeldata.client_name}
                     onChange={(e) => setClientName(e.target.value)}
+=======
+                    name="client_name"
+                    id="exampleFormControlInput177"
+                    value={editModeldata.client_name}
+                    onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                     placeholder="Client Name"
                   />
                 </div>
@@ -414,9 +818,16 @@ function Clients() {
                   <input
                     type="text"
                     className="form-control"
+<<<<<<< HEAD
                     id="exampleFormControlInput277"
                     value={editModeldata.client_shortcode}
                     onChange={(e) => setClientShortCode(e.target.value)}
+=======
+                    name="client_shortcode"
+                    id="exampleFormControlInput277"
+                    value={editModeldata.client_shortcode}
+                    onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                     placeholder="Client ShortCode"
                   />
                 </div>
@@ -430,9 +841,16 @@ function Clients() {
                   <input
                     type="email"
                     className="form-control"
+<<<<<<< HEAD
                     id="exampleFormControlInput477"
                     value={editModeldata.vertical_id}
                     onChange={(e) => setVertical_Id(e.target.value)}
+=======
+                    name="vertical_id"
+                    id="exampleFormControlInput477"
+                    value={editModeldata.vertical_id}
+                    onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                     placeholder="Vertical ID"
                   />
                 </div>
@@ -447,9 +865,15 @@ function Clients() {
                     type="email"
                     className="form-control"
                     id="exampleFormControlInput477"
+<<<<<<< HEAD
                     name="clientname"
                     value={editModeldata.owner_name}
                     onChange={(e) => setOwnerName(e.target.value)}
+=======
+                    name="owner_name"
+                    value={editModeldata.owner_name}
+                    onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                     placeholder="OwnerName"
                   />
                 </div>
@@ -465,9 +889,16 @@ function Clients() {
                   <input
                     type="email"
                     className="form-control"
+<<<<<<< HEAD
                     id="exampleFormControlInput477"
                     value={editModeldata.owner_phone}
                     onChange={(e) => setOwnerPhone(e.target.value)}
+=======
+                    name="owner_phone"
+                    id="exampleFormControlInput477"
+                    value={editModeldata.owner_phone}
+                    onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                     placeholder="Owner Phone"
                   />
                 </div>
@@ -481,9 +912,16 @@ function Clients() {
                   <input
                     type="text"
                     className="form-control"
+<<<<<<< HEAD
                     id="exampleFormControlInput777"
                     value={editModeldata.owner_email}
                     onChange={(e) => setOwnerEmail(e.target.value)}
+=======
+                    name="owner_email"
+                    id="exampleFormControlInput777"
+                    value={editModeldata.owner_email}
+                    onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                     placeholder="OwnerEmail"
                   />
                 </div>
@@ -497,9 +935,16 @@ function Clients() {
                   <input
                     type="text"
                     className="form-control"
+<<<<<<< HEAD
                     id="exampleFormControlInput777"
                     value={editModeldata.accounts_contact}
                     onChange={(e) => setAccountsContact(e.target.value)}
+=======
+                    name="accounts_contact"
+                    id="exampleFormControlInput777"
+                    value={editModeldata.accounts_contact}
+                    onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                     placeholder="Accounts contact"
                   />
                 </div>
@@ -514,8 +959,14 @@ function Clients() {
                     type="text"
                     className="form-control"
                     id="exampleFormControlInput877"
+<<<<<<< HEAD
                     value={editModeldata.accounts_phone}
                     onChange={(e) => setAccountsPhone(e.target.value)}
+=======
+                    name="accounts_phone"
+                    value={editModeldata.accounts_phone}
+                    onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                     placeholder="Accounts Phone"
                   />
                 </div>
@@ -537,8 +988,14 @@ function Clients() {
                       type="text"
                       className="form-control"
                       id="exampleFormControlInput977"
+<<<<<<< HEAD
                       value={editModeldata.accounts_email}
                       onChange={(e) => setAccountsEmail(e.target.value)}
+=======
+                      name="accounts_email"
+                      value={editModeldata.accounts_email}
+                      onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                       placeholder="Accounts Email"
                     />
                   </div>
@@ -550,6 +1007,7 @@ function Clients() {
                     >
                       Profile Image
                     </label>
+<<<<<<< HEAD
                     <div className="input-group">
                       <input
                         className="form-control"
@@ -564,6 +1022,24 @@ function Clients() {
                     </div>
                   </div>
 
+=======
+                    <input className="form-control"  type="file" id="formFileMultipleoneone" alt="no" onChange={uploadImage} />
+                    {viewphoto.map((fileInput) => (
+    <img
+      key={fileInput.id}
+      src={`http://localhost:3001/Viewfile/${fileInput.files}`}
+      alt="No ---"
+      width="200px"
+      height="200px"
+    />
+  ))}
+
+                    {/* <input className="form-control" onChange={(e) =>setProfileImage(e.target.value) } type="file" id="formFileMultipleoneone" /> */}
+                 
+                  </div>
+
+                  
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                   <div className="col-lg-6">
                     <label
                       htmlFor="exampleFormControlInput177"
@@ -574,9 +1050,16 @@ function Clients() {
                     <input
                       type="text"
                       className="form-control"
+<<<<<<< HEAD
                       id="exampleFormControlInput177"
                       value={editModeldata.gst_no}
                       onChange={(e) => setGstNumber(e.target.value)}
+=======
+                      name="gst_no"
+                      id="exampleFormControlInput177"
+                      value={editModeldata.gst_no}
+                      onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                       placeholder="Gst Number"
                     />
                   </div>
@@ -590,9 +1073,16 @@ function Clients() {
                     <input
                       type="text"
                       className="form-control"
+<<<<<<< HEAD
                       id="exampleFormControlInput277"
                       value={editModeldata.address_line_1}
                       onChange={(e) => setAddress1(e.target.value)}
+=======
+                      name="address_line_1"
+                      id="exampleFormControlInput277"
+                      value={editModeldata.address_line_1}
+                      onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                       placeholder="Address 1"
                     />
                   </div>
@@ -608,9 +1098,16 @@ function Clients() {
                     <input
                       type="email"
                       className="form-control"
+<<<<<<< HEAD
                       id="exampleFormControlInput477"
                       value={editModeldata.address_line_2}
                       onChange={(e) => setAddress2(e.target.value)}
+=======
+                      name="address_line_2"
+                      id="exampleFormControlInput477"
+                      value={editModeldata.address_line_2}
+                      onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                       placeholder="Address 2"
                     />
                   </div>
@@ -624,9 +1121,16 @@ function Clients() {
                     <input
                       type="text"
                       className="form-control"
+<<<<<<< HEAD
                       id="exampleFormControlInput777"
                       value={editModeldata.city}
                       onChange={(e) => setCity(e.target.value)}
+=======
+                      name="city"
+                      id="exampleFormControlInput777"
+                      value={editModeldata.city}
+                      onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                       placeholder="City"
                     />
                   </div>
@@ -642,9 +1146,16 @@ function Clients() {
                     <input
                       type="email"
                       className="form-control"
+<<<<<<< HEAD
                       id="exampleFormControlInput477"
                       value={editModeldata.state}
                       onChange={(e) => setState(e.target.value)}
+=======
+                      name="state"
+                      id="exampleFormControlInput477"
+                      value={editModeldata.state}
+                      onChange={handleInputChange}
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                       placeholder="State"
                     />
                   </div>
@@ -658,6 +1169,7 @@ function Clients() {
                     <input
                       type="text"
                       className="form-control"
+<<<<<<< HEAD
                       id="exampleFormControlInput777"
                       value={editModeldata.pin_code}
                       onChange={(e) => setPincode(e.target.value)}
@@ -680,6 +1192,15 @@ function Clients() {
                       onChange={(e) => setDescription(e.target.value)}
                     ></textarea>
                   </div>
+=======
+                      name="pin_code"
+                      id="exampleFormControlInput777"
+                      value={editModeldata.pin_code}
+                      onChange={handleInputChange}
+                      placeholder="Enter Phone"
+                    />
+                  </div>
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
                 </div>
               </form>
             </div>
@@ -1081,11 +1602,25 @@ function Clients() {
           </div>
         </Modal.Body>
         <Modal.Footer>
+<<<<<<< HEAD
           <button type="button" className="btn btn-secondary">
             Done
           </button>
           <button type="button" className="btn btn-primary" onClick={clients}>
             Savee
+=======
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => {
+              Updateclient(editModeldata,editModeldata.client_id);
+            }}
+          >
+            Done
+          </button>
+          <button type="button" className="btn btn-primary" onClick={clients}>
+            Save
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
           </button>
         </Modal.Footer>
       </Modal>
@@ -1109,6 +1644,7 @@ function Clients() {
           <button
             type="button"
             className="btn btn-secondary"
+<<<<<<< HEAD
             onClick={() => ({ setIsModalDelete: false })}
           >
             Cancel
@@ -1118,6 +1654,15 @@ function Clients() {
             className="btn btn-danger color-fff"
             onClick={handleDelete}
           >
+=======
+            onClick={() => {
+              setIsModalDelete(false);
+            }}
+          >
+            Cancel
+          </button>
+          <button type="button" onClick={handleDelete} className="btn btn-danger color-fff">
+>>>>>>> f694b8371ebc07290ef9e5d6cdad6d04f2c25266
             Delete
           </button>
         </Modal.Footer>

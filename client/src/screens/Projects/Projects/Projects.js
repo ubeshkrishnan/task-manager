@@ -267,7 +267,8 @@ const Updateproject = async (project,id) => {
               <div className="mb-3">
                   <label className="form-label">Project Category</label>
                   <select className="form-select" name="category" onChange={handleInputChange} value={editModeldata.category}>
-                  <option >UI/UX Design</option>
+                  <option>select</option>
+                  <option value="UI/UX Design" >UI/UX Design</option>
                   <option value="Website Design">Website Design</option>
                   <option value="App Development">App Development</option>
                   <option value="Quality Assurance">Quality Assurance</option>
@@ -284,7 +285,14 @@ const Updateproject = async (project,id) => {
                             <div className="row g-3 mb-3">
                                 <div className="col-sm">
                                     <label htmlFor="formFileMultipleone" className="form-label">Client</label>
-                                    <input type="text" className="form-control" name="client" onChange={handleInputChange} value={editModeldata.client}/>
+                                      <select className="form-select" onChange={handleInputChange} name="client"  value={editModeldata.client} >
+                                <option >Select</option>
+                                <option value="KASC">KASC</option>
+                                <option value="SEC">SEC</option>
+                                <option value="HRMS">HRMS</option>
+                                <option value="KV">KV</option>
+                               
+                            </select>
                                 </div>
                                 <div className="col-sm">
                                     <label htmlFor="formFileMultipleone" className="form-label">Duration</label>
@@ -341,9 +349,9 @@ const Updateproject = async (project,id) => {
                                 <div className="col-sm">
                                     <label htmlFor="formFileMultipleone" className="form-label">Priority</label>
                                     <select className="form-select" name="priority" value={editModeldata.priority} onChange={handleInputChange}>
-                                        <option >Highest</option>
+                                        <option >Select</option>
                                         <option value="1">Medium</option>
-                                        <option value="2">Low</option>
+                                        <option value="2">Highest</option>
                                         <option value="3">Lowest</option>
                                     </select>
                                 </div>

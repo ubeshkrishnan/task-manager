@@ -1,5 +1,8 @@
 const Url = "http://localhost:3001";
-const imageUrl = "http://localhost:3001/uploads";
+const File_Url = "http://localhost:3001/uploads/";
 const homepage_url = "http://localhost:3000";
 
-export  { Url,imageUrl , homepage_url }
+export  { Url,File_Url , homepage_url }
+
+
+

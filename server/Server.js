@@ -5,10 +5,19 @@ const app = express();
 const mysql = require("mysql2");
 const bcrypt = require("bcrypt");
 // const fileupload = require("express-fileupload");
+
+
 const multer = require("multer");
-const upload = multer({
-  dest: "./public/uploads/ ",
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "../client/public/uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
 });
+
+const uploads = multer({ storage: storage}).single("profileImage");
 
 const db = mysql.createPool({
   host: "192.168.130.20",
@@ -44,18 +53,21 @@ app.post("/insert", (req, res) => {
 });
 
 
-app.post('/login', (req, res) => {
+app.post("/login", (req, res) => {
   const { email, password } = req.body;
-  const sql = `SELECT * FROM sign_in WHERE email = '${email}' AND password = '${password}'`;
+  const sql = `SELECT * FROM users WHERE user_email = '${email}' AND password = '${password}'`;
   db.query(sql, (err, result) => {
     if (err) {
-      res.status(500).send({ message: 'Error occurred' });
+      res.status(500).send({ message: "Error occurred" });
     } else if (result.length === 0) {
-      res.status(401).send({ message: 'Invalid username or password' });
+      res.status(401).send({ message: "Invalid username or password" });
     } else {
+      console.log("ddddddddddd", result);
       const user = result[0];
-      const roleSet = user.role || '';
-      res.status(200).send({ message: 'Login successful', user, role: roleSet });
+      const roleSet = user.role || "";
+      res
+        .status(200)
+        .send({ message: "Login successful", user, role: roleSet });
     }
   });
 });
@@ -178,7 +190,7 @@ app.get("/users/:id", (req, res) => {
 });
 
 // INSERTING A CLIENT
-app.post("/client", upload.single("profileImage"), (req, res) => {
+app.post("/client",uploads,(req, res) => {
   // Extract data from the request body and file
   const profileImage = req.file.filename; // Use filename instead of file object
   const {
@@ -637,7 +649,7 @@ app.post("/project", (req, res) => {
 
 // Project card Map
 app.get("/projectcard", (req, res) => {
-  db.query("SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline, IFNULL(duration, 'no data') as duration, start_date, end_date FROM project", (error, results, fields) => {  
+  db.query("SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline, IFNULL(duration, '%d-%m-%y' 'no data') as duration, start_date, end_date FROM project", (error, results, fields) => {  
     if (error) throw error;
     console.log(results);
     res.send(results);
@@ -691,7 +703,7 @@ app.put("/update_project", (req, res) => {
         res.send(s);
       } else {
         console.log(error);
-      }
+      }  
     }
     
   );
@@ -760,6 +772,48 @@ db.query(query, [punchInTime, punchOutTime, workHours], (error, results, fields)
   }
 });
 })
+
+// Employee Task Assign
+
+app.get("/gettask/:userId", async (req, res) => {
+  const { userId } = req.params;
+  const query = `SELECT * from task where assignto = ${userId}`;
+  db.query(query, (error, results, fields) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send(error);
+    } else {
+      res.status(200).send(results);
+    }
+  });
+});
+
+// Task Emp filter
+app.get("/taskemp_filter", (req, res) => {
+  const filter = req.query.filter;
+  let query = "";
+
+  if (filter === "All") {
+    query = "SELECT * FROM task";
+  } else {
+    query = `SELECT * FROM task WHERE status='${filter}'`;
+  }
+
+  db.query(query, (err, results) => {
+    if (err) throw err;
+    res.json(results);
+  });
+});
+
+// Task Count
+app.get("/taskemp_filter", (req, res) => {
+  const filter = req.query.filter;
+  const query = `SELECT COUNT(*) AS incomplete FROM tasks WHERE status != 'completed' AND category = '${filter}'`;
+  db.query(query, (error, results, fields) => {
+    if (error) throw error;
+    res.send(results[0]);
+  });
+});
 
 
 app.listen(3001, () => {

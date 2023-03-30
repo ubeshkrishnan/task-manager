@@ -147,9 +147,10 @@ function ExpereinceLetter() {
   };
 
   const onChange = (e, row) => {
-    if (!previous[row.id]) {
+    if (row && !previous[row.id]) {
       setPrevious((state) => ({ ...state, [row.id]: row }));
     }
+  
 
     const value = e.target.value;
     const name = e.target.name;
@@ -492,6 +493,8 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
         // window.location.reload();
       });
   };
+
+  
   // Modal Visible
   const tableData = [
     { status: "All" },
@@ -1072,8 +1075,8 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                             >
                               <option value="">Select user</option>
                               {users.map((user) => (
-                                <option key={user.id} value={user.id}>
-                                  {user.first_name}
+                                <option key={user.user_id} value={user.user_id}>
+                                  {user.user_id}
                                 </option>
                               ))}
                             </Form.Select>
@@ -1086,7 +1089,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                             {/* {console.log( {...{ row, name: "deadline", onChange }},'d')} */}
                             <input
                           type="time"
-                          name="ftime"
+                          name="duration"
                           className="form-control"
                           {...{ row, name: "duration", onChange }}
                         />
@@ -1189,7 +1192,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
               </TableRow>
               </TableHead>
               </Table>
-</TableContainer>
+    </TableContainer>
               </Paper>
             </div>
           </div>

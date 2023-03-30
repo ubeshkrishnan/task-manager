@@ -13,3 +13,6 @@
     font-weight: 500;
     line-height: 4.5rem;
 }
+.MuiTableRow-root MuiTableRow-head{
+height: 20px;
+}

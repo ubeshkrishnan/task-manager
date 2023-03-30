@@ -105,10 +105,11 @@ function Tasks() {
                             <label htmlFor="exampleFormControlInput77" className="form-label">Task Name</label>
                             <input type="text" className="form-control" name="task_name" onChange={handleInputChange}  value={editModeldata.task_name} id="exampleFormControlInput77" placeholder="Explain what the Project Name" />
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3" >
                             <label className="form-label">Task Category</label>
                             <select className="form-select" onChange={handleInputChange} name="category"  value={editModeldata.category} >
-                                <option >UI/UX Design</option>
+                            <option  >select Name</option>
+                                <option value="UI/UX Design" >UI/UX Design</option>
                                 <option value="Website Design">Website Design</option>
                                 <option value="App Development">App Development</option>
                                 <option value="Development">Quality Assurance</option>
@@ -121,7 +122,7 @@ function Tasks() {
                                 <option value="10">Other</option> */}
                             </select>
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 ">
                             <label htmlFor="formFileMultipleone" className="form-label">Task Images &amp; Document</label>
                             <input className="form-control" type="file" id="formFileMultipleone" multiple=""/>
                         </div>
@@ -174,7 +175,7 @@ function Tasks() {
                                     <div className="col-sm-6">
                                         <label htmlFor="formFileMultipleone" className="form-label">Task Assign Person</label>
                                         <select className="form-select" multiple="" onChange={handleInputChange} name="task_assignperson"    value={editModeldata.task_assignperson}>
-                                            <option  >select a name</option>
+                                            <option  >select Name</option>
                                             <option value="ubesh">ubesh</option>
                                             <option value="dharani">dharani</option>
                                             {/* <option value="2">Oliver Black</option>
@@ -194,15 +195,15 @@ function Tasks() {
                         </div>
                             <div className="row g-3 mb-3">
                                 <div className="col-sm">
-                                    <label htmlFor="formFileMultipleone" className="form-label">No:of:Hours</label>
+                                    <label htmlFor="formFileMultipleone" className="form-label">Time Estimation</label>
                                     <input type="number" className="form-control"/>
                                 </div>
                                 <div className="col-sm">
                                     <label htmlFor="formFileMultipleone" className="form-label">Priority</label>
                                     <select className="form-select" >
-                                        <option >Highest</option>
+                                        <option >Select</option>
                                         <option value="1">Medium</option>
-                                        <option value="2">Low</option>
+                                        <option value="2">Highest</option>
                                         <option value="3">Lowest</option>
                                     </select>
                                 </div>

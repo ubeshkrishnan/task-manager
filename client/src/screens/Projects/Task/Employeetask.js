@@ -8,7 +8,7 @@ import 'react-nestable/dist/styles/index.css';
 import { CompletedData, InProgressTaskData, needReviewData } from "../../../components/Data/AppData";
 import TaskNestable1 from "../../../components/Projects/TaskNestable1";
 import axios from "axios";
-import Table from './Table';
+import Table1 from './TableEmp';
 
 function Tasks() {
     const [isModal,setIsModal] =useState ("");
@@ -92,7 +92,7 @@ function Tasks() {
                         CompletedData={CompletedData}
                          /> */}
                     </div>
-                    <Table />
+                    <Table1 />
                 </div>
                 <Modal show={isModal} onHide={()=>setIsModal(false)}>
                     <Modal.Header closeButton>

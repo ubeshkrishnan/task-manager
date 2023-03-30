@@ -6,7 +6,7 @@ import PageHeader from "../../components/common/PageHeader";
 import axios from "axios";
 // import College from "../../uploads";
 import { useHistory, useParams } from "react-router-dom";
-
+import {File_Url, Url} from "../../Global_variable/api_link";
 
 function Clients() {
   const [isModal, setIsModal] = useState(false);
@@ -40,7 +40,10 @@ function Clients() {
       [e.target.name]: e.target.value,
     });
   };
-
+  // Img
+  const handleFileUpload = (event) => {
+    setFile(event.target.files[0]);
+  };
   const [isChecked, setIsChecked] = useState(true);
 
   const handleCheckboxChange = () => {
@@ -83,32 +86,17 @@ const getUsers = () =>{
   // const [state,setState] =useState('');
   // const [pincode,setPincode] =useState('');
 
+
+
   //INSERTING THE DATA
   const clients = (e) => {
     const{profileImage,client_name,client_shortcode,vertical_id,owner_name,owner_phone,owner_email,accounts_contact,accounts_phone,accounts_email,gst_no,address_line_1,address_line_2,city,state,pin_code} = editModeldata
     console.log(editModeldata);
-  //   {
-  //     "client_name": "tTtT",
-  //     "client_shortcode": "T",
-  //     "vertical_id": "T",
-  //     "owner_name": "T",
-  //     "owner_phone": "T",
-  //     "owner_email": "TT",
-  //     "accounts_contact": "T",
-  //     "accounts_phone": "T",
-  //     "accounts_email": "T",
-  //     "profileImage": {},
-  //     "gst_no": "T",
-  //     "address_line_1": "T",
-  //     "address_line_2": "T",
-  //     "city": "T",
-  //     "state": "T",
-  //     "pin_code": "T"
-  // }
-  const fileInput = document.querySelector("input[type='file']");
+ 
+  // const fileInput = document.querySelector("input[type='file']");
     const fromData = new FormData()
   
-    fromData.append("profileImage",fileInput.files[0]);
+    fromData.append("profileImage",profileImage);
     fromData.append("client_name",client_name);
     fromData.append("client_shortcode",client_shortcode);
     fromData.append("vertical_id",vertical_id);
@@ -368,15 +356,16 @@ const getUsers = () =>{
 
 
   // img
-  const [viewphoto, setViewphoto] = useState([]);
+  const [showImage, setShowImage] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
 
-  useEffect(() => {
-    fetch("http://localhost:3001/Viewfile")
-      .then((response) => response.json())
-      .then((json) => setViewphoto(json));
-  }, []);
-  
-
+  function handleClick(url) {
+    setShowImage(true);
+    setImageUrl(url);
+  }
+  function handleClose() {
+    setShowImage(false);
+  }
 //   useEffect(()=>{
 //     fetch('http://localhost:3001/Viewfile/')
 //     .then(response=>response.json())
@@ -385,38 +374,31 @@ const getUsers = () =>{
 
 
 
-const handlesubmit = (event) => {
-    event.preventDefault();
-    var datastring = new FormData(event.target);
-    var config = {headers:{"enctype":"multipart/form-data"}};
 
-    axios.post('http://localhost:3002/Addfile',datastring,config)
-    .then(function(response){
-        if(response.data.status === 'error'){
-            alert('Error');
-            window.location.reload();
-        }
-        else if(response.data.status === 'uploaded'){
-            alert('File Uploaded');
-            window.location.reload();
-        }
-        else{
-            alert('Contact Admin');
-            window.location.reload();
-        }
-    })
-    .catch(function(error){
-        alert(error);
-        window.location.reload();
-    })
 
-}
-const uploadImage = (e) => {
-console.log(e.target.files[0],'e');
-setEditModelData(prev => {
-  return {...prev,"profileImage":e.target.files[0]}
-})
-}
+    const handlesubmit = (event) => {
+      event.preventDefault();
+    
+      var datastring = new FormData();
+      datastring.append("profileImage", event.target.files[0]);
+      // Append other form data fields here
+      var config = { headers: { "enctype": "multipart/form-data" } };
+    
+      axios.post(Url + "/client", datastring, config)
+        .then(function (response) {
+          // Handle response here
+        })
+        .catch(function (error) {
+      "Erro"
+        });
+    }
+    
+// const uploadImage = (e) => {
+// console.log(e.target.files[0],'e');
+// setEditModelData(prev => {
+//   return {...prev,"profileImage":e.target.files[0]}
+// })
+// }
   return (
     <div className="container-xxl">
       <PageHeader
@@ -509,7 +491,7 @@ setEditModelData(prev => {
             <div key={"skhd" + i} className="col">
               <div>
                 <OurClients
-                  // avatar={College}
+                  avatar={data.profileImage}
                   post={data.owner_name}
                   name={data.client_shortcode}
                   Companyname={data.client_name}
@@ -525,25 +507,25 @@ setEditModelData(prev => {
                   }}
                   id={data.client_id}
                 />
-              </div>
-            </div>
-          );
-        })}
-      </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
 
-      <Modal
-        size="xl"
-        centered
-        show={isModal}
-        onHide={() => {
-          setIsModal(false);
-          setEditModelData("");
-        }}
-      >
-        <Modal.Header closeButton>
+          <Modal
+            size="xl"
+            centered
+            show={isModal}
+            onHide={() => {
+              setIsModal(false);
+              setEditModelData("");
+            }}
+          >
+          <Modal.Header closeButton>
           <Modal.Title className="fw-bold">{modalheader}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+          </Modal.Header>
+          <Modal.Body>
           <div className="deadline-form">
             <form   onSubmit={handlesubmit}>
               <div className="row g-3 mb-3">
@@ -711,7 +693,7 @@ setEditModelData(prev => {
                     />
                   </div>
 
-                  <div className="mb-3 col-lg-6">
+                  {/* <div className="mb-3 col-lg-6">
                     <label
                       htmlFor="formFileMultipleoneone"
                       className="form-label"
@@ -720,18 +702,58 @@ setEditModelData(prev => {
                     </label>
                     <input className="form-control"  type="file" id="formFileMultipleoneone" alt="no" onChange={uploadImage} />
                     {viewphoto.map((fileInput) => (
-    <img
-      key={fileInput.id}
-      src={`http://localhost:3001/Viewfile/${fileInput.files}`}
-      alt="No ---"
-      width="200px"
-      height="200px"
-    />
-  ))}
+                  <img
+                    key={fileInput.id}
+                    src={`http://localhost:3001/Viewfile/${fileInput.files}`}
+                    alt="No ---"
+                    width="200px"
+                    height="200px"
+                  />
+                ))} */}
 
                     {/* <input className="form-control" onChange={(e) =>setProfileImage(e.target.value) } type="file" id="formFileMultipleoneone" /> */}
-                 
-                  </div>
+                    <div className="mb-3 col-lg-6">
+  <label htmlFor="formFileMultipleoneone" className="form-label">
+    Profile Image
+  </label>
+  <input
+    className="form-control"
+    type="file"
+    placeholder="Profile Image"
+    id="formFileMultipleoneone"
+    name="profileImage"
+    onChange={handleFileUpload}
+  />
+  <img
+      src={File_Url}
+      width="100px"
+      height="100px"
+      alt="no"
+      name="profileImage"
+      onClick={() => handleClick(File_Url)}
+    />
+  {showImage && (
+    <>
+      <div className="row">
+        <button
+          className="close-button"
+          aria-label="Close Image"
+          style={{ float: "right" }}
+          onClick={handleClose}
+        >
+          <svg width="20" height="20">
+            <path
+              d="M10 8.586L2.929 1.515 1.515 2.929 8.586 10l-7.071 7.071 1.414 1.414L10 11.414l7.071 7.071 1.414-1.414L11.414 10l7.071-7.071-1.414-1.414L10 8.586z"
+              fill="black"
+            />
+          </svg>
+        </button>
+        <img src={imageUrl} alt="No" />
+      </div>
+    </>
+  )}
+</div>
+
 
                   
                   <div className="col-lg-6">
@@ -1289,5 +1311,4 @@ setEditModelData(prev => {
     </div>
   );
 }
-
 export default Clients;

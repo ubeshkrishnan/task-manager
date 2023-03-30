@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { Url } from "../../Global_variable/linkapi";
+import { Url } from "../../../Global_variable/api_link";
 
 const initialState = {
     taskCard:[]

@@ -74,7 +74,7 @@ const CustomTableCell = ({ row, name, onChange }) => {
   const { isEditMode } = row;
   const formattedDeadline = new Date(row[name]).toLocaleDateString();
   const formatted_date = moment(row[name]).fromNow();
-  const formatted_duration = new Date(row[name]).toLocaleDateString();
+  // const formatted_duration = new Date(row[name]).toLocaleDateString();
   const formatted_start_date = new Date(row[name]).toLocaleDateString();
   const formatted_end_date = new Date(row[name]).toLocaleDateString();
   
@@ -89,8 +89,8 @@ const CustomTableCell = ({ row, name, onChange }) => {
     />
   ) : (
     name === 'deadline' ? formattedDeadline
+    
     : name === 'date' ? formatted_date
-    : name === 'duration' ? formatted_duration
     : name === 'start_date' ? formatted_start_date
     : name === 'end_date' ? formatted_end_date
     : row[name]
@@ -859,7 +859,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                             </i>
                           </div>
                         </TableCell>
-                        <TableCell>
+                        {/* <TableCell>
                           <div
                             style={{}}
                             className="d-flex flex-row justify-content-center"
@@ -877,7 +877,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               />
                             </i>
                           </div>
-                        </TableCell>
+                        </TableCell> */}
                         {/* <TableCell>
 
                         <div
@@ -1309,10 +1309,10 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               style={{ borderBottom: "1px solid black" }}
                             />
 
-                            <CustomTableCell
+                            {/* <CustomTableCell
                               {...{ row, name: "duration", onChange }}
                               style={{ borderBottom: "1px solid black" }}
-                            />
+                            /> */}
                             
                             {/* <CustomTableCell
                                 {...{ row, name: "start_date", onChange }}

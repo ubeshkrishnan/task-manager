@@ -5,19 +5,10 @@ const app = express();
 const mysql = require("mysql2");
 const bcrypt = require("bcrypt");
 // const fileupload = require("express-fileupload");
-
-
 const multer = require("multer");
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "../client/public/uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.originalname);
-  },
+const upload = multer({
+  dest: "./public/uploads/ ",
 });
-
-const uploads = multer({ storage: storage}).single("profileImage");
 
 const db = mysql.createPool({
   host: "192.168.130.20",
@@ -53,25 +44,27 @@ app.post("/insert", (req, res) => {
 });
 
 
-app.post("/login", (req, res) => {
+app.post('/login', (req, res) => {
   const { email, password } = req.body;
-  const sql = `SELECT * FROM users WHERE user_email = '${email}' AND password = '${password}'`;
+  const sql = `SELECT * FROM sign_in WHERE email = '${email}' AND password = '${password}'`;
   db.query(sql, (err, result) => {
+    console.log(result,'result');
+    const roleSet=result[0].role;
+    console.log(roleSet);
     if (err) {
-      res.status(500).send({ message: "Error occurred" });
+      res.status(500).send({ message: 'Error occurred' });
     } else if (result.length === 0) {
-      res.status(401).send({ message: "Invalid username or password" });
+      res.status(401).send({ message: 'Invalid username or password' });
     } else {
-      console.log("ddddddddddd", result);
       const user = result[0];
-      const roleSet = user.role || "";
-      res
-        .status(200)
-        .send({ message: "Login successful", user, role: roleSet });
+     
+      // const s={role:roleSet}
+      // generate an access token or session cookie here
+      // console.log(user);
+      res.status(200).send({ message: 'Login successful', user,role:roleSet });
     }
   });
 });
-
 
 app.post("/history", (req, res) => {
   console.log(req.body);
@@ -190,7 +183,7 @@ app.get("/users/:id", (req, res) => {
 });
 
 // INSERTING A CLIENT
-app.post("/client",uploads,(req, res) => {
+app.post("/client", upload.single("profileImage"), (req, res) => {
   // Extract data from the request body and file
   const profileImage = req.file.filename; // Use filename instead of file object
   const {
@@ -499,14 +492,13 @@ app.put("/update_experience", (req, res) => {
     comments,
     id,
   } = req.body;
-  
   // Convert duration to number of seconds
   const durationInSeconds = duration
     ? duration.split(":").reduce((acc, time) => (60 * acc) + +time)
     : null;
 
   db.query(
-    "UPDATE task SET task_name=?, client=?, control_code=?, category=?, task_assignperson=?, deadline=?, duration=?, description=?, status=?, comments=? WHERE id=?",
+    "update task set task_name=?, client=?, control_code=?, category=?, task_assignperson=?, deadline=?, duration=?, description=?, status=?, comments=? where id=?",
     [
       task_name,
       client,
@@ -514,7 +506,7 @@ app.put("/update_experience", (req, res) => {
       category,
       task_assignperson,
       deadline,
-      durationInSeconds, // Store duration in seconds
+      duration,
       description,
       status,
       comments,
@@ -527,7 +519,8 @@ app.put("/update_experience", (req, res) => {
       } else {
         console.log(error);
       }
-    }    
+    }
+    
   );
 });
 
@@ -649,8 +642,9 @@ app.post("/project", (req, res) => {
 
 // Project card Map
 app.get("/projectcard", (req, res) => {
-  db.query("SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline, IFNULL(duration, '%d-%m-%y' 'no data') as duration, start_date, end_date FROM project", (error, results, fields) => {  
-    if (error) throw error;
+  // db.query("SELECT * FROM project", (error, results, fields) => {
+    db.query("SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline FROM project", (error, results, fields) => {  
+      if (error) throw error;
     console.log(results);
     res.send(results);
   });
@@ -681,10 +675,13 @@ app.put("/update_project", (req, res) => {
     date,
     id,
   } = req.body;
-
+  // Convert duration to number of seconds
+  const durationInSeconds = duration
+    ? duration.split(":").reduce((acc, time) => (60 * acc) + +time)
+    : null;
 
   db.query(
-    "update project set project_name=?, category=?, client=?, duration=?, start_date=?, end_date=?, project_manager=?, status=?, date=? where id=?",
+    "update project set project_name=?, category=?, client=?, category=?, duration=?, start_date=?, end_date=?, project_manager=?, status=?, date=? where id=?",
     [
       project_name,
       category,
@@ -703,7 +700,7 @@ app.put("/update_project", (req, res) => {
         res.send(s);
       } else {
         console.log(error);
-      }  
+      }
     }
     
   );
@@ -730,7 +727,7 @@ app.put("/project_status_update", (req, res) => {
   );
 });
 
-// Project filter
+// Task filter
 app.get("/project_filter", (req, res) => {
   const filter = req.query.filter;
   let query = "";
@@ -747,7 +744,7 @@ app.get("/project_filter", (req, res) => {
   });
 });
 
-// Project Count
+// Task Count
 app.get("/project_filter", (req, res) => {
   const filter = req.query.filter;
   const query = `SELECT COUNT(*) AS incomplete FROM project WHERE status != 'completed' AND category = '${filter}'`;
@@ -756,65 +753,6 @@ app.get("/project_filter", (req, res) => {
     res.send(results[0]);
   });
 });
-
-// Punch in Punch Out
-
-app.post('/punch', async (req, res) => {
-  const { punchInTime, punchOutTime, workHours } = req.body;
-  const query = `INSERT INTO punchin_punchout (punchin_time,punchout_time,work_hours ) VALUES (?, ?, ?)`;
-// Execute the query with the extracted data
-db.query(query, [punchInTime, punchOutTime, workHours], (error, results, fields) => {
-  if (error) {
-      console.log(error);
-      res.status(500).send('Error inserting data into the database');
-  } else {
-      res.status(200).send('Data inserted successfully');
-  }
-});
-})
-
-// Employee Task Assign
-
-app.get("/gettask/:userId", async (req, res) => {
-  const { userId } = req.params;
-  const query = `SELECT * from task where assignto = ${userId}`;
-  db.query(query, (error, results, fields) => {
-    if (error) {
-      console.log(error);
-      res.status(500).send(error);
-    } else {
-      res.status(200).send(results);
-    }
-  });
-});
-
-// Task Emp filter
-app.get("/taskemp_filter", (req, res) => {
-  const filter = req.query.filter;
-  let query = "";
-
-  if (filter === "All") {
-    query = "SELECT * FROM task";
-  } else {
-    query = `SELECT * FROM task WHERE status='${filter}'`;
-  }
-
-  db.query(query, (err, results) => {
-    if (err) throw err;
-    res.json(results);
-  });
-});
-
-// Task Count
-app.get("/taskemp_filter", (req, res) => {
-  const filter = req.query.filter;
-  const query = `SELECT COUNT(*) AS incomplete FROM tasks WHERE status != 'completed' AND category = '${filter}'`;
-  db.query(query, (error, results, fields) => {
-    if (error) throw error;
-    res.send(results[0]);
-  });
-});
-
 
 app.listen(3001, () => {
   console.log("server is connected");

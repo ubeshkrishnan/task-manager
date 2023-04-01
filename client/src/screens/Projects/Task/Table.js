@@ -17,6 +17,7 @@ import { DownloadTableExcel } from "react-export-table-to-excel";
 import DownloadIcon from "@mui/icons-material/Download";
 // Icons
 import EditIcon from "@material-ui/icons/EditOutlined";
+import PreviewIcon from '@mui/icons-material/Preview';
 import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 import DoneIcon from "@material-ui/icons/DoneAllTwoTone";
 import RevertIcon from "@material-ui/icons/NotInterestedOutlined";
@@ -487,7 +488,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
       .then((response) => {
         console.log(response, "response");
         if (!response.error) {
-          alert("Status updated");
+          // alert("Status updated");
           getExperience();
         }
         // window.location.reload();
@@ -596,6 +597,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
             }
         },  
     ];
+// Time
 
   return (
     <>
@@ -830,6 +832,46 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                             </i>
                           </div>
                         </TableCell>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th className="hrtable table_name">Control_Code</th>
+                            <i
+                              style={{ paddingLeft: '2px' }}
+                              onClick={() => sortingclient("client")}
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: 18,
+                                  color: "white",
+                                  marginBottom: "10",
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            style={{ paddingTop: 15 }}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th className="hrtable table_name">Created_dt</th>
+                            <i
+                              style={{ paddingLeft: '2px', color: "#FF7F7F" }}
+                              onClick={() => sortingcategory("category")}
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: 18,
+                                  color: "white",
+                                  marginBottom: "10",
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
                         {/* <TableCell>
                           <div
                             style={{ paddingTop: 15 }}
@@ -870,7 +912,8 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                             </i>
                           </div>
                         </TableCell> */}
-         
+          
+                        
                         <TableCell>
                           <div
                             style={{ paddingTop: 18 }}
@@ -932,7 +975,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                             </th>
                           </div>
                         </TableCell>
-                        <TableCell>
+                        {/* <TableCell>
                           <div
                             style={{ paddingTop: 15 }}
                             className="d-flex flex-row justify-content-center"
@@ -951,7 +994,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               />
                             </i>
                           </div>
-                        </TableCell>
+                        </TableCell> */}
                        
                         <TableCell>
                           <div
@@ -1041,23 +1084,24 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               {...{ row, name: "client", onChange }}
                               style={{ borderBottom: "1px solid black" }}
                             />
-                            {/* <CustomTableCell
+                            <CustomTableCell
                               {...{ row, name: "control_code", onChange }}
                               style={{ borderBottom: "1px solid black" }}
-                            /> */}
+                            />
 
                             {/* <CustomTableCell
                               {...{ row, name: "category", onChange }}
                               style={{ borderBottom: "1px solid black" }}
                             /> */}
-                            {/* <CustomTableCell
+                            {/* {/* <CustomTableCell
                                 {...{ row, name: "start_date", onChange }}
                                 style={{ borderBottom: "1px solid black" }}
-                              />
-                              <CustomTableCell
-                                {...{ row, name: "end_date", onChange }}
-                                style={{ borderBottom: "1px solid black" }}
                               /> */}
+                              <CustomTableCell
+                                {...{ row, name: "created_date", onChange }}
+                                style={{ borderBottom: "1px solid black" }}
+                              /> 
+
                             {/* <CustomTableCell
                               {...{ row, name: "task_assignperson", onChange }}
                               style={{ borderBottom: "1px solid black" }}
@@ -1081,24 +1125,27 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               ))}
                             </Form.Select>
 
-                            <CustomTableCell
+                           <CustomTableCell
                               {...{ row, name: "deadline", onChange }}
                               style={{ borderBottom: "1px solid black" }}
-                            />
+                            /> 
                             
                             {/* {console.log( {...{ row, name: "deadline", onChange }},'d')} */}
-                            <input
-                          type="time"
-                          name="duration"
-                          className="form-control"
+                            {/* <input type="time"
+                                      name="duration"
+                                      className="form-control"
                           {...{ row, name: "duration", onChange }}
                         />
-                            {console.log( {...{ row, name: "duration", onChange }},'d')}
-                           
+                            {console.log( {...{ row, name: "duration", onChange }},'d')} */}
                             <CustomTableCell
-                              {...{ row, name: "description", onChange }}
+                              {...{ row, name: "duration", onChange }}
                               style={{ borderBottom: "1px solid black" }}
                             />
+
+                            {/* <CustomTableCell
+                              {...{ row, name: "description", onChange }}
+                              style={{ borderBottom: "1px solid black" }}
+                            /> */}
                            <Form.Select
                               style={{
                                 width: "133px",
@@ -1157,12 +1204,13 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                                 <>
                                 <div className="flex justify-content-center">
             <Toast ref={toast}></Toast>
-            <SplitButton label="Details"
+            <SplitButton label="D"
                             onClick={() => {
                               setSelectedRowData(row); // Set the selected row's data
                               setVisibleTimer(true); // Show the modal
 
-                            }} model={items} className="custom-button" severity="warning" raised />
+                            }} 
+                            model={items} className="custom-button" severity="warning" raised />
            
 
            
@@ -1201,7 +1249,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
       <Modal show={visibleTimer} onHide={() => setVisibleTimer(!visibleTimer)}>
         <Modal.Header closeButton>
           <Modal.Title className="fw-bold">
-            {selectedRowData?.task_name}
+            {selectedRowData?.client}
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

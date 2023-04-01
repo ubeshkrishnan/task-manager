@@ -1152,12 +1152,12 @@ function ExpereinceLetter() {
                             style={{ borderBottom: "1px solid black" }}
                           />
 
-<input
-                          type="time"
-                          name="duration"
-                          className="form-control"
+<CustomTableCell
                           {...{ row, name: "duration", onChange }}
-                        />
+                          style={{ borderBottom: "1px solid black" }}
+                        >
+                          <input type="time" value={row.duration} onChange={onChange} name="duration" />
+                          /</CustomTableCell>
 
                           <Form.Select
                             style={{

@@ -176,7 +176,7 @@ function Tasks() {
                                         <label htmlFor="formFileMultipleone" className="form-label">Task Assign Person</label>
                                         <select className="form-select" multiple="" onChange={handleInputChange} name="task_assignperson"    value={editModeldata.task_assignperson}>
                                             <option  >select Name</option>
-                                            <option value="ubesh">ubesh</option>
+                                            <option value="Satheesh">Satheesh</option>
                                             <option value="dharani">dharani</option>
                                             {/* <option value="2">Oliver Black</option>
                                             <option value="3">Adam Walker</option>

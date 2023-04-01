@@ -44,27 +44,25 @@ app.post("/insert", (req, res) => {
 });
 
 
-app.post('/login', (req, res) => {
+app.post("/login", (req, res) => {
   const { email, password } = req.body;
-  const sql = `SELECT * FROM sign_in WHERE email = '${email}' AND password = '${password}'`;
+  const sql = `SELECT * FROM users WHERE user_email = '${email}' AND password = '${password}'`;
   db.query(sql, (err, result) => {
-    console.log(result,'result');
-    const roleSet=result[0].role;
-    console.log(roleSet);
     if (err) {
-      res.status(500).send({ message: 'Error occurred' });
+      res.status(500).send({ message: "Error occurred" });
     } else if (result.length === 0) {
-      res.status(401).send({ message: 'Invalid username or password' });
+      res.status(401).send({ message: "Invalid username or password" });
     } else {
+      console.log("ddddddddddd", result);
       const user = result[0];
-     
-      // const s={role:roleSet}
-      // generate an access token or session cookie here
-      // console.log(user);
-      res.status(200).send({ message: 'Login successful', user,role:roleSet });
+      const roleSet = user.role || "";
+      res
+        .status(200)
+        .send({ message: "Login successful", user, role: roleSet });
     }
   });
 });
+
 
 app.post("/history", (req, res) => {
   console.log(req.body);
@@ -483,6 +481,7 @@ app.put("/update_experience", (req, res) => {
     task_name,
     client,
     control_code,
+    assignto,
     category,
     task_assignperson,
     deadline,
@@ -498,11 +497,12 @@ app.put("/update_experience", (req, res) => {
     : null;
 
   db.query(
-    "update task set task_name=?, client=?, control_code=?, category=?, task_assignperson=?, deadline=?, duration=?, description=?, status=?, comments=? where id=?",
+    "update task set task_name=?, client=?, control_code=?, assignto=?, category=?, task_assignperson=?, deadline=?, duration=?, description=?, status=?, comments=? where id=?",
     [
       task_name,
       client,
       control_code,
+      assignto,
       category,
       task_assignperson,
       deadline,
@@ -523,10 +523,6 @@ app.put("/update_experience", (req, res) => {
     
   );
 });
-
-
-
-
 
 app.put("/task_status_update", (req, res) => {
   const { status, id } = req.body;
@@ -753,6 +749,22 @@ app.get("/project_filter", (req, res) => {
     res.send(results[0]);
   });
 });
+
+app.get("/gettask/:userId", async (req, res) => {
+  const { userId } = req.params;
+  const query = `SELECT * from task where assignto = ${userId}`;
+  db.query(query, (error, results, fields) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send(error);
+    } else {
+      res.status(200).send(results);
+    }
+  });
+});
+
+
+// Employee Task Filter by all Complete
 
 app.listen(3001, () => {
   console.log("server is connected");

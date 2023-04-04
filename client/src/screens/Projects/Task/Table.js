@@ -74,6 +74,7 @@ const CustomTableCell = ({ row, name, onChange }) => {
   const classes = useStyles();
   const { isEditMode } = row;
   const formattedDeadline = new Date(row[name]).toLocaleDateString();
+  const formattedCreated_dt = new Date(row[name]).toLocaleDateString();
   return (
     <TableCell align="Center" className={classes.tableCell}>
       {isEditMode ? (
@@ -84,7 +85,10 @@ const CustomTableCell = ({ row, name, onChange }) => {
           className={classes.input}
         />
       ) : (
-        name === 'deadline' ? formattedDeadline : row[name]
+         name === 'deadline' ? formattedDeadline 
+      : name === 'created_dt' ? formattedCreated_dt 
+      :row[name]
+
       )}
     </TableCell>
   );
@@ -422,7 +426,8 @@ function ExpereinceLetter() {
         var o = Object.assign({}, el);
         // o.deadline = moment(el.formatted_deadline).format('YYYY-MM-DD');
         o.deadline = new Date(el.formatted_deadline).toLocaleDateString();
-        console.log(o.deadline);
+        o.created_dt = new Date(el.formatted_created_dt).toLocaleDateString();        
+        console.log(o.created_dt);
         o.isEditMode = false;
         return o;
       });
@@ -458,6 +463,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
     status,
     comments,
     assignto, //have to change
+    created_dt,
   }) => {
     console.log(comments);
     console.log(status);
@@ -474,6 +480,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
         status: status,
         comments: comments,
         assignto: assignto,
+        created_dt : created_dt,
       })
       .then((response) => {
         console.log("OK");
@@ -489,6 +496,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
         console.log(response, "response");
         if (!response.error) {
           // alert("Status updated");
+
           getExperience();
         }
         // window.location.reload();
@@ -1098,7 +1106,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                                 style={{ borderBottom: "1px solid black" }}
                               /> */}
                               <CustomTableCell
-                                {...{ row, name: "created_date", onChange }}
+                                {...{ row, name: "created_dt", onChange }}
                                 style={{ borderBottom: "1px solid black" }}
                               /> 
 

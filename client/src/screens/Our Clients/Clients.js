@@ -371,7 +371,7 @@ const getUsers = () =>{
   const [viewphoto, setViewphoto] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3001/Viewfile")
+    fetch("http://localhost:3001/viewfile")
       .then((response) => response.json())
       .then((json) => setViewphoto(json));
   }, []);
@@ -383,6 +383,23 @@ const getUsers = () =>{
 //     .then(json=>setViewphoto(json));
 // },[]);
 
+const uploadImage = (event) => {
+  const file = event.target.files[0];
+  const formData = new FormData();
+  formData.append("profileImage", file);
+
+  // Send the image data to the server using a POST request
+  fetch("/client", {
+    method: "POST",
+    body: formData
+  })
+    .then(response => response.json())
+    .then(data => {
+      // Handle the response from the server, if needed
+      console.log(data);
+    })
+    .catch(error => console.error(error));
+};
 
 
 const handlesubmit = (event) => {
@@ -411,12 +428,8 @@ const handlesubmit = (event) => {
     })
 
 }
-const uploadImage = (e) => {
-console.log(e.target.files[0],'e');
-setEditModelData(prev => {
-  return {...prev,"profileImage":e.target.files[0]}
-})
-}
+
+
   return (
     <div className="container-xxl">
       <PageHeader
@@ -509,7 +522,7 @@ setEditModelData(prev => {
             <div key={"skhd" + i} className="col">
               <div>
                 <OurClients
-                  // avatar={College}
+                  avatar={data.profileImage}
                   post={data.owner_name}
                   name={data.client_shortcode}
                   Companyname={data.client_name}
@@ -712,26 +725,28 @@ setEditModelData(prev => {
                   </div>
 
                   <div className="mb-3 col-lg-6">
-                    <label
-                      htmlFor="formFileMultipleoneone"
-                      className="form-label"
-                    >
-                      Profile Image
-                    </label>
-                    <input className="form-control"  type="file" id="formFileMultipleoneone" alt="no" onChange={uploadImage} />
-                    {viewphoto.map((fileInput) => (
+  <label htmlFor="formFileMultipleoneone" className="form-label">
+    Profile Image
+  </label>
+  <input
+    className="form-control"
+    type="file"
+    id="formFileMultipleoneone"
+    alt="no"
+    onChange={uploadImage}
+  />
+  {/* Render the uploaded image on the frontend */}
+  {viewphoto.map((fileInput) => (
     <img
       key={fileInput.id}
-      src={`http://localhost:3001/Viewfile/${fileInput.files}`}
+      src={`http://localhost:3001/viewfile/${fileInput.files}`}
       alt="No ---"
       width="200px"
       height="200px"
     />
   ))}
+</div>
 
-                    {/* <input className="form-control" onChange={(e) =>setProfileImage(e.target.value) } type="file" id="formFileMultipleoneone" /> */}
-                 
-                  </div>
 
                   
                   <div className="col-lg-6">

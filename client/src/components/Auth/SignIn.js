@@ -62,12 +62,13 @@ function SignIn() {
       console.log("BackendRole : "+roleSet)
       localStorage.setItem('role', +roleSet)
       localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('user_id',user.user_id)
       setBadAttempt(false);
       setMessage('Login successful');
       sendLoginHistory(ip_address, email, password, attempt_count, false, 'Login successful');
 
       if(roleSet === "0"){ // admin
-        history.push('/');
+        history.push('/tasks');
       }
       else if(roleSet === "1"){  // user
         history.push("/Employeetask");

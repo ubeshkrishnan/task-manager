@@ -77,6 +77,7 @@ const CustomTableCell = ({ row, name, onChange }) => {
   // const formatted_duration = new Date(row[name]).toLocaleDateString();
   const formatted_start_date = new Date(row[name]).toLocaleDateString();
   const formatted_end_date = new Date(row[name]).toLocaleDateString();
+  const formatted_created_dt = new Date(row[name]).toLocaleDateString();
   
   return (
     <TableCell align="Center" className={classes.tableCell}>
@@ -89,10 +90,11 @@ const CustomTableCell = ({ row, name, onChange }) => {
     />
   ) : (
     name === 'deadline' ? formattedDeadline
-    
-    : name === 'date' ? formatted_date
+   : name === 'date' ? formatted_date
     : name === 'start_date' ? formatted_start_date
     : name === 'end_date' ? formatted_end_date
+    : name === 'created_dt' ? formatted_created_dt
+
     : row[name]
   )}
 </TableCell>
@@ -459,6 +461,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
   const updateExp = ({
     id,
     project_name,
+    created_dt,
     category,
     client,
     duration,
@@ -476,6 +479,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
       .put(Url + "/update_project", {
         id: id,
         project_name: project_name,
+        created_dt : created_dt,
         category:category,
         client: client,
         duration:duration,
@@ -816,6 +820,26 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                                   fontSize: 18,
                                   color: "white"
                                   
+                                }}
+                              />
+                            </i>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div
+                            style={{}}
+                            className="d-flex flex-row justify-content-center"
+                          >
+                            <th className="hrtable">Created_dt</th>
+                             <i
+                              style={{ paddingLeft: '2px' }}
+                              onClick={() => sortingdeadline("deadline")}
+                              
+                            >
+                              <BiSort
+                                style={{
+                                  fontSize: 18,
+                                  color: "white" 
                                 }}
                               />
                             </i>
@@ -1300,6 +1324,10 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               {...{ row, name: "project_name", onChange }}
                               style={{ borderBottom: "1px solid black" }}
                             />
+                             <CustomTableCell
+                              {...{ row, name: "created_dt", onChange }}
+                              style={{ borderBottom: "1px solid black" }}
+                            />
                             <CustomTableCell
                               {...{ row, name: "category", onChange }}
                               style={{ borderBottom: "1px solid black" }}
@@ -1462,6 +1490,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
         <div><span className="Modal_head">ID:</span> {selectedRowData?.id}</div>
           
           <div><span className="Modal_head">Project Name:</span>{selectedRowData?.project_name}</div>
+          <div><span className="Modal_head">Category:</span>{selectedRowData?.created_dt}</div>
           <div><span className="Modal_head">Category:</span>{selectedRowData?.category}</div>
           <div><span  className="Modal_head">Client:</span> {selectedRowData?.client}</div>
           <div><span  className="Modal_head">Duration:</span> {selectedRowData?.duration}</div>

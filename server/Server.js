@@ -21,7 +21,7 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
-app.use('/uploads', express.static('public/uploads'));
+app.use(express.static('public'));
 // Image
 
 // Insert
@@ -43,7 +43,7 @@ app.post("/insert", (req, res) => {
   );
 });
 
-
+// Login
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
   const sql = `SELECT * FROM users WHERE user_email = '${email}' AND password = '${password}'`;
@@ -63,7 +63,7 @@ app.post("/login", (req, res) => {
   });
 });
 
-
+// Login History  Save
 app.post("/history", (req, res) => {
   console.log(req.body);
   // const { ipAddress, username, password, attemptCount, badAttempt, message } = req.body;
@@ -158,15 +158,15 @@ app.post("/user_login", (req, res) => {
   });
 });
 
-// Users
+// Fetch User details for clients
 app.get("/users", (req, res) => {
-  db.query("SELECT * FROM client_master", (error, results, fields) => {
+  db.query("SELECT *,profileImage FROM client_master", (error, results, fields) => {
     if (error) throw error;
     res.send(results);
   });
 });
 
-//get the id
+//get the id Clients separete ID
 app.get("/users/:id", (req, res) => {
   const id = req.params.id;
   console.log(id);
@@ -205,7 +205,7 @@ app.post("/client", upload.single("profileImage"), (req, res) => {
   // Create a MySQL query to insert the data into a table
   const query = `
     INSERT INTO client_master (
-      profileImage,
+      profileImage,  -- Change column name from filename to profileImage
       client_name,
       client_shortcode,
       vertical_id,
@@ -256,7 +256,14 @@ app.post("/client", upload.single("profileImage"), (req, res) => {
   );
 });
 
+
+
 // Imge
+app.get("/Viewfile/:filename", (req, res) => {
+  const { filename } = req.params;
+  res.sendFile(__dirname + "/uploads/" + filename);
+});
+
 app.get('/Viewfile',(request,response)=>{
 
   let sql = 'select * from profileImage';
@@ -265,6 +272,7 @@ app.get('/Viewfile',(request,response)=>{
   })
 })
 
+// Update client Record
 app.put("/update/:id", (req, res) => {
   // Extract the client ID from the request URL
   const clientId = req.params.id;
@@ -288,7 +296,7 @@ app.put("/update/:id", (req, res) => {
   });
 });
 
-// endpoint to handle DELETE request
+// endpoint to handle DELETE requestto dlete clients
 app.delete("/api/clients/:id", (req, res) => {
   const { id } = req.params;
 
@@ -306,7 +314,7 @@ app.delete("/api/clients/:id", (req, res) => {
   });
 });
 
-// INSERTING THE MEMBER
+// INSERTING THE MEMBER details
 app.post("/member", (req, res) => {
   // Extract data from the request body
   console.log(req.body);
@@ -362,14 +370,24 @@ app.post("/member", (req, res) => {
   );
 });
 
-app.get("/getmembers", (req, res) => {
+// Fetch member ID separate
+app.get('/getmembers', (req, res) => {
+
   db.query("SELECT * FROM users", (error, results, fields) => {
     if (error) throw error;
     res.send(results);
   });
 });
 
-//get the id
+app.get('/getmembername', (req, res) => {
+  const user_id = req.query.user_id;
+  db.query("SELECT * FROM users WHERE user_id = ?",[user_id], (error, results, fields) => {
+    if (error) throw error;
+    res.send(results);
+  });
+});
+
+//get the id of Members
 app.get("/getmembers/:id", (req, res) => {
   const id = req.params.id;
   console.log(id);
@@ -383,6 +401,7 @@ app.get("/getmembers/:id", (req, res) => {
   );
 });
 
+// Members Update 
 app.put("/memberupdate/:id", (req, res) => {
   // Extract the client ID from the request URL
   const userId = req.params.id;
@@ -420,6 +439,7 @@ app.post("/task", (req, res) => {
     task_assignperson,
     deadline,
     description,
+    created_dt,
   } = req.body;
 
   // Create a MySQL query to insert the data into a table
@@ -432,8 +452,9 @@ app.post("/task", (req, res) => {
         category,
       task_assignperson,
         deadline,
-        description  
-      ) VALUES (?, ?, ?, ?, ?, ?, ?);
+        description,
+        created_dt
+      ) VALUES (?, ?, ?, ?, ?, ?, ?,NOW());
   `;
   // Execute the query with the extracted data
   db.query(
@@ -446,6 +467,7 @@ app.post("/task", (req, res) => {
       task_assignperson,
       deadline,
       description,
+      created_dt,
     ],
     (error, results, fields) => {
       if (error) {
@@ -468,7 +490,7 @@ app.get("/taskcard", (req, res) => {
   });
 });
 
-
+// Delete tasks By id in Admin
 app.delete("/delete_experience/:id", (req, res) => {
   const { id } = req.params;
   db.query("delete from task where id=?", [id], (err, result) => {
@@ -476,6 +498,7 @@ app.delete("/delete_experience/:id", (req, res) => {
   });
 });
 
+// update Task by id 
 app.put("/update_experience", (req, res) => {
   const {
     task_name,
@@ -524,6 +547,7 @@ app.put("/update_experience", (req, res) => {
   );
 });
 
+// Api cal  for status Update 
 app.put("/task_status_update", (req, res) => {
   const { status, id } = req.body;
 
@@ -575,12 +599,12 @@ app.post("/project", (req, res) => {
   console.log(req.body);
   const {
     project_name,
+    created_dt,
     category,
     client,
     duration,
     start_date,
     end_date,
-    task_assignto,
     project_manager,
     deadline,
     status,
@@ -593,31 +617,31 @@ app.post("/project", (req, res) => {
   const query = `
   INSERT INTO project (
     project_name,
+    created_dt,
     category,
     client,
     duration,
     start_date,
     end_date,
-    task_assignto,
     project_manager,
     deadline,
     status,
     date,
     priority,
     description
-  ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);
+  ) VALUES (?,NOW(),?,?,?,?,?,?,?,?,?,?,?);
 `;
   // Execute the query with the extracted data
   db.query(
     query,
     [
       project_name,
+      created_dt,
       category,
       client,
       duration,
       start_date,
       end_date,
-      task_assignto,
       project_manager,
       deadline,
       status,
@@ -646,6 +670,7 @@ app.get("/projectcard", (req, res) => {
   });
 });
 
+// Delete project by ID
 
 app.delete("/delete_project/:id", (req, res) => {
   const { id } = req.params;
@@ -658,6 +683,7 @@ app.delete("/delete_project/:id", (req, res) => {
 // Get the time value from the React form input
 // const timeValue = e.target.elements.ftime.value;
 
+// update project By ID
 app.put("/update_project", (req, res) => {
   const {
     project_name,
@@ -704,7 +730,7 @@ app.put("/update_project", (req, res) => {
 
 
 
-
+// Update for  Project Status
 
 app.put("/project_status_update", (req, res) => {
   const { status, id } = req.body;
@@ -750,6 +776,7 @@ app.get("/project_filter", (req, res) => {
   });
 });
 
+// Task assign to 
 app.get("/gettask/:userId", async (req, res) => {
   const { userId } = req.params;
   const query = `SELECT * from task where assignto = ${userId}`;

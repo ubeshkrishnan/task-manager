@@ -65,7 +65,7 @@ class MainIndex extends React.Component{
                 {activekey !=="/chat-app"? activekey === "/documentation"?<PageHeader1 />:<Header/>:""}
                 <div className="body d-flex py-lg-3 py-md-2">
              
-                    <Route exact path={`${process.env.PUBLIC_URL}/`} component={HrDashboard} />
+                    {/* <Route exact path={`${process.env.PUBLIC_URL}/`} component={HrDashboard} /> */}
                     <Route exact path={`${process.env.PUBLIC_URL}/hr-dashboard`} component={HrDashboard} />
                     <Route exact path={`${process.env.PUBLIC_URL}/project-dashboard`} component={ProjectDashboard} />
                     <Route exact path={`${process.env.PUBLIC_URL}/projects`} component={Projects} />

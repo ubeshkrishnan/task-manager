@@ -20,7 +20,8 @@ function Projects() {
    
     // project_name:"", 
     project_name:"",
-    category:"",  
+    category:"",
+    created_dt:"",
     client:"",
      duration:"",
      start_date:"",
@@ -44,6 +45,7 @@ function Projects() {
     e.preventDefault();
     axios.post("http://localhost:3001/project",{
     project_name:editModeldata.project_name,
+    created_dt:editModeldata.created_dt,
     client:editModeldata.client,
     category:editModeldata.category,
     duration:editModeldata.duration,

@@ -11,10 +11,10 @@ const upload = multer({
 });
 
 const db = mysql.createPool({
-  host: "192.168.130.20",
-  user: "root",
-  password: "Thirukumaran6",
-  database: "dbtask_manager",
+  host: process.env.DB_HOST,
+  user:  process.env.DB_USERNAME,
+  password:  process.env.DB_PASSWORD,
+  database: process.env.DB_DBNAME,
 });
 
 app.use(cors());

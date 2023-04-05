@@ -1,0 +1,25 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "server.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/.*",
+        "dest": "api/index.js"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "public/$1"
+      }
+    ],
+    "env": {
+      "API_KEY": "your_api_key",
+      "API_URL": "https://api.example.com"
+    },
+    "public": true
+  }
+  

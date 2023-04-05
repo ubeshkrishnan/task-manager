@@ -22,6 +22,10 @@ app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
 app.use(express.static('public'));
+app.get("/" , (req,res) =>{
+  res.setHeader("Access-Control-Allow-Credentials","true");
+  res.send("Api is running");
+  })
 // Image
 
 // Insert

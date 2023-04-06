@@ -28,6 +28,7 @@
     "config": "^3.3.9",
     "fullcalendar": "^6.1.4",
     "material-ui-search-bar": "^1.0.0",
+    "mdbreact": "^5.2.0",
     "mobiscroll": "^3.0.0-beta6",
     "mobiscroll-react": "^4.0.0",
     "moment": "^2.29.4",

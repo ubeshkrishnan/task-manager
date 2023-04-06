@@ -1,9 +1,7 @@
-// const Url = "http://js.enovasolutions.com:3001/server";
-const Url = "http://localhost:3001";
-const File_Url = "http://localhost:3001/uploads/";
-const homepage_url = "http://localhost:3000";
-
-export  { Url,File_Url , homepage_url }
-
-
-
+const Url= "http://181.215.78.5:3004";
+const   File_Url=  "http://181.215.78.5:3004/uploads/";
+const    homepage_url = "http://181.215.78.5:3004";
+  
+  
+  export { Url, File_Url, homepage_url};
+  

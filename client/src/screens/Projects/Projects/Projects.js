@@ -43,7 +43,7 @@ function Projects() {
   const { RangePicker } = DatePicker;
   const project =(e)=>{
     e.preventDefault();
-    axios.post("http://localhost:3001/project",{
+    axios.post("http://181.215.78.5:3004/project",{
     project_name:editModeldata.project_name,
     created_dt:editModeldata.created_dt,
     client:editModeldata.client,
@@ -73,7 +73,7 @@ const[projects,setProject] = useState([])
 
 useEffect(() => {
   axios
-    .get("http://localhost:3001/getproject")
+    .get("http://181.215.78.5:3004/getproject")
     .then((response) => {
       setProject(response.data);
     })
@@ -86,7 +86,7 @@ const Updateproject = async (project,id) => {
   
     console.log(project, "dahgdsa");
     try {
-       const response = await axios.put(`http://localhost:3001/projectupdate/${id}`,project);
+       const response = await axios.put(`http://181.215.78.5:3004/projectupdate/${id}`,project);
   
       if (response) {
         // Handle the successful response
@@ -98,7 +98,7 @@ const Updateproject = async (project,id) => {
 
   const handleDelete = () => {
     const { id } = editModeldata;
-    fetch(`http://localhost:3001/api/project/${id}`, { method: 'DELETE' })
+    fetch(`http://181.215.78.5:3004/api/project/${id}`, { method: 'DELETE' })
       .then((res) => res.text())
       .then((data) => {
         console.log(data);

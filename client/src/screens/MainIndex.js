@@ -55,7 +55,7 @@ import Changelog from "./Changelog/Changelog";
 import Help from "./Dashboard/Help";
 // import NavigationBar from "../components/common/NavigationBar";
 import Employeetask from "./Projects/Task/Employeetask"; 
-import Taskdetails from "./Projects/Task/EmployeeTask_detail"; 
+import Taskdetails from "./Projects/Task/EmployeeTime_sheet"; 
 
 class MainIndex extends React.Component{
     render(){

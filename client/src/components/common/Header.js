@@ -23,7 +23,7 @@ function Header(){
             // Make an API call to fetch the users data
             
             axios
-              .get(`http://localhost:3001/getmembername?user_id=${user_id}`)
+              .get(`http://181.215.78.5:3004/getmembername?user_id=${user_id}`)
               .then((response) => {
                 setUsers(response.data);
               })
@@ -31,16 +31,38 @@ function Header(){
                 console.error("Error fetching users data:", error);
               });
           }, []);
+          const [currentTime, setCurrentTime] = useState(new Date());
 
+          useEffect(() => {
+            const timer = setInterval(() => {
+              setCurrentTime(new Date());
+            }, 1000);
+        
+            return () => {
+              clearInterval(timer);
+            };
+          }, []);
         return(
         <div className="header">
             <nav className="navbar py-4">
                 <div className="container-xxl">
                     <div className="h-right d-flex align-items-center mr-5 mr-lg-0 order-1">
                         <div className="d-flex">
-                            <Link to="help" className="nav-link text-primary collapsed" title="Get Help">
+                        <span style={{ fontWeight: "bold", fontSize: "16px", marginTop: "5px" }}>
+      {currentTime.toLocaleString("en-US", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        second: "numeric",
+        hour12: true,
+      })}
+    </span>
+                            <Link style={{paddingTop:'7px',marginLeft:'8px'}} to="help" className="nav-link text-primary collapsed" title="Get Help">
                                 <i className="icofont-info-square fs-5"></i>
                             </Link>
+                           
                             <div className="avatar-list avatar-list-stacked px-3">
                                 {/* <img className="avatar rounded-circle" src={Avatar2} alt=""/>
                                 <img className="avatar rounded-circle" src={Avatar1} alt=""/>

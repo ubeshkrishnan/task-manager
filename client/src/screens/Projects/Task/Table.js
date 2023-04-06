@@ -579,7 +579,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
   useEffect(() => {
     // Make an API call to fetch the users data
     axios
-      .get("http://localhost:3001/getmembers")
+      .get("http://181.215.78.5:3004/getmembers")
       .then((response) => {
         setUsers(response.data);
       })
@@ -1116,6 +1116,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                             /> */}
 
                             <Form.Select
+                            class="form_assignto"
                               value={row?.assignto}
                               disabled={!row.isEditMode}
                               onChange={(e) => {
@@ -1261,17 +1262,56 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div>ID: {selectedRowData?.id}</div>
-          <div>Task Name: {selectedRowData?.task_name}</div>
-          <div>Client: {selectedRowData?.client}</div>
-          <div>Control Code: {selectedRowData?.control_code}</div>
-          <div>Category: {selectedRowData?.category}</div>
-          <div>Task Assign Person: {selectedRowData?.task_assignperson}</div>
-          <div>Assign To: {selectedRowData?.assignto}</div>
-          <div>Deadline: {selectedRowData?.deadline}</div>
-          <div>Description: {selectedRowData?.description}</div>
-          <div>Comments: {selectedRowData?.comments}</div>
-          <div>Status: {selectedRowData?.status}</div>
+
+
+<table>
+  <tr>
+    <th>ID</th>
+    <td>{selectedRowData?.id}</td>
+  </tr>
+  <tr>
+    <th>Task Name</th>
+    <td>{selectedRowData?.task_name}</td>
+  </tr>
+  <tr>
+    <th>Client</th>
+    <td>{selectedRowData?.client}</td>
+  </tr>
+  <tr>
+    <th>Control Code</th>
+    <td>{selectedRowData?.control_code}</td>
+  </tr>
+  <tr>
+    <th>Category</th>
+    <td>{selectedRowData?.category}</td>
+  </tr>
+  <tr>
+    <th>Task Assign Person</th>
+    <td>{selectedRowData?.task_assignperson}</td>
+  </tr>
+  <tr>
+    <th>Assign To</th>
+    <td>{selectedRowData?.assignto}</td>
+  </tr>
+  <tr>
+    <th>Deadline</th>
+    <td>{selectedRowData?.deadline}</td>
+  </tr>
+  <tr>
+    <th>Description</th>
+    <td>{selectedRowData?.description}</td>
+  </tr>
+  <tr>
+    <th>Comments</th>
+    <td>{selectedRowData?.comments}</td>
+  </tr>
+  <tr>
+    <th>Status</th>
+    <td>{selectedRowData?.status}</td>
+  </tr>
+</table>
+
+
         </Modal.Body>
       </Modal>
     </>

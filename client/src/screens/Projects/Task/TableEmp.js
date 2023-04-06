@@ -438,7 +438,7 @@ function ExpereinceLetter() {
     task_name,
     client,
     control_code,
-    durtion,
+    duration,
     task_assignperson,
     deadline,
     description,

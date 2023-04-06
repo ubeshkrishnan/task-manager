@@ -26,6 +26,7 @@ app.get("/" , (req,res) =>{
   res.setHeader("Access-Control-Allow-Credentials","true");
   res.send("Api is running");
   })
+
 // Image
 
 // Insert
@@ -263,7 +264,7 @@ app.post("/client", upload.single("profileImage"), (req, res) => {
 
 
 // Imge
-app.get("/Viewfile/:filename", (req, res) => {
+app.get("/Viewfile/:uploads", (req, res) => {
   const { filename } = req.params;
   res.sendFile(__dirname + "/uploads/" + filename);
 });

@@ -2,7 +2,7 @@ import React,{useState} from "react";
 import { Link } from "react-router-dom";
 import GoogleImg from "../../../assets/images/google.svg";
 import axios from "axios";
-
+import Url from "../../../Global_variable/api_link"
 import { useHistory } from "react-router-dom";
 
 
@@ -19,7 +19,7 @@ function Employee_login() {
     
     const sendLoginHistory = (ip_address, email, password, attempt_count, bad_attempt, message) => {
       // Send the login history to the server to store in the database
-      axios.post('http://localhost:3001/user_loginHistory', {
+      axios.post(Url+'/user_loginHistory', {
         ip_address: ip_address,
         email: email,
         password: password,
@@ -52,7 +52,7 @@ function Employee_login() {
   setAttemptCount(attempt_count + 1);
 
     try {
-      const res = await axios.post('http://localhost:3001/user_login', { email, password });
+      const res = await axios.post(Url+'/user_login', { email, password });
  // handle successful login here (e.g., store user data in local storage, redirect to dashboard page)
  const { user} =res.data;
  // if(user) user["modulePermission"] = ["Projects"]

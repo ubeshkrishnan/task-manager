@@ -34,7 +34,7 @@ function Tasks() {
   
     const handleSubmit = async (event) => {
       event.preventDefault();
-     axios.post("http://localhost:3001/task", {
+     axios.post("http://181.215.78.5:3004/task", {
 
   task_name:editModeldata.task_name,
   client:editModeldata.client,

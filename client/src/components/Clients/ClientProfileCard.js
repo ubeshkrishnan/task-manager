@@ -10,7 +10,7 @@ function ClientProfileCard({id}) {
     useEffect(() => {
         console.log('id123456',id)
       axios
-        .get(`http://localhost:3001/users/${id}`)
+        .get(`http://181.215.78.5:3004/users/${id}`)
         .then((response) => {
             console.log(response.data);
             setClientsProfile([response.data])})
@@ -25,11 +25,11 @@ function ClientProfileCard({id}) {
           <div className="card-body d-flex teacher-fulldeatil">
             <div className="profile-teacher pe-xl-4 pe-md-2 pe-sm-4 pe-4 text-center w220">
               <a href="#!">
-                <img
-                  src={profileImg}
-                  alt=""
-                  className="avatar xl rounded-circle img-thumbnail shadow-sm"
-                />
+              <img
+                      src={`http://181.215.78.5:3004/Viewfile/${client.profileImage}`}
+                      alt="Profile"
+                      className="avatar xl rounded-circle img-thumbnail shadow-sm"
+                    />
               </a>
               <div className="about-info d-flex align-items-center mt-3 justify-content-center flex-column">
                 <h6 className="mb-0 fw-bold d-block fs-6">

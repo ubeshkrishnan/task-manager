@@ -56,7 +56,7 @@ function Clients() {
   }, []);
 const getUsers = () =>{
   axios
-  .get("http://localhost:3001/users")
+  .get("http://181.215.78.5:3004/users")
   .then((response) => {
     setUsers(response.data);
 
@@ -128,7 +128,7 @@ const getUsers = () =>{
 
     e.preventDefault();
     axios
-      .post("http://localhost:3001/client", fromData)
+      .post("http://181.215.78.5:3004/client", fromData)
       .then((response) => {
         console.log(response,'res');
         setIsModal(!isModal);
@@ -144,7 +144,7 @@ const getUsers = () =>{
   const Updateclient = async (client,id) => {
     console.log(client, "dahgdsa");
     try {
-       const response = await axios.put(`http://localhost:3001/update/${id}`,client);
+       const response = await axios.put(`http://181.215.78.5:3004/update/${id}`,client);
 
       if (response) {
         // Handle the successful response
@@ -158,7 +158,7 @@ const getUsers = () =>{
   //   e.preventDefault();
 
   //   try {
-  //     const response = await axios.put(`http://localhost:3001/update/${clientId}`, {
+  //     const response = await axios.put(`http://181.215.78.5:3004/update/${clientId}`, {
   //       client_name: editModeldata.client_name,
   //       client_shortcode: editModeldata.client_shortcode,
   //       vertical_id: editModeldata.vertical_id,
@@ -206,7 +206,7 @@ const getUsers = () =>{
   //   console.log(data);
 
   //   axios
-  //     .put(`http://localhost:3001/update/${client_id}`, data)
+  //     .put(`http://181.215.78.5:3004/update/${client_id}`, data)
   //     .then((response) => {
   //       console.log(response.data);
   //       // Update the client name in the users state variable
@@ -223,7 +223,7 @@ const getUsers = () =>{
   // const {client_id} = useParams();
 
   // useEffect(() => {
-  // axios.get('http://localhost:3001/users/'+client_id)
+  // axios.get('http://181.215.78.5:3004/users/'+client_id)
   // .then((response) => response.json())
   //   .then((response) => {
   //   setClientName(response[0].client_name);
@@ -264,7 +264,7 @@ const getUsers = () =>{
   //   pincode
 
   // }
-  // axios.put('http://localhost:3001/update', data)
+  // axios.put('http://181.215.78.5:3004/update', data)
   //     .then(response => {
   //       // Handle the success response from the server
   //       console.log('Data updated successfully!');
@@ -284,7 +284,7 @@ const getUsers = () =>{
   //   let dataString={
   //     id:empid
   //   }
-  //   axios.post('http://localhost:3001/deleteDemo',dataString)
+  //   axios.post('http://181.215.78.5:3004/deleteDemo',dataString)
   //   .then(response => {
   //     console.log('Data deleted successfully!');
   //     setIsModalDelete(false);
@@ -317,12 +317,12 @@ const getUsers = () =>{
   //   }
 
   //     const fetchData = async () => {
-  //       const response = await fetch("http://localhost:3001/deleteDemo")
+  //       const response = await fetch("http://181.215.78.5:3004/deleteDemo")
   //       const data = await response.json()
   //       setUsers(data)
   //     }
 
-  //   axios.delete(`http://localhost:3001/deleteDemo/${data.id}`)
+  //   axios.delete(`http://181.215.78.5:3004/deleteDemo/${data.id}`)
   //     .then(response => {
   //       console.log('Data deleted successfully!');
   //       setIsModalDelete(false);
@@ -341,7 +341,7 @@ const getUsers = () =>{
 
   const handleDelete = () => {
     const { client_id } = editModeldata;
-    fetch(`http://localhost:3001/api/clients/${client_id}`, { method: 'DELETE' })
+    fetch(`http://181.215.78.5:3004/api/clients/${client_id}`, { method: 'DELETE' })
       .then((res) => res.text())
       .then((data) => {
         console.log(data,"delete");
@@ -370,15 +370,15 @@ const getUsers = () =>{
   // img
   const [viewphoto, setViewphoto] = useState([]);
 
-  useEffect(() => {
-    fetch("http://localhost:3001/viewfile")
-      .then((response) => response.json())
-      .then((json) => setViewphoto(json));
-  }, []);
+  // useEffect(() => {
+  //   fetch("http://181.215.78.5:3004/viewfile")
+  //     .then((response) => response.json())
+  //     .then((json) => setViewphoto(json));
+  // }, []);
   
 
 //   useEffect(()=>{
-//     fetch('http://localhost:3001/Viewfile/')
+//     fetch('http://181.215.78.5:3004/Viewfile/')
 //     .then(response=>response.json())
 //     .then(json=>setViewphoto(json));
 // },[]);
@@ -739,7 +739,7 @@ const handlesubmit = (event) => {
   {viewphoto.map((fileInput) => (
     <img
       key={fileInput.id}
-      src={`http://localhost:3001/viewfile/${fileInput.files}`}
+      src={`http://181.215.78.5:3004/uploads/${fileInput.profileImage}`}
       alt="No ---"
       width="200px"
       height="200px"

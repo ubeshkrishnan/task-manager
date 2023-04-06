@@ -64,11 +64,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
-
- 
-
 const CustomTableCell = ({ row, name, onChange }) => {
   const classes = useStyles();
   const { isEditMode } = row;
@@ -144,7 +139,7 @@ function Ptable() {
   };
 
   useEffect(() => {
-    fetch(Url + "/pagination")
+    fetch(Url+"/pagination")
       .then((response) => response.json())
       .then((data) => setRows(data));
   }, []);
@@ -586,7 +581,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
   useEffect(() => {
     // Make an API call to fetch the users data
     axios
-      .get("http://localhost:3001/getmembers")
+      .get("http://181.215.78.5:3004/getmembers")
       .then((response) => {
         setUsers(response.data);
       })
@@ -1487,22 +1482,55 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <div><span className="Modal_head">ID:</span> {selectedRowData?.id}</div>
-          
-          <div><span className="Modal_head">Project Name:</span>{selectedRowData?.project_name}</div>
-          <div><span className="Modal_head">Category:</span>{selectedRowData?.created_dt}</div>
-          <div><span className="Modal_head">Category:</span>{selectedRowData?.category}</div>
-          <div><span  className="Modal_head">Client:</span> {selectedRowData?.client}</div>
-          <div><span  className="Modal_head">Duration:</span> {selectedRowData?.duration}</div>
-          <div><span  className="Modal_head">Started On: </span>{selectedRowData?.start_date}</div>
-          <div><span  className="Modal_head">Project Manger: </span>{selectedRowData?.project_manager}</div>
-          <div><span  className="Modal_head">Deadline: </span>{selectedRowData?.deadline}</div>
-          <div><span  className="Modal_head">Status: </span>{selectedRowData?.status}</div>
-          <div><span  className="Modal_head">Completed Date:</span> {selectedRowData?.end_date}</div>
-          <div><span  className="Modal_head">Date:</span> {selectedRowData?.date}</div>
-          <div><span className="Modal_head">Priority:</span>: {selectedRowData?.priority}</div>
-          <div><span  className="Modal_head">Started Date:</span> {selectedRowData?.start_date}</div>
-          <div><span className="Modal_head">Description:</span>{selectedRowData?.description}</div>
+        <table class="form-table">
+  <tbody>
+    <tr>
+      <td>ID:</td>
+      <td>{selectedRowData?.id}</td>
+    </tr>
+    <tr>
+      <td>Task Name:</td>
+      <td>{selectedRowData?.task_name}</td>
+    </tr>
+    <tr>
+      <td>Client:</td>
+      <td>{selectedRowData?.client}</td>
+    </tr>
+    <tr>
+      <td>Control Code:</td>
+      <td>{selectedRowData?.control_code}</td>
+    </tr>
+    <tr>
+      <td>Category:</td>
+      <td>{selectedRowData?.category}</td>
+    </tr>
+    <tr>
+      <td>Task Assign Person:</td>
+      <td>{selectedRowData?.task_assignperson}</td>
+    </tr>
+    <tr>
+      <td>Assign To:</td>
+      <td>{selectedRowData?.assignto}</td>
+    </tr>
+    <tr>
+      <td>Deadline:</td>
+      <td>{selectedRowData?.deadline}</td>
+    </tr>
+    <tr>
+      <td>Description:</td>
+      <td>{selectedRowData?.description}</td>
+    </tr>
+    <tr>
+      <td>Comments:</td>
+      <td>{selectedRowData?.comments}</td>
+    </tr>
+    <tr>
+      <td>Status:</td>
+      <td>{selectedRowData?.status}</td>
+    </tr>
+  </tbody>
+</table>
+
         
         </Modal.Body>
       </Modal>
@@ -1510,3 +1538,6 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
   );
 }
 export default Ptable;
+
+
+

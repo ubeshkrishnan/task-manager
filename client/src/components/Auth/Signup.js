@@ -2,7 +2,7 @@
 import React,{useState} from "react";
 import { Link } from "react-router-dom";
 import axios from 'axios';
-
+// import Url from "../../Global_variable/api_link"
 
 function Signup() {
 
@@ -21,7 +21,7 @@ const InsertSignup =(e)=>{
       return;
     }
 
-    axios.post("http://localhost:3001/insert",{
+    axios.post('http://181.215.78.5:3004/insert"',{
         fullname: fullname,
         lastname:lastname,
         email: email,

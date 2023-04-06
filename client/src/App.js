@@ -144,16 +144,24 @@ import { Switch, withRouter, Redirect } from "react-router";
 import Sidebar from "./components/common/Sidebar";
 import AuthIndex from "./screens/AuthIndex";
 import MainIndex from "./screens/MainIndex";
-// import NavigationBar from "./components/common/NavigationBar";
-// import EmployeeIndex from "./screens/EmployeeIndex";
 import Sidebar1 from "./components/common/Sidebar1";
 
 class App extends Component {
+  
   constructor(props) {
     super(props);
-
+    this.state = {
+      isLoading: true,
+    };
     this.activekey = this.activekey.bind(this);
   }
+  
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ isLoading: false });
+    }, 2000);
+  }
+  
 
   activekey() {
     const { location } = this.props;
@@ -169,6 +177,11 @@ class App extends Component {
   render() {
     
     const { history, location } = this.props;
+    const { isLoading } = this.state;
+
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
 
     if (location.pathname === "/" || location.pathname === "/index.html") {
       return <Redirect to="/sign-in" />;
@@ -222,3 +235,4 @@ class App extends Component {
 }
 
 export default withRouter(App);
+

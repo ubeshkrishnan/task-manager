@@ -37,11 +37,9 @@ import "./Table.css";
 import { useDispatch } from "react-redux";
 // import { getExperienceApi } from "../../store/api/task";
 // import {getExperienceApi} from "../../store/api/task"
-import moment, { duration } from 'moment';
-import { Toast } from 'primereact/toast';
-import { SplitButton } from 'primereact/splitbutton';
-
-
+import moment, { duration } from "moment";
+import { Toast } from "primereact/toast";
+import { SplitButton } from "primereact/splitbutton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,19 +67,20 @@ const CustomTableCell = ({ row, name, onChange }) => {
   const classes = useStyles();
   const { isEditMode } = row;
   const formattedDeadline = new Date(row[name]).toLocaleDateString();
-  
-  
-return (
+
+  return (
     <TableCell align="Center" className={classes.tableCell}>
-      {isEditMode  && (name === 'status' || name === 'comments') ? (
+      {isEditMode && (name === "status" || name === "comments") ? (
         <Input
           value={row[name]}
           name={name}
           onChange={(e) => onChange(e, row)}
           className={classes.input}
         />
+      ) : name === "deadline" ? (
+        formattedDeadline
       ) : (
-        name === 'deadline' ? formattedDeadline : row[name]
+        row[name]
       )}
     </TableCell>
   );
@@ -228,7 +227,9 @@ function ExpereinceLetter() {
   };
   const requestSearchTask_assignperson = (e) => {
     const filteredRows = search.filter((row) => {
-      return row.task_assignperson.toLowerCase().includes(e.target.value.toLowerCase());
+      return row.task_assignperson
+        .toLowerCase()
+        .includes(e.target.value.toLowerCase());
     });
     setRows(filteredRows);
   };
@@ -430,9 +431,6 @@ function ExpereinceLetter() {
   const [searched, setSearched] = useState("");
   const [deadline, setDeadline] = useState("");
 
-
-
-
   const updateExp = ({
     id,
     task_name,
@@ -453,7 +451,7 @@ function ExpereinceLetter() {
         task_name: task_name,
         client: client,
         control_code: control_code,
-        duration:duration,
+        duration: duration,
         task_assignperson: task_assignperson,
         deadline: deadline,
         description: description,
@@ -549,30 +547,27 @@ function ExpereinceLetter() {
     setFilter(value);
   };
 
-//   const [users, setUsers] = useState([]);
-//   const [selectedUserId, setSelectedUserId] = useState("");
+  //   const [users, setUsers] = useState([]);
+  //   const [selectedUserId, setSelectedUserId] = useState("");
 
-//   useEffect(() => {
-//     // Make an API call to fetch the users data
-//     axios
-//       .get("http://localhost:3001/getmembers")
-//       .then((response) => {
-//         setUsers(response.data);
-//       })
-//       .catch((error) => {
-//         console.error("Error fetching users data:", error);
-//       });
-//   }, []);
+  //   useEffect(() => {
+  //     // Make an API call to fetch the users data
+  //     axios
+  //       .get("http://localhost:3001/getmembers")
+  //       .then((response) => {
+  //         setUsers(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error fetching users data:", error);
+  //       });
+  //   }, []);
 
-
-// const [myTaskList, setMyTaskList] = useState([]);
-
-
+  // const [myTaskList, setMyTaskList] = useState([]);
 
   const myTask = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     console.log(user);
-    axios.get(Url+`/gettask/${user.user_id}`).then((response) => {
+    axios.get(Url + `/gettask/${user.user_id}`).then((response) => {
       setRows(response.data);
     });
   };
@@ -583,25 +578,31 @@ function ExpereinceLetter() {
 
   const toast = useRef(null);
   const items = [
-      {
-          label: 'Edit Row',
-          icon: 'pi pi-refresh',
-          command: () => {
-              toast.current.show({ severity: 'success', summary: 'Updated', detail: 'Data Updated' });
-          }
+    {
+      label: "Edit Row",
+      icon: "pi pi-refresh",
+      command: () => {
+        toast.current.show({
+          severity: "success",
+          summary: "Updated",
+          detail: "Data Updated",
+        });
       },
-      
-      {
-          label: 'Delete',
-          icon: 'pi pi-times',
-          command: () => {
-              toast.current.show({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted' });
-          }
-      },  
+    },
+
+    {
+      label: "Delete",
+      icon: "pi pi-times",
+      command: () => {
+        toast.current.show({
+          severity: "warn",
+          summary: "Delete",
+          detail: "Data Deleted",
+        });
+      },
+    },
   ];
 
-  
-  
   return (
     <div className="background-ExperienceHr">
       <div className="container">
@@ -721,10 +722,12 @@ function ExpereinceLetter() {
                       className="advance-search form-control"
                     />
                   </div>
-                  
+
                   <div className="col-md-2  mt-2 ">
                     <Search
-                      onChange={(searchVal) => requestSearchTask_assignperson(searchVal)}
+                      onChange={(searchVal) =>
+                        requestSearchTask_assignperson(searchVal)
+                      }
                       onCancelSearch={() => cancelSearch()}
                       placeholder="Assigned By"
                       className="advance-search form-control"
@@ -744,7 +747,7 @@ function ExpereinceLetter() {
               <div className="row_search">
                 <p style={{ color: "red", paddingTop: "10px" }}>Page:{page}</p>
                 <Pagination
-                  count={Math.ceil(rows.length / rowsPerPage)}
+                  count={Math.ceil(rows?.length / rowsPerPage)}
                   page={page}
                   onChange={handleChangePage}
                 />
@@ -851,7 +854,7 @@ function ExpereinceLetter() {
                           </i>
                         </div>
                       </TableCell>
-                     {/* <TableCell>
+                      {/* <TableCell>
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
@@ -936,7 +939,7 @@ function ExpereinceLetter() {
                           </i>
                         </div>
                       </TableCell>
-                     {/* <TableCell>
+                      {/* <TableCell>
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
@@ -961,7 +964,7 @@ function ExpereinceLetter() {
                           </i>
                         </div>
                             </TableCell>*/}
-                            <TableCell>
+                      <TableCell>
                         <div
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
@@ -1129,7 +1132,7 @@ function ExpereinceLetter() {
                             style={{ borderBottom: "1px solid black" }}
                           />
 
-                         {/*<Form.Select
+                          {/*<Form.Select
                             value={row?.assignto}
                             disabled={!row.isEditMode}
                             onChange={(e) => {
@@ -1152,12 +1155,18 @@ function ExpereinceLetter() {
                             style={{ borderBottom: "1px solid black" }}
                           />
 
-<CustomTableCell
-                          {...{ row, name: "duration", onChange }}
-                          style={{ borderBottom: "1px solid black" }}
-                        >
-                          <input type="time" value={row.duration} onChange={onChange} name="duration" />
-                          /</CustomTableCell>
+                          <CustomTableCell
+                            {...{ row, name: "duration", onChange }}
+                            style={{ borderBottom: "1px solid black" }}
+                          >
+                            <input
+                              type="time"
+                              value={row.duration}
+                              onChange={onChange}
+                              name="duration"
+                            />
+                            /
+                          </CustomTableCell>
 
                           <Form.Select
                             style={{
@@ -1198,6 +1207,7 @@ function ExpereinceLetter() {
                           >
                             {row.isEditMode ? (
                               <>
+                                {"djjjj"}
                                 <IconButton
                                   aria-label="done"
                                   onClick={() => onToggleEditDone(row.id)}
@@ -1207,25 +1217,27 @@ function ExpereinceLetter() {
                                 <IconButton
                                   aria-label="revert"
                                   // onClick={() => getExperience()}
-                                  onClick={() =>myTask()}
+                                  onClick={() => myTask()}
                                 >
                                   <RevertIcon />
                                 </IconButton>
                               </>
                             ) : (
                               <>
-                              <div className="flex justify-content-center">
-            <Toast ref={toast}></Toast>
-            <SplitButton label="Details"
-                            onClick={() => {
-                              setSelectedRowData(row); // Set the selected row's data
-                              setVisibleTimer(true); // Show the modal
-
-                            }} model={items} className="custom-button" severity="warning" raised />
-           
-
-           
-                                                  </div>
+                                <div className="flex justify-content-center">
+                                  <Toast ref={toast}></Toast>
+                                  <SplitButton
+                                    label="Details"
+                                    onClick={() => {
+                                      setSelectedRowData(row); // Set the selected row's data
+                                      setVisibleTimer(true); // Show the modal
+                                    }}
+                                    model={items}
+                                    className="custom-button"
+                                    severity="warning"
+                                    raised
+                                  />
+                                </div>
                                 <IconButton
                                   aria-label="edit"
                                   onClick={() => onToggleEditMode(row.id)}
@@ -1233,7 +1245,6 @@ function ExpereinceLetter() {
                                 >
                                   <EditIcon />
                                 </IconButton>
-                               
                               </>
                             )}
                           </TableCell>
@@ -1247,27 +1258,26 @@ function ExpereinceLetter() {
         </div>
       </div>
       <Modal show={visibleTimer} onHide={() => setVisibleTimer(!visibleTimer)}>
-      <Modal.Header closeButton>
-        <Modal.Title className="fw-bold">
-          {selectedRowData?.task_name}
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <div>ID: {selectedRowData?.id}</div>
-        <div>Task Name: {selectedRowData?.task_name}</div>
-        <div>Client: {selectedRowData?.client}</div>
-        <div>Control Code: {selectedRowData?.control_code}</div>
-        <div>Category: {selectedRowData?.category}</div>
-        <div>Task Assign Person: {selectedRowData?.task_assignperson}</div>
-        <div>Assign To: {selectedRowData?.assignto}</div>
-        <div>Deadline: {selectedRowData?.deadline}</div>
-        <div>Description: {selectedRowData?.description}</div>
-        <div>Comments: {selectedRowData?.comments}</div>
-        <div>Status: {selectedRowData?.status}</div>
-      </Modal.Body>
-    </Modal>
+        <Modal.Header closeButton>
+          <Modal.Title className="fw-bold">
+            {selectedRowData?.task_name}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div>ID: {selectedRowData?.id}</div>
+          <div>Task Name: {selectedRowData?.task_name}</div>
+          <div>Client: {selectedRowData?.client}</div>
+          <div>Control Code: {selectedRowData?.control_code}</div>
+          <div>Category: {selectedRowData?.category}</div>
+          <div>Task Assign Person: {selectedRowData?.task_assignperson}</div>
+          <div>Assign To: {selectedRowData?.assignto}</div>
+          <div>Deadline: {selectedRowData?.deadline}</div>
+          <div>Description: {selectedRowData?.description}</div>
+          <div>Comments: {selectedRowData?.comments}</div>
+          <div>Status: {selectedRowData?.status}</div>
+        </Modal.Body>
+      </Modal>
     </div>
-    
   );
 }
 

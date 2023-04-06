@@ -11,9 +11,9 @@ const upload = multer({
 });
 
 const db = mysql.createPool({
-  host: "192.168.130.20",
+  host: "localhost",
   user: "root",
-  password: "Thirukumaran6",
+  password: "",
   database: "dbtask_manager",
 });
 
@@ -21,11 +21,11 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(bodyparser.json());
-app.use(express.static('public'));
-app.get("/" , (req,res) =>{
-  res.setHeader("Access-Control-Allow-Credentials","true");
+app.use(express.static("public"));
+app.get("/", (req, res) => {
+  res.setHeader("Access-Control-Allow-Credentials", "true");
   res.send("Api is running");
-  })
+});
 
 // Image
 
@@ -165,10 +165,13 @@ app.post("/user_login", (req, res) => {
 
 // Fetch User details for clients
 app.get("/users", (req, res) => {
-  db.query("SELECT *,profileImage FROM client_master", (error, results, fields) => {
-    if (error) throw error;
-    res.send(results);
-  });
+  db.query(
+    "SELECT *,profileImage FROM client_master",
+    (error, results, fields) => {
+      if (error) throw error;
+      res.send(results);
+    }
+  );
 });
 
 //get the id Clients separete ID
@@ -261,21 +264,18 @@ app.post("/client", upload.single("profileImage"), (req, res) => {
   );
 });
 
-
-
 // Imge
 app.get("/Viewfile/:uploads", (req, res) => {
   const { filename } = req.params;
   res.sendFile(__dirname + "/uploads/" + filename);
 });
 
-app.get('/Viewfile',(request,response)=>{
-
-  let sql = 'select * from profileImage';
-  db.query(sql,(error,result)=>{
-      response.send(result);
-  })
-})
+app.get("/Viewfile", (request, response) => {
+  let sql = "select * from profileImage";
+  db.query(sql, (error, result) => {
+    response.send(result);
+  });
+});
 
 // Update client Record
 app.put("/update/:id", (req, res) => {
@@ -376,20 +376,23 @@ app.post("/member", (req, res) => {
 });
 
 // Fetch member ID separate
-app.get('/getmembers', (req, res) => {
-
+app.get("/getmembers", (req, res) => {
   db.query("SELECT * FROM users", (error, results, fields) => {
     if (error) throw error;
     res.send(results);
   });
 });
 
-app.get('/getmembername', (req, res) => {
+app.get("/getmembername", (req, res) => {
   const user_id = req.query.user_id;
-  db.query("SELECT * FROM users WHERE user_id = ?",[user_id], (error, results, fields) => {
-    if (error) throw error;
-    res.send(results);
-  });
+  db.query(
+    "SELECT * FROM users WHERE user_id = ?",
+    [user_id],
+    (error, results, fields) => {
+      if (error) throw error;
+      res.send(results);
+    }
+  );
 });
 
 //get the id of Members
@@ -406,7 +409,7 @@ app.get("/getmembers/:id", (req, res) => {
   );
 });
 
-// Members Update 
+// Members Update
 app.put("/memberupdate/:id", (req, res) => {
   // Extract the client ID from the request URL
   const userId = req.params.id;
@@ -488,11 +491,14 @@ app.post("/task", (req, res) => {
 // Task card Map
 app.get("/taskcard", (req, res) => {
   // db.query("SELECT * FROM task", (error, results, fields) => {
-    db.query("SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline FROM task", (error, results, fields) => {  
+  db.query(
+    "SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline FROM task",
+    (error, results, fields) => {
       if (error) throw error;
-    console.log(results);
-    res.send(results);
-  });
+      console.log(results);
+      res.send(results);
+    }
+  );
 });
 
 // Delete tasks By id in Admin
@@ -503,7 +509,7 @@ app.delete("/delete_experience/:id", (req, res) => {
   });
 });
 
-// update Task by id 
+// update Task by id
 app.put("/update_experience", (req, res) => {
   const {
     task_name,
@@ -521,7 +527,7 @@ app.put("/update_experience", (req, res) => {
   } = req.body;
   // Convert duration to number of seconds
   const durationInSeconds = duration
-    ? duration.split(":").reduce((acc, time) => (60 * acc) + +time)
+    ? duration.split(":").reduce((acc, time) => 60 * acc + +time)
     : null;
 
   db.query(
@@ -548,11 +554,10 @@ app.put("/update_experience", (req, res) => {
         console.log(error);
       }
     }
-    
   );
 });
 
-// Api cal  for status Update 
+// Api cal  for status Update
 app.put("/task_status_update", (req, res) => {
   const { status, id } = req.body;
 
@@ -668,11 +673,14 @@ app.post("/project", (req, res) => {
 // Project card Map
 app.get("/projectcard", (req, res) => {
   // db.query("SELECT * FROM project", (error, results, fields) => {
-    db.query("SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline FROM project", (error, results, fields) => {  
+  db.query(
+    "SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline FROM project",
+    (error, results, fields) => {
       if (error) throw error;
-    console.log(results);
-    res.send(results);
-  });
+      console.log(results);
+      res.send(results);
+    }
+  );
 });
 
 // Delete project by ID
@@ -684,7 +692,6 @@ app.delete("/delete_project/:id", (req, res) => {
   });
 });
 
-
 // Get the time value from the React form input
 // const timeValue = e.target.elements.ftime.value;
 
@@ -694,7 +701,7 @@ app.put("/update_project", (req, res) => {
     project_name,
     category,
     client,
-    duration,  
+    duration,
     start_date,
     end_date,
     project_manager,
@@ -704,7 +711,7 @@ app.put("/update_project", (req, res) => {
   } = req.body;
   // Convert duration to number of seconds
   const durationInSeconds = duration
-    ? duration.split(":").reduce((acc, time) => (60 * acc) + +time)
+    ? duration.split(":").reduce((acc, time) => 60 * acc + +time)
     : null;
 
   db.query(
@@ -713,10 +720,10 @@ app.put("/update_project", (req, res) => {
       project_name,
       category,
       client,
-      duration,  
+      duration,
       start_date,
       end_date,
-      project_manager	,
+      project_manager,
       status,
       date,
       id,
@@ -729,11 +736,8 @@ app.put("/update_project", (req, res) => {
         console.log(error);
       }
     }
-    
   );
 });
-
-
 
 // Update for  Project Status
 
@@ -781,7 +785,7 @@ app.get("/project_filter", (req, res) => {
   });
 });
 
-// Task assign to 
+// Task assign to
 app.get("/gettask/:userId", async (req, res) => {
   const { userId } = req.params;
   const query = `SELECT * from task where assignto = ${userId}`;
@@ -794,7 +798,6 @@ app.get("/gettask/:userId", async (req, res) => {
     }
   });
 });
-
 
 // Employee Task Filter by all Complete
 

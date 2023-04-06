@@ -17,7 +17,7 @@ import { DownloadTableExcel } from "react-export-table-to-excel";
 import DownloadIcon from "@mui/icons-material/Download";
 // Icons
 import EditIcon from "@material-ui/icons/EditOutlined";
-import PreviewIcon from '@mui/icons-material/Preview';
+import PreviewIcon from "@mui/icons-material/Preview";
 import DeleteIcon from "@material-ui/icons/DeleteOutlined";
 import DoneIcon from "@material-ui/icons/DoneAllTwoTone";
 import RevertIcon from "@material-ui/icons/NotInterestedOutlined";
@@ -39,8 +39,8 @@ import { useDispatch } from "react-redux";
 import { getExperienceApi } from "../../store/api/task";
 // import {getExperienceApi} from "../../store/api/task"
 import moment from "moment";
-import { Toast } from 'primereact/toast';
-import { SplitButton } from 'primereact/splitbutton';
+import { Toast } from "primereact/toast";
+import { SplitButton } from "primereact/splitbutton";
 import TimeInput from "react-widgets/TimeInput";
 
 const useStyles = makeStyles((theme) => ({
@@ -65,16 +65,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
-
- 
-
 const CustomTableCell = ({ row, name, onChange }) => {
   const classes = useStyles();
   const { isEditMode } = row;
   const formattedDeadline = new Date(row[name]).toLocaleDateString();
   const formattedCreated_dt = new Date(row[name]).toLocaleDateString();
+  console.log(row[name], "name");
   return (
     <TableCell align="Center" className={classes.tableCell}>
       {isEditMode ? (
@@ -84,16 +80,16 @@ const CustomTableCell = ({ row, name, onChange }) => {
           onChange={(e) => onChange(e, row)}
           className={classes.input}
         />
+      ) : name === "deadline" ? (
+        formattedDeadline
+      ) : name === "created_dt" ? (
+        formattedCreated_dt
       ) : (
-         name === 'deadline' ? formattedDeadline 
-      : name === 'created_dt' ? formattedCreated_dt 
-      :row[name]
-
+        row[name]
       )}
     </TableCell>
   );
-      };
-
+};
 
 function ExpereinceLetter() {
   const tableRef = useRef(null);
@@ -155,7 +151,6 @@ function ExpereinceLetter() {
     if (row && !previous[row.id]) {
       setPrevious((state) => ({ ...state, [row.id]: row }));
     }
-  
 
     const value = e.target.value;
     const name = e.target.name;
@@ -345,7 +340,7 @@ function ExpereinceLetter() {
       setorder("ASC");
     }
   };
- 
+
   const sortingtaskassignperson = (col) => {
     if (order === "ASC") {
       const sorted = [...rows].sort((a, b) =>
@@ -404,10 +399,8 @@ function ExpereinceLetter() {
   const [task_assignperson, setTask_assignperson] = useState("");
   const [searched, setSearched] = useState("");
   const [deadline, setDeadline] = useState("");
-  const [duration, setDuration] = useState('');
+  const [duration, setDuration] = useState("");
 
-
-  
   // Timer
   const [selectedRowData, setSelectedRowData] = useState(null);
 
@@ -426,7 +419,7 @@ function ExpereinceLetter() {
         var o = Object.assign({}, el);
         // o.deadline = moment(el.formatted_deadline).format('YYYY-MM-DD');
         o.deadline = new Date(el.formatted_deadline).toLocaleDateString();
-        o.created_dt = new Date(el.formatted_created_dt).toLocaleDateString();        
+        o.created_dt = new Date(el.formatted_created_dt).toLocaleDateString();
         console.log(o.created_dt);
         o.isEditMode = false;
         return o;
@@ -435,13 +428,11 @@ function ExpereinceLetter() {
       setSearch(result);
     });
   };
-// format the date using JavaScript's Date API
-const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
+  // format the date using JavaScript's Date API
+  const formattedDate = new Date(deadline).toLocaleDateString("en-GB");
   useEffect(() => {
-    console.log(rows,'rowsa')
-  }, [rows])
-  
-
+    console.log(rows, "rowsa");
+  }, [rows]);
 
   const deleteExperience = async (id) => {
     var result = window.confirm("Are you sure to delete?");
@@ -476,11 +467,11 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
         task_assignperson: task_assignperson,
         deadline: deadline,
         description: description,
-        duration:duration, // Updated duration value
+        duration: duration, // Updated duration value
         status: status,
         comments: comments,
         assignto: assignto,
-        created_dt : created_dt,
+        created_dt: created_dt,
       })
       .then((response) => {
         console.log("OK");
@@ -503,7 +494,6 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
       });
   };
 
-  
   // Modal Visible
   const tableData = [
     { status: "All" },
@@ -588,24 +578,32 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
       });
   }, []);
   const toast = useRef(null);
-    const items = [
-        {
-            label: 'Edit Row',
-            icon: 'pi pi-refresh',
-            command: () => {
-                toast.current.show({ severity: 'success', summary: 'Updated', detail: 'Data Updated' });
-            }
-        },
-        
-        {
-            label: 'Delete',
-            icon: 'pi pi-times',
-            command: () => {
-                toast.current.show({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted' });
-            }
-        },  
-    ];
-// Time
+  const items = [
+    {
+      label: "Edit Row",
+      icon: "pi pi-refresh",
+      command: () => {
+        toast.current.show({
+          severity: "success",
+          summary: "Updated",
+          detail: "Data Updated",
+        });
+      },
+    },
+
+    {
+      label: "Delete",
+      icon: "pi pi-times",
+      command: () => {
+        toast.current.show({
+          severity: "warn",
+          summary: "Delete",
+          detail: "Data Deleted",
+        });
+      },
+    },
+  ];
+  // Time
 
   return (
     <>
@@ -622,7 +620,6 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                   sheet="users"
                   currentTableRef={tableRef.current}
                 >
-            
                   <Button type="danger">
                     <div className="download">
                       {" "}
@@ -754,133 +751,153 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
               rowsPerPage={rowsPerPage}
               onRowsPerPageChange={handleChangeRowsPerPage}
             /> */}
-            <Paper>
-              <TableContainer
-                style={{
-                  borderRadius: "10px",
-                }}
-              >
-                <Table
-                  className={classes.table}
-                  aria-label="caption table"
-                  ref={tableRef}
-                >
-                  <TableHead className={classes.tableHead}>
-                    <TableRow className="satustable">
-                      <TableCell>
-
               <Paper>
-                <TableContainer>
+                <TableContainer
+                  style={{
+                    borderRadius: "10px",
+                  }}
+                >
                   <Table
                     className={classes.table}
-                    style={{ paddingTop: "45px" }}
                     aria-label="caption table"
                     ref={tableRef}
                   >
-                    {/* <caption>A barbone structure table example with a caption</caption> */}
-                    <TableHead>
-                      <TableRow>
+                    <TableHead className={classes.tableHead}>
+                      <TableRow className="satustable">
                         <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable table_name">ID</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingid("id")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable table_name">Task_Name</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingname("task_name")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable table_name">Client</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingclient("client")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable table_name">Control_Code</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingclient("client")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable table_name">Created_dt</th>
-                            <i
-                              style={{ paddingLeft: '2px', color: "#FF7F7F" }}
-                              onClick={() => sortingcategory("category")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        {/* <TableCell>
+                          <Paper>
+                            <TableContainer>
+                              <Table
+                                className={classes.table}
+                                style={{ paddingTop: "45px" }}
+                                aria-label="caption table"
+                                ref={tableRef}
+                              >
+                                {/* <caption>A barbone structure table example with a caption</caption> */}
+                                <TableHead>
+                                  <TableRow>
+                                    <TableCell>
+                                      <div
+                                        style={{ paddingTop: 15 }}
+                                        className="d-flex flex-row justify-content-center"
+                                      >
+                                        <th className="hrtable table_name">
+                                          ID
+                                        </th>
+                                        <i
+                                          style={{ paddingLeft: "2px" }}
+                                          onClick={() => sortingid("id")}
+                                        >
+                                          <BiSort
+                                            style={{
+                                              fontSize: 18,
+                                              color: "white",
+                                              marginBottom: "10",
+                                            }}
+                                          />
+                                        </i>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <div
+                                        style={{ paddingTop: 15 }}
+                                        className="d-flex flex-row justify-content-center"
+                                      >
+                                        <th className="hrtable table_name">
+                                          Task_Name
+                                        </th>
+                                        <i
+                                          style={{ paddingLeft: "2px" }}
+                                          onClick={() =>
+                                            sortingname("task_name")
+                                          }
+                                        >
+                                          <BiSort
+                                            style={{
+                                              fontSize: 18,
+                                              color: "white",
+                                              marginBottom: "10",
+                                            }}
+                                          />
+                                        </i>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <div
+                                        style={{ paddingTop: 15 }}
+                                        className="d-flex flex-row justify-content-center"
+                                      >
+                                        <th className="hrtable table_name">
+                                          Client
+                                        </th>
+                                        <i
+                                          style={{ paddingLeft: "2px" }}
+                                          onClick={() =>
+                                            sortingclient("client")
+                                          }
+                                        >
+                                          <BiSort
+                                            style={{
+                                              fontSize: 18,
+                                              color: "white",
+                                              marginBottom: "10",
+                                            }}
+                                          />
+                                        </i>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <div
+                                        style={{ paddingTop: 15 }}
+                                        className="d-flex flex-row justify-content-center"
+                                      >
+                                        <th className="hrtable table_name">
+                                          Control_Code
+                                        </th>
+                                        <i
+                                          style={{ paddingLeft: "2px" }}
+                                          onClick={() =>
+                                            sortingclient("client")
+                                          }
+                                        >
+                                          <BiSort
+                                            style={{
+                                              fontSize: 18,
+                                              color: "white",
+                                              marginBottom: "10",
+                                            }}
+                                          />
+                                        </i>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <div
+                                        style={{ paddingTop: 15 }}
+                                        className="d-flex flex-row justify-content-center"
+                                      >
+                                        <th className="hrtable table_name">
+                                          Created_dt
+                                        </th>
+                                        <i
+                                          style={{
+                                            paddingLeft: "2px",
+                                            color: "#FF7F7F",
+                                          }}
+                                          onClick={() =>
+                                            sortingcategory("category")
+                                          }
+                                        >
+                                          <BiSort
+                                            style={{
+                                              fontSize: 18,
+                                              color: "white",
+                                              marginBottom: "10",
+                                            }}
+                                          />
+                                        </i>
+                                      </div>
+                                    </TableCell>
+                                    {/* <TableCell>
                           <div
                             style={{ paddingTop: 15 }}
                             className="d-flex flex-row justify-content-center"
@@ -900,7 +917,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                             </i>
                           </div>
                         </TableCell> */}
-                        {/* <TableCell>
+                                    {/* <TableCell>
                           <div
                             style={{ paddingTop: 15 }}
                             className="d-flex flex-row justify-content-center"
@@ -920,70 +937,73 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                             </i>
                           </div>
                         </TableCell> */}
-          
-                        
-                        <TableCell>
-                          <div
-                            style={{ paddingTop: 18 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable">
-                              Assigned_To
-                              <span style={{ textAligh: "center" }}> </span>
-                            </th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() =>
-                                sortingtaskassignperson("task_assignperson")
-                              }
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        
-                        <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                          
-                            <th className="hrtable">Deadline</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingdeadline("deadline")}
-                              
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th
-                              className="hrtable"
-                              style={{ borderCollapse: "collapse" }}
-                            >
-                              Duration
-                            </th>
-                          </div>
-                        </TableCell>
-                        {/* <TableCell>
+
+                                    <TableCell>
+                                      <div
+                                        style={{ paddingTop: 18 }}
+                                        className="d-flex flex-row justify-content-center"
+                                      >
+                                        <th className="hrtable">
+                                          Assigned_To
+                                          <span style={{ textAligh: "center" }}>
+                                            {" "}
+                                          </span>
+                                        </th>
+                                        <i
+                                          style={{ paddingLeft: "2px" }}
+                                          onClick={() =>
+                                            sortingtaskassignperson(
+                                              "task_assignperson"
+                                            )
+                                          }
+                                        >
+                                          <BiSort
+                                            style={{
+                                              fontSize: 18,
+                                              color: "white",
+                                              marginBottom: "10",
+                                            }}
+                                          />
+                                        </i>
+                                      </div>
+                                    </TableCell>
+
+                                    <TableCell>
+                                      <div
+                                        style={{ paddingTop: 15 }}
+                                        className="d-flex flex-row justify-content-center"
+                                      >
+                                        <th className="hrtable">Deadline</th>
+                                        <i
+                                          style={{ paddingLeft: "2px" }}
+                                          onClick={() =>
+                                            sortingdeadline("deadline")
+                                          }
+                                        >
+                                          <BiSort
+                                            style={{
+                                              fontSize: 18,
+                                              color: "white",
+                                              marginBottom: "10",
+                                            }}
+                                          />
+                                        </i>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <div
+                                        style={{ paddingTop: 15 }}
+                                        className="d-flex flex-row justify-content-center"
+                                      >
+                                        <th
+                                          className="hrtable"
+                                          style={{ borderCollapse: "collapse" }}
+                                        >
+                                          Duration
+                                        </th>
+                                      </div>
+                                    </TableCell>
+                                    {/* <TableCell>
                           <div
                             style={{ paddingTop: 15 }}
                             className="d-flex flex-row justify-content-center"
@@ -1003,253 +1023,321 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                             </i>
                           </div>
                         </TableCell> */}
-                       
-                        <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th
-                              className="hrtable"
-                              style={{ borderCollapse: "collapse" }}
-                            >
-                              Status
-                            </th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingdescription("status")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable">Reason</th>
 
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingdescription("comments")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: "18px",
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th
-                              className="hrtable"
-                              style={{ paddingRight: "10px", paddingTop: "" }}
-                            >
-                              Actions
-                            </th>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {/* .slice(
+                                    <TableCell>
+                                      <div
+                                        style={{ paddingTop: 15 }}
+                                        className="d-flex flex-row justify-content-center"
+                                      >
+                                        <th
+                                          className="hrtable"
+                                          style={{ borderCollapse: "collapse" }}
+                                        >
+                                          Status
+                                        </th>
+                                        <i
+                                          style={{ paddingLeft: "2px" }}
+                                          onClick={() =>
+                                            sortingdescription("status")
+                                          }
+                                        >
+                                          <BiSort
+                                            style={{
+                                              fontSize: 18,
+                                              color: "white",
+                                              marginBottom: "10",
+                                            }}
+                                          />
+                                        </i>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <div
+                                        style={{ paddingTop: 15 }}
+                                        className="d-flex flex-row justify-content-center"
+                                      >
+                                        <th className="hrtable">Reason</th>
+
+                                        <i
+                                          style={{ paddingLeft: "2px" }}
+                                          onClick={() =>
+                                            sortingdescription("comments")
+                                          }
+                                        >
+                                          <BiSort
+                                            style={{
+                                              fontSize: "18px",
+                                              color: "white",
+                                              marginBottom: "10",
+                                            }}
+                                          />
+                                        </i>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <div
+                                        style={{ paddingTop: 15 }}
+                                        className="d-flex flex-row justify-content-center"
+                                      >
+                                        <th
+                                          className="hrtable"
+                                          style={{
+                                            paddingRight: "10px",
+                                            paddingTop: "",
+                                          }}
+                                        >
+                                          Actions
+                                        </th>
+                                      </div>
+                                    </TableCell>
+                                  </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                  {/* .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage
                       ) */}
-                      {rows
-                        .slice((page - 1) * rowsPerPage, page * rowsPerPage)
+                                  {rows
+                                    .slice(
+                                      (page - 1) * rowsPerPage,
+                                      page * rowsPerPage
+                                    )
 
-                        .map((row, index) => (
-                      
-                          <TableRow
-                            key={row.id}
-                            style={{ backgroundColor: colorCode[row.status] }}
-                           
-                          >
-                            <CustomTableCell
-                              {...{ row, name: "id", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
-                            <CustomTableCell
-                              {...{ row, name: "task_name", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
-                            <CustomTableCell
-                              {...{ row, name: "client", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
-                            <CustomTableCell
-                              {...{ row, name: "control_code", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
+                                    .map((row, index) => (
+                                      <TableRow
+                                        key={row.id}
+                                        style={{
+                                          backgroundColor:
+                                            colorCode[row.status],
+                                        }}
+                                      >
+                                        <CustomTableCell
+                                          {...{ row, name: "id", onChange }}
+                                          style={{
+                                            borderBottom: "1px solid black",
+                                          }}
+                                        />
+                                        <CustomTableCell
+                                          {...{
+                                            row,
+                                            name: "task_name",
+                                            onChange,
+                                          }}
+                                          style={{
+                                            borderBottom: "1px solid black",
+                                          }}
+                                        />
+                                        <CustomTableCell
+                                          {...{ row, name: "client", onChange }}
+                                          style={{
+                                            borderBottom: "1px solid black",
+                                          }}
+                                        />
+                                        <CustomTableCell
+                                          {...{
+                                            row,
+                                            name: "control_code",
+                                            onChange,
+                                          }}
+                                          style={{
+                                            borderBottom: "1px solid black",
+                                          }}
+                                        />
 
-                            {/* <CustomTableCell
+                                        {/* <CustomTableCell
                               {...{ row, name: "category", onChange }}
                               style={{ borderBottom: "1px solid black" }}
                             /> */}
-                            {/* {/* <CustomTableCell
+                                        {/* {/* <CustomTableCell
                                 {...{ row, name: "start_date", onChange }}
                                 style={{ borderBottom: "1px solid black" }}
                               /> */}
-                              <CustomTableCell
-                                {...{ row, name: "created_dt", onChange }}
-                                style={{ borderBottom: "1px solid black" }}
-                              /> 
+                                        <CustomTableCell
+                                          {...{
+                                            row,
+                                            name: "created_dt",
+                                            onChange,
+                                          }}
+                                          style={{
+                                            borderBottom: "1px solid black",
+                                          }}
+                                        />
 
-                            {/* <CustomTableCell
+                                        {/* <CustomTableCell
                               {...{ row, name: "task_assignperson", onChange }}
                               style={{ borderBottom: "1px solid black" }}
                             /> */}
 
-                            <Form.Select
-                            class="form_assignto"
-                              value={row?.assignto}
-                              disabled={!row.isEditMode}
-                              onChange={(e) => {
-                                const { value } = e.target;
-                                const temp = rows;
-                                temp[index].assignto = value || "";
-                                setRows(temp);
-                              }}
-                            >
-                              <option value="">Select user</option>
-                              {users.map((user) => (
-                                <option key={user.user_id} value={user.user_id}>
-                                  {user.user_id}
-                                </option>
-                              ))}
-                            </Form.Select>
+                                        <Form.Select
+                                          class="form_assignto"
+                                          value={row?.assignto}
+                                          disabled={!row.isEditMode}
+                                          onChange={(e) => {
+                                            const { value } = e.target;
+                                            const temp = rows;
+                                            temp[index].assignto = value || "";
+                                            setRows(temp);
+                                          }}
+                                        >
+                                          <option value="">Select user</option>
+                                          {users.map((user) => (
+                                            <option
+                                              key={user.user_id}
+                                              value={user.user_id}
+                                            >
+                                              {user.user_id}
+                                            </option>
+                                          ))}
+                                        </Form.Select>
 
-                           <CustomTableCell
-                              {...{ row, name: "deadline", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            /> 
-                            
-                            {/* {console.log( {...{ row, name: "deadline", onChange }},'d')} */}
-                            {/* <input type="time"
+                                        <CustomTableCell
+                                          {...{
+                                            row,
+                                            name: "deadline",
+                                            onChange,
+                                          }}
+                                          style={{
+                                            borderBottom: "1px solid black",
+                                          }}
+                                        />
+
+                                        {/* {console.log( {...{ row, name: "deadline", onChange }},'d')} */}
+                                        {/* <input type="time"
                                       name="duration"
                                       className="form-control"
                           {...{ row, name: "duration", onChange }}
                         />
                             {console.log( {...{ row, name: "duration", onChange }},'d')} */}
-                            <CustomTableCell
-                              {...{ row, name: "duration", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
+                                        <CustomTableCell
+                                          {...{
+                                            row,
+                                            name: "duration",
+                                            onChange,
+                                          }}
+                                          style={{
+                                            borderBottom: "1px solid black",
+                                          }}
+                                        />
 
-                            {/* <CustomTableCell
+                                        {/* <CustomTableCell
                               {...{ row, name: "description", onChange }}
                               style={{ borderBottom: "1px solid black" }}
                             /> */}
-                           <Form.Select
-                              style={{
-                                width: "133px",
-                                height:"40px",
-                                paddingTop:"5px",
+                                        <Form.Select
+                                          style={{
+                                            width: "133px",
+                                            height: "40px",
+                                            paddingTop: "5px",
 
-                                backgroundColor:
-                                  row.status === "completed"
-                                    ? "#80FFAD"
-                                    : row.status === "pending"
-                                    ? "red"
-                                    : row.status === "Inprogress"
-                                    ? "#FFAF64"
-                                    : "grey",
-                                color: "white",
-                                fontWeight: "bold",
-                              }}
-                              id={row.id}
-                              disabled={!row.isEditMode}
-                              // style={{  }}
-                              value={row.status}
-                              onChange={(e) =>
-                                handleStatus(e.target.value, row.id)
-                              }
-                            >
-                              <option value="">Select</option>
-                              <option value="Completed">Completed</option>
-                              <option value="InProgress">In Progress</option>
-                              <option value="Pending">Pending</option>
-                            </Form.Select>
-                            <CustomTableCell
-                              {...{ row, name: "comments", onChange }}
-                            />
- 
-                            <TableCell
-                              style={{ display: "flex", width: "100%" }}
-                              className={classes.selectTableCell}
-                              class
-                            >
-                              {row.isEditMode ? (
-                                <>
-                                  <IconButton
-                                    aria-label="done"
-                                    onClick={() => onToggleEditDone(row.id)}
-                                  >
-                                    <DoneIcon />
-                                  </IconButton>
-                                  <IconButton
-                                    aria-label="revert"
-                                    onClick={() => getExperience()}
-                                  >
-                                    <RevertIcon />
-                                  </IconButton>
-                                </>
-                              ) : (
-                                <>
-                                <div className="flex justify-content-center">
-            <Toast ref={toast}></Toast>
-            <SplitButton label="D"
-                            onClick={() => {
-                              setSelectedRowData(row); // Set the selected row's data
-                              setVisibleTimer(true); // Show the modal
+                                            backgroundColor:
+                                              row.status === "completed"
+                                                ? "#80FFAD"
+                                                : row.status === "pending"
+                                                ? "red"
+                                                : row.status === "Inprogress"
+                                                ? "#FFAF64"
+                                                : "grey",
+                                            color: "white",
+                                            fontWeight: "bold",
+                                          }}
+                                          id={row.id}
+                                          disabled={!row.isEditMode}
+                                          // style={{  }}
+                                          value={row.status}
+                                          onChange={(e) =>
+                                            handleStatus(e.target.value, row.id)
+                                          }
+                                        >
+                                          <option value="">Select</option>
+                                          <option value="Completed">
+                                            Completed
+                                          </option>
+                                          <option value="InProgress">
+                                            In Progress
+                                          </option>
+                                          <option value="Pending">
+                                            Pending
+                                          </option>
+                                        </Form.Select>
+                                        <CustomTableCell
+                                          {...{
+                                            row,
+                                            name: "comments",
+                                            onChange,
+                                          }}
+                                        />
 
-                            }} 
-                            model={items} className="custom-button" severity="warning" raised />
-           
-
-           
-                                                  </div>
-                                    <IconButton
-                                    aria-label="edit"
-                                    onClick={() => onToggleEditMode(row.id)}
-                                      >
-                                    <EditIcon />
-                                  </IconButton>
-                                  <IconButton
-                                    aria-label="delete"
-                                    onClick={() => deleteExperience(row.id)}
-                                  >
-                                    <DeleteIcon />
-                                  </IconButton>
-                                </>
-                              )}
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                    </TableBody>
+                                        <TableCell
+                                          style={{
+                                            display: "flex",
+                                            width: "100%",
+                                          }}
+                                          className={classes.selectTableCell}
+                                          class
+                                        >
+                                          {row.isEditMode ? (
+                                            <>
+                                              <IconButton
+                                                aria-label="done"
+                                                onClick={() =>
+                                                  onToggleEditDone(row.id)
+                                                }
+                                              >
+                                                <DoneIcon />
+                                              </IconButton>
+                                              <IconButton
+                                                aria-label="revert"
+                                                onClick={() => getExperience()}
+                                              >
+                                                <RevertIcon />
+                                              </IconButton>
+                                            </>
+                                          ) : (
+                                            <>
+                                              <div className="flex justify-content-center">
+                                                <Toast ref={toast}></Toast>
+                                                <SplitButton
+                                                  label="D"
+                                                  onClick={() => {
+                                                    setSelectedRowData(row); // Set the selected row's data
+                                                    setVisibleTimer(true); // Show the modal
+                                                  }}
+                                                  model={items}
+                                                  className="custom-button"
+                                                  severity="warning"
+                                                  raised
+                                                />
+                                              </div>
+                                              <IconButton
+                                                aria-label="edit"
+                                                onClick={() =>
+                                                  onToggleEditMode(row.id)
+                                                }
+                                              >
+                                                <EditIcon />
+                                              </IconButton>
+                                              <IconButton
+                                                aria-label="delete"
+                                                onClick={() =>
+                                                  deleteExperience(row.id)
+                                                }
+                                              >
+                                                <DeleteIcon />
+                                              </IconButton>
+                                            </>
+                                          )}
+                                        </TableCell>
+                                      </TableRow>
+                                    ))}
+                                </TableBody>
+                              </Table>
+                            </TableContainer>
+                          </Paper>
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
                   </Table>
                 </TableContainer>
-              </Paper>
-              </TableCell>
-              </TableRow>
-              </TableHead>
-              </Table>
-    </TableContainer>
               </Paper>
             </div>
           </div>
@@ -1262,56 +1350,52 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-
-
-<table>
-  <tr>
-    <th>ID</th>
-    <td>{selectedRowData?.id}</td>
-  </tr>
-  <tr>
-    <th>Task Name</th>
-    <td>{selectedRowData?.task_name}</td>
-  </tr>
-  <tr>
-    <th>Client</th>
-    <td>{selectedRowData?.client}</td>
-  </tr>
-  <tr>
-    <th>Control Code</th>
-    <td>{selectedRowData?.control_code}</td>
-  </tr>
-  <tr>
-    <th>Category</th>
-    <td>{selectedRowData?.category}</td>
-  </tr>
-  <tr>
-    <th>Task Assign Person</th>
-    <td>{selectedRowData?.task_assignperson}</td>
-  </tr>
-  <tr>
-    <th>Assign To</th>
-    <td>{selectedRowData?.assignto}</td>
-  </tr>
-  <tr>
-    <th>Deadline</th>
-    <td>{selectedRowData?.deadline}</td>
-  </tr>
-  <tr>
-    <th>Description</th>
-    <td>{selectedRowData?.description}</td>
-  </tr>
-  <tr>
-    <th>Comments</th>
-    <td>{selectedRowData?.comments}</td>
-  </tr>
-  <tr>
-    <th>Status</th>
-    <td>{selectedRowData?.status}</td>
-  </tr>
-</table>
-
-
+          <table>
+            <tr>
+              <th>ID</th>
+              <td>{selectedRowData?.id}</td>
+            </tr>
+            <tr>
+              <th>Task Name</th>
+              <td>{selectedRowData?.task_name}</td>
+            </tr>
+            <tr>
+              <th>Client</th>
+              <td>{selectedRowData?.client}</td>
+            </tr>
+            <tr>
+              <th>Control Code</th>
+              <td>{selectedRowData?.control_code}</td>
+            </tr>
+            <tr>
+              <th>Category</th>
+              <td>{selectedRowData?.category}</td>
+            </tr>
+            <tr>
+              <th>Task Assign Person</th>
+              <td>{selectedRowData?.task_assignperson}</td>
+            </tr>
+            <tr>
+              <th>Assign To</th>
+              <td>{selectedRowData?.assignto}</td>
+            </tr>
+            <tr>
+              <th>Deadline</th>
+              <td>{selectedRowData?.deadline}</td>
+            </tr>
+            <tr>
+              <th>Description</th>
+              <td>{selectedRowData?.description}</td>
+            </tr>
+            <tr>
+              <th>Comments</th>
+              <td>{selectedRowData?.comments}</td>
+            </tr>
+            <tr>
+              <th>Status</th>
+              <td>{selectedRowData?.status}</td>
+            </tr>
+          </table>
         </Modal.Body>
       </Modal>
     </>

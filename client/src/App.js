@@ -145,7 +145,8 @@ import Sidebar from "./components/common/Sidebar";
 import AuthIndex from "./screens/AuthIndex";
 import MainIndex from "./screens/MainIndex";
 import Sidebar1 from "./components/common/Sidebar1";
-
+import Spinner from "./Spinner";
+import "./spinner.css";
 class App extends Component {
   
   constructor(props) {
@@ -159,7 +160,7 @@ class App extends Component {
   componentDidMount() {
     setTimeout(() => {
       this.setState({ isLoading: false });
-    }, 2000);
+    },500);
   }
   
 
@@ -180,7 +181,11 @@ class App extends Component {
     const { isLoading } = this.state;
 
     if (isLoading) {
-      return <div>Loading...</div>;
+      return <div className="pos-center">
+     
+      <Spinner />
+      <h1>Loading</h1>
+    </div>
     }
 
     if (location.pathname === "/" || location.pathname === "/index.html") {

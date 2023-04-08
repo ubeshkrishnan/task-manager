@@ -5,6 +5,7 @@ import AllocatedTask from "../../../components/Projects/AllocatedTask";
 import RecentActivity from "../../../components/Projects/RecentActivity";
 import TaskProgress from "../../../components/Projects/TaskProgress";
 import "react-nestable/dist/styles/index.css";
+import {Url} from "../../../Global_variable/api_link"
 import {
   CompletedData,
   InProgressTaskData,
@@ -14,7 +15,7 @@ import TaskNestable1 from "../../../components/Projects/TaskNestable1";
 import axios from "axios";
 import Table1 from "./TableEmp";
 
-function Tasks() {
+function Emptask() {
   const [isModal, setIsModal] = useState("");
   const [editModeldata, setEditModelData] = useState({
     task_name: "",
@@ -41,7 +42,7 @@ function Tasks() {
     setIsModal(!isModal);
     event.preventDefault();
     axios
-      .post("http://181.215.78.5:3004/task", {
+      .post(Url+"/task", {
         task_name: editModeldata.task_name,
         client: editModeldata.client,
         control_code: editModeldata.control_code,
@@ -70,7 +71,7 @@ function Tasks() {
         renderRight={() => {
           return (
             <div className="col-auto d-flex w-sm-100">
-              <button
+              {/* <button
                 className="btn btn-dark btn-set-task w-sm-100"
                 onClick={() => {
                   setIsModal(true);
@@ -78,7 +79,7 @@ function Tasks() {
               >
                 <i className="icofont-plus-circle me-2 fs-6"></i>Create Task
                 sshh
-              </button>
+              </button> */}
             </div>
           );
         }}
@@ -108,7 +109,7 @@ function Tasks() {
       </div>
       <Modal show={isModal} onHide={() => setIsModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title className="fw-bold">Create Task ll</Modal.Title>
+          <Modal.Title className="fw-bold">Create Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form>
@@ -311,4 +312,4 @@ function Tasks() {
   );
 }
 
-export default Tasks;
+export default Emptask;

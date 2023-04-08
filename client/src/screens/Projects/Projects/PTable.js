@@ -423,7 +423,7 @@ function Ptable() {
 
   const getExperience = async () => {
     setRows([]);
-    const response = await axios.get(Url + "/projectcard").then((response) => {
+    const response = await axios.get(Url+"/projectcard").then((response) => {
       const result = response.data.map(function (el) {
         var o = Object.assign({}, el);
         // o.deadline = moment(el.formatted_deadline).format('YYYY-MM-DD');
@@ -581,7 +581,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
   useEffect(() => {
     // Make an API call to fetch the users data
     axios
-      .get("http://181.215.78.5:3004/getmembers")
+      .get(Url+"/getmembers")
       .then((response) => {
         setUsers(response.data);
       })

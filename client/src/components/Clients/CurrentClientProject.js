@@ -21,12 +21,12 @@ class CurrentClientProject extends React.Component{
                         </div>
                     </div>
                     <div className="d-flex align-items-center">
-                        <div className="avatar-list avatar-list-stacked pt-2">
+                        {/* <div className="avatar-list avatar-list-stacked pt-2">
                             {
                                 teamImage.map((d,i)=><img key={"ihihb"+i} className="avatar rounded-circle sm" src={d} alt=" " />)
                             }
                             <span className="avatar rounded-circle text-center pointer sm" onClick={onClickAdd}><i className="icofont-ui-add"></i></span>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="row g-2 pt-4">
                         <div className="col-6">

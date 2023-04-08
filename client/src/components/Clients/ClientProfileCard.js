@@ -2,7 +2,7 @@ import React from "react";
 import profileImg from "../../assets/images/lg/avatar3.jpg";
 import axios from "axios";
 import { useState, useEffect } from "react";
-
+import {Url} from "../../Global_variable/api_link"
 function ClientProfileCard({id}) {
     const [clientsprofile, setClientsProfile] = useState([]);
     
@@ -10,7 +10,7 @@ function ClientProfileCard({id}) {
     useEffect(() => {
         console.log('id123456',id)
       axios
-        .get(`http://181.215.78.5:3004/users/${id}`)
+        .get(Url+`/users/${id}`)
         .then((response) => {
             console.log(response.data);
             setClientsProfile([response.data])})
@@ -26,7 +26,7 @@ function ClientProfileCard({id}) {
             <div className="profile-teacher pe-xl-4 pe-md-2 pe-sm-4 pe-4 text-center w220">
               <a href="#!">
               <img
-                      src={`http://181.215.78.5:3004/Viewfile/${client.profileImage}`}
+                      src={Url+`/Viewfile/${client.profileImage}`}
                       alt="Profile"
                       className="avatar xl rounded-circle img-thumbnail shadow-sm"
                     />

@@ -6,7 +6,7 @@ import PageHeader from "../../components/common/PageHeader";
 import axios from "axios";
 // import College from "../../uploads";
 import { useHistory, useParams } from "react-router-dom";
-
+import {Url} from "../../Global_variable/api_link"
 
 function Clients() {
   const [isModal, setIsModal] = useState(false);
@@ -56,7 +56,7 @@ function Clients() {
   }, []);
 const getUsers = () =>{
   axios
-  .get("http://181.215.78.5:3004/users")
+  .get(Url+"/users")
   .then((response) => {
     setUsers(response.data);
 
@@ -128,7 +128,7 @@ const getUsers = () =>{
 
     e.preventDefault();
     axios
-      .post("http://181.215.78.5:3004/client", fromData)
+      .post(Url+"/client", fromData)
       .then((response) => {
         console.log(response,'res');
         setIsModal(!isModal);
@@ -144,7 +144,7 @@ const getUsers = () =>{
   const Updateclient = async (client,id) => {
     console.log(client, "dahgdsa");
     try {
-       const response = await axios.put(`http://181.215.78.5:3004/update/${id}`,client);
+       const response = await axios.put(Url+`/update/${id}`,client);
 
       if (response) {
         // Handle the successful response
@@ -341,7 +341,7 @@ const getUsers = () =>{
 
   const handleDelete = () => {
     const { client_id } = editModeldata;
-    fetch(`http://181.215.78.5:3004/api/clients/${client_id}`, { method: 'DELETE' })
+    fetch(Url+`/api/clients/${client_id}`, { method: 'DELETE' })
       .then((res) => res.text())
       .then((data) => {
         console.log(data,"delete");
@@ -407,7 +407,7 @@ const handlesubmit = (event) => {
     var datastring = new FormData(event.target);
     var config = {headers:{"enctype":"multipart/form-data"}};
 
-    axios.post('http://localhost:3002/Addfile',datastring,config)
+    axios.post(Url+'/Addfile',datastring,config)
     .then(function(response){
         if(response.data.status === 'error'){
             alert('Error');
@@ -739,7 +739,7 @@ const handlesubmit = (event) => {
   {viewphoto.map((fileInput) => (
     <img
       key={fileInput.id}
-      src={`http://181.215.78.5:3004/uploads/${fileInput.profileImage}`}
+      src={Url+`/uploads/${fileInput.profileImage}`}
       alt="No ---"
       width="200px"
       height="200px"

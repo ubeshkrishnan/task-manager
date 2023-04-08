@@ -70,7 +70,7 @@ const CustomTableCell = ({ row, name, onChange }) => {
 
   return (
     <TableCell align="Center" className={classes.tableCell}>
-      {isEditMode && (name === "status" || name === "comments") ? (
+      {isEditMode && (name === "duration" || name === "status" || name === "comments") ? (
         <Input
           value={row[name]}
           name={name}
@@ -123,11 +123,11 @@ function ExpereinceLetter() {
     setPage(newPage);
   };
 
-  // useEffect(() => {
-  //   fetch(Url + "/pagination")
-  //     .then((response) => response.json())
-  //     .then((data) => setRows(data));
-  // }, []);
+  useEffect(() => {
+    fetch(Url + "/pagination")
+      .then((response) => response.json())
+      .then((data) => setRows(data));
+  }, []);
 
   const onToggleEditMode = (id) => {
     const newRow = rows.map((row) => {
@@ -526,7 +526,7 @@ function ExpereinceLetter() {
 
   useEffect(() => {
     axios
-      .get(Url + `/taskemp_filter?filter=${filter}`)
+      .get(Url + `/task_filter?filter=${filter}`)
       .then((res) => {
         setRows(res.data);
         setTotalCount(res.data.length);
@@ -542,32 +542,24 @@ function ExpereinceLetter() {
       })
       .catch((err) => console.log(err));
   }, [filter]);
-
+  const [user, setUser] = useState(null);
+  const [taskCount, setTaskCount] = useState(null);
   const handleFilter = (value) => {
     setFilter(value);
+    axios
+      .get(Url + `/taskemp_count/${user.user_id}?filter=${value}`)
+      .then((res) => {
+        setTaskCount(res.data.incomplete);
+      })
+      .catch((err) => console.log(err));
   };
+  
 
-  //   const [users, setUsers] = useState([]);
-  //   const [selectedUserId, setSelectedUserId] = useState("");
-
-  //   useEffect(() => {
-  //     // Make an API call to fetch the users data
-  //     axios
-  //       .get("http://localhost:3001/getmembers")
-  //       .then((response) => {
-  //         setUsers(response.data);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching users data:", error);
-  //       });
-  //   }, []);
-
-  // const [myTaskList, setMyTaskList] = useState([]);
 
   const myTask = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     console.log(user);
-    axios.get(Url + `/gettask/${user.user_id}`).then((response) => {
+    axios.get(Url +`/gettask/${user.user_id}`).then((response) => {
       setRows(response.data);
     });
   };
@@ -1207,7 +1199,7 @@ function ExpereinceLetter() {
                           >
                             {row.isEditMode ? (
                               <>
-                                {"djjjj"}
+                                {/* {"djjjj"} */}
                                 <IconButton
                                   aria-label="done"
                                   onClick={() => onToggleEditDone(row.id)}

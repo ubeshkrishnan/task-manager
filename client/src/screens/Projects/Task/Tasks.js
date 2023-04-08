@@ -5,6 +5,7 @@ import AllocatedTask from "../../../components/Projects/AllocatedTask";
 import RecentActivity from "../../../components/Projects/RecentActivity";
 import TaskProgress from "../../../components/Projects/TaskProgress";
 import "react-nestable/dist/styles/index.css";
+import {Url} from "../../../Global_variable/api_link"
 import {
   CompletedData,
   InProgressTaskData,
@@ -38,7 +39,7 @@ function Tasks() {
     setIsModal(false);
     event.preventDefault();
     axios
-      .post("http://181.215.78.5:3004/task", {
+      .post(Url+"/task", {
         task_name: editModeldata.task_name,
         client: editModeldata.client,
         control_code: editModeldata.control_code,

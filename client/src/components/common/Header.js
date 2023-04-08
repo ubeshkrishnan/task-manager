@@ -12,7 +12,7 @@ import ProfileImg from "../../assets/images/profile_av.png";
 import { Link } from "react-router-dom";
 import AddNewUserModal from "./AddNewUserModal";
 import axios from 'axios';
-
+import{Url} from "../../Global_variable/api_link"
 function Header(){
     const [isModal, setIsModal] = useState(false);
     const [users, setUsers] = useState([]);
@@ -23,7 +23,7 @@ function Header(){
             // Make an API call to fetch the users data
             
             axios
-              .get(`http://181.215.78.5:3004/getmembername?user_id=${user_id}`)
+              .get(Url+`/getmembername?user_id=${user_id}`)
               .then((response) => {
                 setUsers(response.data);
               })
@@ -217,9 +217,9 @@ function Header(){
                     
                     <div className="order-0 col-lg-4 col-md-4 col-sm-12 col-12 mb-3 mb-md-0 ">
                         <div className="input-group flex-nowrap input-group-lg">
-                            <button type="button" className="input-group-text" id="addon-wrapping"><i className="fa fa-search"></i></button>
+                            {/* <button type="button" className="input-group-text" id="addon-wrapping"><i className="fa fa-search"></i></button>
                             <input type="search" className="form-control" placeholder="Search" aria-label="search" aria-describedby="addon-wrapping" />
-                            <button type="button" className="input-group-text add-member-top" onClick={()=>{setIsModal(true)  }}><i className="fa fa-plus"></i></button>
+                            <button type="button" className="input-group-text add-member-top" onClick={()=>{setIsModal(true)  }}><i className="fa fa-plus"></i></button> */}
                         </div>
                     </div>
     

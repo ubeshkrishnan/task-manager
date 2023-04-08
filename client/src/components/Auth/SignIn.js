@@ -3,7 +3,7 @@ import React,{useState} from "react";
 import { Link } from "react-router-dom";
 import GoogleImg from "../../assets/images/google.svg";
 import axios from "axios";
-
+import {Url} from "../../Global_variable/api_link"
 import { useHistory } from "react-router-dom";
 
 
@@ -20,7 +20,7 @@ function SignIn() {
     
     const sendLoginHistory = (ip_address, email, password, attempt_count, bad_attempt, message) => {
       // Send the login history to the server to store in the database
-      axios.post('http://181.215.78.5:3004/history', {
+      axios.post(Url+'/history', {
         ip_address: ip_address,
         email: email,
         password: password,
@@ -53,7 +53,7 @@ function SignIn() {
   setAttemptCount(attempt_count + 1);
 
     try {
-      const res = await axios.post('http://181.215.78.5:3004/login', { email, password });
+      const res = await axios.post(Url+'/login', { email, password });
       // handle successful login here (e.g., store user data in local storage, redirect to dashboard page)
       const { user} =res.data;
       const roleSet = res.data.role;

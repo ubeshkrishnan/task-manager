@@ -300,6 +300,21 @@ export const TimesheetListData={
                         </select>
         },
         {
+            name: "Task NAME",
+            selector: ()=>{},
+            sortable: true,
+            cell:()=><select className="form-select" >
+                            <option >Box of Crayons</option>
+                            <option value="1">Fast Cad</option>
+                            <option value="2">Box of Crayons</option>
+                            <option value="3">Gob Geeklords</option>
+                            <option value="4">Java Dalia</option>
+                            <option value="5">Practice to Perfect</option>
+                            <option value="6">Rhinestone</option>
+                            <option value="7">Social Geek Made</option>
+                        </select>
+        },
+        {
             name: "MON",
             selector: row=><input type="time" className="form-control" id="timepickerded29" value={row.mon} onChange={()=>{}}/>,
             sortable: true,

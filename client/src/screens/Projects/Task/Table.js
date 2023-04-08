@@ -132,7 +132,7 @@ function ExpereinceLetter() {
   };
 
   useEffect(() => {
-    fetch(Url + "/pagination")
+    fetch(Url+"/pagination")
       .then((response) => response.json())
       .then((data) => setRows(data));
   }, []);
@@ -569,7 +569,7 @@ function ExpereinceLetter() {
   useEffect(() => {
     // Make an API call to fetch the users data
     axios
-      .get("http://181.215.78.5:3004/getmembers")
+      .get(Url+"/getmembers")
       .then((response) => {
         setUsers(response.data);
       })

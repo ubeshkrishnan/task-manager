@@ -43,7 +43,7 @@ function Projects() {
     setIsModal(false);
     e.preventDefault();
     axios
-      .post("http://181.215.78.5:3004/project", {
+      .post(Url+"/project", {
         project_name: editModeldata.project_name,
         created_dt: editModeldata.created_dt,
         client: editModeldata.client,
@@ -71,20 +71,23 @@ function Projects() {
 
   useEffect(() => {
     axios
-      .get("http://181.215.78.5:3004/getproject")
+      .get(Url+"/getproject")
       .then((response) => {
-        setProject(response.data);
+        if (response && response.data) {
+          setProject(response.data);
+        }
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
+  
 
   const Updateproject = async (project, id) => {
     console.log(project, "dahgdsa");
     try {
       const response = await axios.put(
-        `http://181.215.78.5:3004/projectupdate/${id}`,
+        Url+`/projectupdate/${id}`,
         project
       );
 
@@ -98,7 +101,7 @@ function Projects() {
 
   const handleDelete = () => {
     const { id } = editModeldata;
-    fetch(`http://181.215.78.5:3004/api/project/${id}`, { method: "DELETE" })
+    fetch(Url+`/api/project/${id}`, { method: "DELETE" })
       .then((res) => res.text())
       .then((data) => {
         console.log(data);
@@ -142,106 +145,9 @@ function Projects() {
           )}
         />
         <Table />
-        <div className="row align-items-center">
-          <div className="col-lg-12 col-md-12 flex-column">
-            <Tab.Content>
-              <Tab.Pane eventKey="All">
-                <div className="row g-3 gy-5 py-3 row-deck">
-                  {projects.map((d, i) => {
-                    return (
-                      <div
-                        key={"ljsdhl" + i}
-                        className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6"
-                      >
-                        <CurrentClientProject
-                          // teamImage={d.teamImage}
-                          // logo={d.logo}
-                          // logoBg={d.logoBg}
-                          title={d.category}
-                          sl={d.project_name}
-                          onClickEdit={() => {
-                            setIsModal(true);
-                            setModalHeader("Edit Project");
-                            setEditModeldata(d);
-                          }}
-                          onClickDelete={() => {
-                            setIsDeleteModal(true);
-                            setEditModeldata({ id: d.id });
-                          }}
-                          onClickAdd={() => setIsAddUserModa(true)}
-                        />
-                      </div>
-                    );
-                  })}
-                </div>
-              </Tab.Pane>
-
-              {/*<Tab.Pane eventKey="Started">
-            <div className="row g-3 gy-5 py-3 row-deck">
-                {ProjectCardData.map((d, i) => (
-                <div key={'ljsdhl' + i} className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                    <CurrentClientProject
-                    teamImage={d.teamImage}
-                    logo={d.logo}
-                    logoBg={d.logoBg}
-                    title={d.title}
-                    sl={d.sl}
-                    onClickEdit={() => {
-                        setIsModal(true);
-                        setEditModeldata(d);
-                    }}
-                    onClickDelete={() => setIsDeleteModal(true)}
-                    onClickAdd={() => setIsAddUserModa(true)}
-                    />
-                </div>
-                ))}
-            </div>
-            </Tab.Pane>
-            <Tab.Pane eventKey="Approval">
-            <div className="row g-3 gy-5 py-3 row-deck">
-            {ProjectCardData.map((d, i) => (
-                <div key={'ljsdhl' + i} className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                <CurrentClientProject
-                    teamImage={d.teamImage}
-                    logo={d.logo}
-                    logoBg={d.logoBg}
-                    title={d.title}
-                    sl={d.sl}
-                    onClickEdit={() => {
-                    setIsModal(true);
-                    setEditModeldata(d);
-                    }}
-                    onClickDelete={() => setIsDeleteModal(true)}
-                    onClickAdd={() => setIsAddUserModa(true)}
-                />
-                </div>
-            ))}
-            </div>
-        </Tab.Pane>
-        <Tab.Pane eventKey="Completed">
-            <div className="row g-3 gy-5 py-3 row-deck">
-            {ProjectCardData.map((d, i) => (
-                <div key={'ljsdhl' + i} className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-6">
-                <CurrentClientProject
-                    teamImage={d.teamImage}
-                    logo={d.logo}
-                    logoBg={d.logoBg}
-                    title={d.title}
-                    sl={d.sl}
-                    onClickEdit={() => {
-                    setIsModal(true);
-                    setEditModeldata(d);
-                    }}
-                    onClickDelete={() => setIsDeleteModal(true)}
-                    onClickAdd={() => setIsAddUserModa(true)}
-                />
-                </div>
-            ))}
-            </div>
-                </Tab.Pane>*/}
-            </Tab.Content>
-          </div>
-        </div>
+       
+          
+        
       </Tab.Container>
 
       <Modal

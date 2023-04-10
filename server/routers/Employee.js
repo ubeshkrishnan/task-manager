@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const mysql = require("mysql2");
 const bcrypt = require('bcrypt');
-
+const compression = require("compression")
 const fileupload = require('express-fileupload');
 
 const db= require("../Sql/db")
@@ -12,7 +12,7 @@ const db= require("../Sql/db")
 app.use(cors());
 app.use(express.json());
 app.use(bodyparser.urlencoded({extended:true}));
-
+app.use(compression());
 
 
 

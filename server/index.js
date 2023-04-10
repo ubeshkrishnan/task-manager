@@ -4,9 +4,12 @@ const cors = require("cors");
 const app = express();
 const mysql = require("mysql2");
 const bcrypt = require("bcrypt");
+const compression =require("compression");
+
+
 app.use(cors());
 const db = require("./Sql/db");
-
+app.use(compression());
 // db.connect(function (err) {
 //   if (err) {
 //   console.log(err);

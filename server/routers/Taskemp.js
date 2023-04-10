@@ -6,10 +6,12 @@ const mysql = require("mysql2");
 const bcrypt = require('bcrypt');
 const fileupload = require('express-fileupload');
 const db= require("../Sql/db")
+const compression = require("compression");
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyparser.urlencoded({extended:true}));
+app.use(compression());
 
 // Task assign to
 app.get("/gettask/:userId", async (req, res) => {

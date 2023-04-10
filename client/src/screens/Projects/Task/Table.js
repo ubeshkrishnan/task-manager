@@ -220,13 +220,18 @@ function ExpereinceLetter() {
     });
     setRows(filteredRows);
   };
-  const requestSearchclient = (e) => {
+  const requestSearchControlCode = (e) => {
     const filteredRows = search.filter((row) => {
       return row.client.toLowerCase().includes(e.target.value.toLowerCase());
     });
     setRows(filteredRows);
   };
-
+  const requestSearchAssignedTo = (e) => {
+    const filteredRows = search.filter((row) => {
+      return row.client.toLowerCase().includes(e.target.value.toLowerCase());
+    });
+    setRows(filteredRows);
+  };
   const requestSearchDeadline = (e) => {
     const filteredRows = search.filter((row) => {
       return row.deadline.toLowerCase().includes(e.target.value.toLowerCase());
@@ -700,13 +705,33 @@ function ExpereinceLetter() {
                         className="advance-search form-control"
                       />
                     </div>
-                    <div className="col-md-4  mt-2">
+                    <div className="col-md-2  mt-2">
                       <Search
                         onChange={(searchVal) =>
                           requestSearchtaskname(searchVal)
                         }
                         onCancelSearch={() => cancelSearch()}
                         placeholder="Task Name"
+                        className="advance-search form-control"
+                      />
+                    </div>
+                    <div className="col-md-2  mt-2 ">
+                      <Search
+                        onChange={(searchVal) =>
+                          requestSearchControlCode(searchVal)
+                        }
+                        onCancelSearch={() => cancelSearch()}
+                        placeholder="Control Code"
+                        className="advance-search form-control"
+                      />
+                    </div>
+                    <div className="col-md-2  mt-2 ">
+                      <Search
+                        onChange={(searchVal) =>
+                          requestSearchAssignedTo(searchVal)
+                        }
+                        onCancelSearch={() => cancelSearch()}
+                        placeholder="Assigned To"
                         className="advance-search form-control"
                       />
                     </div>
@@ -720,6 +745,7 @@ function ExpereinceLetter() {
                         className="advance-search form-control"
                       />
                     </div>
+                  
                   </div>
                   {/* </CCardBody> */}
                   {/* </CCard> */}

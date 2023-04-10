@@ -4,13 +4,14 @@ const cors = require('cors');
 const mysql = require("mysql2");
 const app = express();
 const bcrypt = require('bcrypt');
+const compression = require('compression');
 
 const db = require("../Sql/db")
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyparser.urlencoded({extended:true}));
-
+app.use(compression());
 
 
 

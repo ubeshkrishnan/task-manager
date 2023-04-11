@@ -521,29 +521,28 @@ function ExpereinceLetter() {
   const [filter, setFilter] = useState("All");
   const [totalCount, setTotalCount] = useState(0);
   const [pendingCount, setPendingCount] = useState(0);
-  const [InProgressCount, setProgressCount] = useState(0); // initialize filter state
+  const [inProgressCount, setInProgressCount] = useState(0);
   const [completedCount, setCompletedCount] = useState(0);
-
+  const user_id = JSON.parse(localStorage.getItem("user")).user_id;
+  // console.log(user_id);
   useEffect(() => {
     axios
-      .get(Url + `/task_filter?filter=${filter}`)
+      .get(Url + `/task_empfilters?filter=${filter}&user_id=${user_id}`)
       .then((res) => {
         setRows(res.data);
         setTotalCount(res.data.length);
         setPendingCount(
-          res.data.filter((row) => row.status !== "pending").length
-        );
-        setProgressCount(
-          res.data.filter((row) => row.status !== "Inprogress").length
-        );
+          res.data.filter((row) => row.status === "Pending").length
+        ); // Update filtering logic
+        setInProgressCount(
+          res.data.filter((row) => row.status === "Inprogress").length
+        ); // Update filtering logic
         setCompletedCount(
-          res.data.filter((row) => row.status !== "completed").length
-        );
+          res.data.filter((row) => row.status === "Completed").length
+        ); // Update filtering logic
       })
       .catch((err) => console.log(err));
   }, [filter]);
-
-
 
   
   const [user, setUser] = useState(null);

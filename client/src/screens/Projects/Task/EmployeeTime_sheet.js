@@ -229,7 +229,7 @@ const[rows,setRows] =useState([])
 const Task = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   console.log(user);
-  axios.get(Url +`/gettask/${user.user_id}`).then((response) => {
+  axios.get(Url +`/emptimesheet/${user.user_id}`).then((response) => {
     setRows(response.data);
   });
 };
@@ -237,7 +237,16 @@ useEffect(() => {
   Task();
 }, []);
 
+// useEffect(()=>{
+//   axios.get(Url+'/taskname')
+//   .then((response)=>{
+//     setRows(response.data)
+//   })
+//   .catch((error)=>{
+//     console.log(error);
+//   })
 
+// })
   const TimesheetListData={
 
     
@@ -248,155 +257,89 @@ useEffect(() => {
             name: "PROJECT NAME",
             selector: ()=>{},
             sortable: true,
-            cell:()=>
-            <select className="form-select" >
-            {project.map((data,index)=>(
-                            <option >{data.project_name}</option>
-                            ))}       
-                           
-                        </select>
-          
+            cell:(row) => {
+              return (
+                <div>
+                {/*  <div>{row.id}</div>*/}
+                  {row.client.split(",").map((client, index) => (
+                    <div key={index}>{client.trim()}</div>
+                  ))}
+                </div>
+              );
+            }
         },
         {
-            name: "Task NAME",
-            selector: ()=>{},
-            sortable: true,
-            cell:()=><select className="form-select" >
-             {rows.map((data,index)=>(
-                            <option >{data.task_name}</option>
-                            ))}   
-                           
-                        </select>
+          name: "Task Name",
+          selector: ()=>{},
+          sortable: true,
+          cell:(row) => {
+            return (
+              <div>
+              {/*  <div>{row.id}</div>*/}
+                {row.tasks.split(",").map((task, index) => (
+                  <div key={index}>{task.trim()}</div>
+                ))}
+              </div>
+            );
+          }
         },
-        {
-            name: "MON",
-            selector: row=><input type="text" className="form-control" id="timepickerded29" value={row.mon} onChange={()=>{}}/>,
-            sortable: true,
-        },
-        {
-            name: "TUE",
-            selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.tue} onChange={()=>{}}/>,
-            sortable: true,
-        },
-        {
-            name: "WED",
-            selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.wed} onChange={()=>{}}/>,
-            sortable: true,
-        },
-        {
-            name: "THUR",
-            selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.thur} onChange={()=>{}}/>,
-            sortable: true,
-        },
-        {
-            name: "FRI",
-            selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.fri} onChange={()=>{}}/>,
-            sortable: true
-        },
-        {
-            name: "SAT",
-            selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.sat} onChange={()=>{}}/>,
-            sortable: true
-        },
-        {
-            name: "TOTAL",
-            selector: (row)=>row.total,
-            sortable: true,
-            cell:row=><button type="button" className="btn light-success-bg">{row.total}</button>
-        },
-        {
-            name: "",
-            selector: (row)=>{},
-            cell:()=>   <div className="btn-group" role="group" aria-label="Basic outlined example">
-                            <button type="button" className="btn btn-outline-secondary"><i className="icofont-edit text-success"></i></button>
-                            <button type="button" className="btn btn-outline-secondary deleterow"><i className="icofont-ui-delete text-danger"></i></button>
-                        </div>
-        }
-    ],
-    // rows:[
-    //     {
-    //         projectname:"Box of Crayons",
-    //         mon:"08:00:00",
-    //         tue:"08:00:00",
-    //         wed:"08:00:00PM",
-    //         thur:"08:00:00PM",
-    //         fri:"08:00:00PM",
-    //         sat:"08:00:00PM",
-    //         total:"50"
-    //     },
-    //     {
-    //         projectname:"Fast Cad",
-    //         mon:"08:00:00PM",
-    //         tue:"08:00:00PM",
-    //         wed:"08:00:00PM",
-    //         thur:"08:00:00PM",
-    //         fri:"08:00:00PM",
-    //         sat:"08:00:00PM",
-    //         total:"48"
-    //     },
-    //     {
-    //         projectname:"Gob Geeklords",
-    //         mon:"08:00:00PM",
-    //         tue:"08:00:00PM",
-    //         wed:"08:00:00PM",
-    //         thur:"08:00:00PM",
-    //         fri:"08:00:00PM",
-    //         sat:"08:00:00PM",
-    //         total:"56"
-    //     },
-    //     {
-    //         projectname:"Java Dalia",
-    //         mon:"08:00:00PM",
-    //         tue:"08:00:00PM",
-    //         wed:"08:00:00PM",
-    //         thur:"08:00:00PM",
-    //         fri:"08:00:00PM",
-    //         sat:"08:00:00PM",
-    //         total:"56"
-    //     },
-    //     {
-    //         projectname:"Practice to Perfect",
-    //         mon:"08:00:00PM",
-    //         tue:"08:00:00PM",
-    //         wed:"08:00:00PM",
-    //         thur:"08:00:00PM",
-    //         fri:"08:00:00PM",
-    //         sat:"08:00:00PM",
-    //         total:"54.2"
-    //     },
-    //     {
-    //         projectname:"",
-    //         mon:"08:00:00PM",
-    //         tue:"08:00:00PM",
-    //         wed:"08:00:00PM",
-    //         thur:"08:00:00PM",
-    //         fri:"08:00:00PM",
-    //         sat:"08:00:00PM",
-    //         total:"00:00"
-    //     },
-    //     {
-    //         projectname:"",
-    //         mon:"08:00:00PM",
-    //         tue:"08:00:00PM",
-    //         wed:"08:00:00PM",
-    //         thur:"08:00:00PM",
-    //         fri:"08:00:00PM",
-    //         sat:"08:00:00PM",
-    //         total:"00"
-    //     },
-    //     {
-    //         projectname:"Rhinestone",
-    //         mon:"08:00:00PM",
-    //         tue:"08:00:00PM",
-    //         wed:"08:00:00PM",
-    //         thur:"08:00:00PM",
-    //         fri:"08:00:00PM",
-    //         sat:"08:00:00PM",
-    //         total:"56"
-    //     },
         
-    // ]
-    
+        {
+            name: "Duration",
+            selector:()=>{},
+            sortable: true,
+            cell:(row) => {
+              return (
+                <div>
+                {/*  <div>{row.id}</div>*/}
+                  {row.duration.split(",").map((duration, index) => (
+                    <div key={index}>{duration.trim()}</div>
+                  ))}
+                </div>
+              );
+            }
+        },
+        // {
+        //     name: "TUE",
+        //     selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.tue} onChange={()=>{}}/>,
+        //     sortable: true,
+        // },
+        // {
+        //     name: "WED",
+        //     selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.wed} onChange={()=>{}}/>,
+        //     sortable: true,
+        // },
+        // {
+        //     name: "THUR",
+        //     selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.thur} onChange={()=>{}}/>,
+        //     sortable: true,
+        // },
+        // {
+        //     name: "FRI",
+        //     selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.fri} onChange={()=>{}}/>,
+        //     sortable: true
+        // },
+        // {
+        //     name: "SAT",
+        //     selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.sat} onChange={()=>{}}/>,
+        //     sortable: true
+        // },
+        // {
+        //     name: "TOTAL",
+        //     selector: (row)=>row.total,
+        //     sortable: true,
+        //     cell:row=><button type="button" className="btn light-success-bg">{row.total}</button>
+        // },
+        // {
+        //     name: "",
+        //     selector: (row)=>{},
+        //     cell:()=>   <div className="btn-group" role="group" aria-label="Basic outlined example">
+        //                     <button type="button" className="btn btn-outline-secondary"><i className="icofont-edit text-success"></i></button>
+        //                     <button type="button" className="btn btn-outline-secondary deleterow"><i className="icofont-ui-delete text-danger"></i></button>
+        //                 </div>
+        // }
+    ],
+   
 }
   return (
     <div className="container-xxl">
@@ -425,7 +368,7 @@ useEffect(() => {
               <DataTable
                 title={TimesheetListData.title}
                 columns={TimesheetListData.columns}
-                data={timesheetData}
+                data={rows}
                 defaultSortField="title"
                 pagination
                 selectableRows={false}
@@ -471,5 +414,6 @@ useEffect(() => {
 </div>
 );
 };
+
 
 export default Timesheet;

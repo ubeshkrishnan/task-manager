@@ -13,6 +13,8 @@ import { Link } from "react-router-dom";
 import AddNewUserModal from "./AddNewUserModal";
 import axios from 'axios';
 import{Url} from "../../Global_variable/api_link"
+
+
 function Header(){
     const [isModal, setIsModal] = useState(false);
     const [users, setUsers] = useState([]);
@@ -59,9 +61,9 @@ function Header(){
         hour12: true,
       })}
     </span>
-                            <Link style={{paddingTop:'7px',marginLeft:'8px'}} to="help" className="nav-link text-primary collapsed" title="Get Help">
+                            {/* <Link style={{paddingTop:'7px',marginLeft:'8px'}} to="help" className="nav-link text-primary collapsed" title="Get Help">
                                 <i className="icofont-info-square fs-5"></i>
-                            </Link>
+                            </Link> */}
                            
                             <div className="avatar-list avatar-list-stacked px-3">
                                 {/* <img className="avatar rounded-circle" src={Avatar2} alt=""/>
@@ -75,14 +77,14 @@ function Header(){
                         </div>
                         <Dropdown className="notifications">
                             <Dropdown.Toggle as="a" className="nav-link dropdown-toggle pulse">
-                                <i className="icofont-alarm fs-5"></i>
+                                <i className="icofont-alarm fs-4"></i>
                             <span className="pulse-ring"></span>
                             </Dropdown.Toggle>
                             <Dropdown.Menu className=" rounded-lg shadow border-0 dropdown-animation dropdown-menu-sm-end p-0 m-0">
                                 <div className="card border-0 w380">
                                     <div className="card-header border-0 p-3">
                                         <h5 className="mb-0 font-weight-light d-flex justify-content-between">
-                                            <span>Notifications</span>
+                                            <span >Notifications</span>
                                             <span className="badge text-white">11</span>
                                         </h5>
                                     </div>
@@ -155,11 +157,17 @@ function Header(){
                             <div className="u-info me-2">
                             {users.map((user, index) =>(
                                 <p key={index}  className="mb-0 text-end line-height-sm ">
-                                <span className="font-weight-bold">{user.first_name}</span></p>
-                           ))}
+                                <span style={{fontSize:'17px'}} className="font-weight-bold">  {user.first_name}</span><br></br>
+                                <small style={{marginLeft:'10px'}}  >{user.designation}</small>
+                                </p>
+                                ))}
                           {/* <p   className="mb-0 text-end line-height-sm ">
-                                <span className="font-weight-bold">NAME</span></p>
-                            <small>Employee Profile</small>*/}
+                                <span className="font-weight-bold">NAME</span></p> */}
+                            {/* <small>Employee Profile</small> */}
+
+
+
+                            
                             </div>
                             <Dropdown.Toggle as="a" className="nav-link dropdown-toggle pulse p-0">
                                 <img className="avatar lg rounded-circle img-thumbnail" src={ProfileImg} alt="profile" />
@@ -175,6 +183,7 @@ function Header(){
                                             <small className="">Dylan.hunter@gmail.com</small>
                                             
                                            ))}*/}
+                                           
                                            {users.map((user, index) =>(
                                             <div>
                                             <p className="mb-0"><span className="font-weight-bold">{user.first_name}</span></p>

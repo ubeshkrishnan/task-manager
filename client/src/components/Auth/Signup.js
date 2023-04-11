@@ -21,7 +21,7 @@ const InsertSignup =(e)=>{
       return;
     }
 
-    axios.post(Url+'/insert"',{
+    axios.post(Url+'/insert',{
         fullname: fullname,
         lastname:lastname,
         email: email,

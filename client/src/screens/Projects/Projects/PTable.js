@@ -221,13 +221,13 @@ function Ptable() {
     setRows(filteredRows);
   };
 
-  const requestSearchtaskname = (e) => {
+  const requestSearchProjectName = (e) => {
     const filteredRows = search.filter((row) => {
-      return row.task_name.toLowerCase().includes(e.target.value.toLowerCase());
+      return row.project_name.toLowerCase().includes(e.target.value.toLowerCase());
     });
     setRows(filteredRows);
   };
-  const requestSearchclient = (e) => {
+  const requestSearchClient = (e) => {
     const filteredRows = search.filter((row) => {
       return row.client.toLowerCase().includes(e.target.value.toLowerCase());
     });
@@ -704,13 +704,23 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                         className="advance-search form-control"
                       />
                     </div>
-                    <div className="col-md-4  mt-2">
+                    <div className="col-md-2  mt-2">
                       <Search
                         onChange={(searchVal) =>
-                          requestSearchtaskname(searchVal)
+                          requestSearchProjectName(searchVal)
                         }
                         onCancelSearch={() => cancelSearch()}
-                        placeholder="Task Name"
+                        placeholder="Project Name"
+                        className="advance-search form-control"
+                      />
+                    </div>
+                    <div className="col-md-2  mt-2">
+                      <Search
+                        onChange={(searchVal) =>
+                          requestSearchClient(searchVal)
+                        }
+                        onCancelSearch={() => cancelSearch()}
+                        placeholder="Client"
                         className="advance-search form-control"
                       />
                     </div>

@@ -13,19 +13,19 @@ app.use(bodyparser.urlencoded({extended:true}));
 
 
 // Weekly Time sheet
-app.post('/timesheet', (req, res) => {
-    const { project, task, day, hours } = req.body;
-    const query = `INSERT INTO timesheet (project, task, day, hours) VALUES (${project}, ${task}, ${day}, ${hours})`;
+// app.post('/timesheet', (req, res) => {
+//     const { project, task, day, hours } = req.body;
+//     const query = `INSERT INTO timesheet (project, task, day, hours) VALUES (${project}, ${task}, ${day}, ${hours})`;
   
-    connection.query(query, (err, results) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send('Error adding entry to timesheet');
-      } else {
-        res.status(200).send('Entry added to timesheet successfully');
-      }
-    });
-  });
+//     connection.query(query, (err, results) => {
+//       if (err) {
+//         console.log(err);
+//         res.status(500).send('Error adding entry to timesheet');
+//       } else {
+//         res.status(200).send('Entry added to timesheet successfully');
+//       }
+//     });
+//   });
   
   
   // const tasks = [
@@ -36,23 +36,31 @@ app.post('/timesheet', (req, res) => {
   //   { task_id: 5, project_name: 'Project 2', task_name: 'Task 5', hours: 1 },
   // ];
   
-  app.get('/gettask_time/:userId', (req, res) => {
+    // Time sheet
+// app.get('/project',(req,res)=>{
+//   db.query('SELECT * FROM project',(error,results,fields)=>{
+//     if(error) throw error;
+//     res.send(results);
+//   });
+// });
+  app.get('/emptimesheet/:userId', (req, res) => {
     const userId = req.params.userId;
-  
-    const userTasks = tasks.filter((task) => {
-      return task.user_id == userId;
+    const sql = `SELECT id, task_name,duration,client, GROUP_CONCAT(task_name SEPARATOR ',') AS tasks FROM task WHERE assignto = ${userId} GROUP BY id`;
+    db.query(sql, (err, result) => {
+      if (err) {
+        throw err;
+      }
+      res.json(result);
     });
-  
-    res.send(userTasks);
   });
   
-  // Time sheet
-app.get('/project',(req,res)=>{
-  db.query('SELECT * FROM project',(error,results,fields)=>{
-    if(error) throw error;
+
+
+app.get('/AdminTimesheet',  (req, res) => {
+  db.query(`SELECT id, task_name,duration,assignto,client, GROUP_CONCAT(task_name SEPARATOR ',') AS tasks FROM task  GROUP BY id`, (error, results, fields) => {
+    if (error) throw error;
     res.send(results);
   });
-});
-
+  })
 
 module.exports = app;

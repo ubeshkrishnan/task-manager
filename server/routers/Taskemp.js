@@ -28,17 +28,20 @@ app.get("/gettask/:userId", async (req, res) => {
   });
 
 
-  
-  // Task filter
-  app.get("/taskemp_filter/:userId", (req, res) => {
-    const userId = req.params.userId;
+  app.get('/task_empfilters', (req, res) => {
+    
     const filter = req.query.filter;
-    let query = "";
-    if (filter === "All") {
-      query = `SELECT * FROM task WHERE assignto=${userId}`;
+    console.log(filter);
+    const user_id = req.query.user_id; // Assuming user is available in the request object after authentication
+    console.log(user_id);
+    let query = '';
+    
+    if (filter === 'All') {
+      query = `SELECT * FROM task WHERE assignto='${user_id}'`;
     } else {
-      query = `SELECT * FROM task WHERE status='${filter}' AND assignto=${userId}`;
+      query = `SELECT * FROM task WHERE status='${filter}' AND assignto='${user_id}'`;
     }
+  
     db.query(query, (err, results) => {
       if (err) throw err;
       res.json(results);
@@ -46,15 +49,24 @@ app.get("/gettask/:userId", async (req, res) => {
   });
   
   // Task Count
-  app.get("/taskemp_count/:userId", (req, res) => {
-    const userId = req.params.userId;
+
+  app.get("/task_empfilters", (req, res) => {
+   
     const filter = req.query.filter;
-    const query = `SELECT COUNT(*) AS incomplete FROM tasks WHERE status != 'completed' AND category = '${filter}' AND assignto=${userId}`;
+    const user_id = req.user_id; // Assuming user is available in the request object after authentication
+
+    let query = '';
+  
+    if (filter === 'All') {
+      query = `SELECT COUNT AS incomplete FROM task WHERE category = '${filter}' AND assignto='${user_id}'`;
+    } else {
+      query = `SELECT COUNT AS incomplete FROM task WHERE status != 'completed' AND category = '${filter}' AND assignto='${user_id}'`;
+    }
+  
     db.query(query, (error, results, fields) => {
       if (error) throw error;
       res.send(results[0]);
     });
   });
-  
 
 module.exports = app;

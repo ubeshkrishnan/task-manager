@@ -214,7 +214,7 @@ function ExpereinceLetter() {
     setRows(filteredRows);
   };
 
-  const requestSearchtaskname = (e) => {
+  const requestSearchTaskName = (e) => {
     const filteredRows = search.filter((row) => {
       return row.task_name.toLowerCase().includes(e.target.value.toLowerCase());
     });
@@ -222,13 +222,13 @@ function ExpereinceLetter() {
   };
   const requestSearchControlCode = (e) => {
     const filteredRows = search.filter((row) => {
-      return row.client.toLowerCase().includes(e.target.value.toLowerCase());
+      return row.control_code.toLowerCase().includes(e.target.value.toLowerCase());
     });
     setRows(filteredRows);
   };
   const requestSearchAssignedTo = (e) => {
     const filteredRows = search.filter((row) => {
-      return row.client.toLowerCase().includes(e.target.value.toLowerCase());
+      return row.assignto.toLowerCase().includes(e.target.value.toLowerCase());
     });
     setRows(filteredRows);
   };
@@ -708,7 +708,7 @@ function ExpereinceLetter() {
                     <div className="col-md-2  mt-2">
                       <Search
                         onChange={(searchVal) =>
-                          requestSearchtaskname(searchVal)
+                          requestSearchTaskName(searchVal)
                         }
                         onCancelSearch={() => cancelSearch()}
                         placeholder="Task Name"

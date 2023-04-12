@@ -45,7 +45,7 @@ app.use(bodyparser.urlencoded({extended:true}));
 // });
   app.get('/emptimesheet/:userId', (req, res) => {
     const userId = req.params.userId;
-    const sql = `SELECT id, task_name,duration,client, GROUP_CONCAT(task_name SEPARATOR ',') AS tasks FROM task WHERE assignto = ${userId} GROUP BY id`;
+    const sql = `SELECT id, task_name,duration,client,task_assignperson,GROUP_CONCAT(task_name SEPARATOR ',') AS tasks FROM task WHERE assignto = ${userId} GROUP BY id`;
     db.query(sql, (err, result) => {
       if (err) {
         throw err;
@@ -57,10 +57,13 @@ app.use(bodyparser.urlencoded({extended:true}));
 
 
 app.get('/AdminTimesheet',  (req, res) => {
-  db.query(`SELECT id, task_name,duration,assignto,client, GROUP_CONCAT(task_name SEPARATOR ',') AS tasks FROM task  GROUP BY id`, (error, results, fields) => {
+  db.query(`SELECT  T.id, T.task_name,T.duration,T.assignto,T.client, GROUP_CONCAT(T.task_name SEPARATOR ',') AS tasks, U.first_name FROM task T JOIN users U ON U.user_id= T.assignto GROUP BY id `, (error, results, fields) => {
     if (error) throw error;
     res.send(results);
   });
   })
+
+
+  
 
 module.exports = app;

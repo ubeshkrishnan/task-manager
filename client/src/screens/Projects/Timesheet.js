@@ -70,78 +70,9 @@ import axios from "axios";
 
 const Timesheet = () => {
   const [isModal, setIsModal] = useState(false);
-  const [newEntry, setNewEntry] = useState({
-    project: "",
-    task: "",
-    day: "",
-    hours: "",
-  });
-
-  const myTask = () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    axios.get(Url+`/gettask/${user.user_id}`).then((response) => {
-      const taskData = response.data.map((task) => ({
-        title: task.project_name,
-        task: task.task_name,
-        duration: `${task.hours} hours`,
-      }));
-      setTimesheetData(taskData);
-    });
-  };
-
-  useEffect(() => {
-    myTask();
-  }, []);
-  const [timesheetData, setTimesheetData] = useState([
-    {
-      project: "Project A",
-      task: "Task 1",
-      day: "Monday",
-      hours: "8",
-    },
-  ]);
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setNewEntry((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleAddEntry = () => {
-    const { project, task, day, hours } = newEntry;
-    const updatedTimesheetData = [
-      ...timesheetData,
-      { project, task, day, hours },
-    ];
-    setTimesheetData(updatedTimesheetData);
-    setIsModal(false);
-  };
-  const[project,setProject]=useState([]);
-
-  useEffect(()=>{
-    axios.get(Url+'/project')
-    .then((response)=>{
-      setProject(response.data)
-    })
-    .catch((error)=>{
-      console.log(error);
-    })
-
-  })
 
 const[rows,setRows] =useState([])
-// const Task = () => {
-//   const user = JSON.parse(localStorage.getItem("user"));
-//   console.log(user);
-//   axios.get(Url +"/alltask").then((response) => {
-//     setRows(response.data);
-//   });
-// };
-// useEffect(() => {
-//   Task();
-// }, []);
+
 useEffect(()=>{
   axios.get(Url+'/AdminTimesheet')
   .then((response)=>{
@@ -159,8 +90,24 @@ useEffect(()=>{
 
     title:"Timesheet List",
     columns:[
+      {
+        name: "Assignto Person",
+        selector: ()=>{},
+        sortable: true,
+        cell:(row) => {
+          return (
+            <div>
+            {/*  <div>{row.id}</div>*/}
+              {row.assignto.split(",").map((assignto, index) => (
+                <div key={index}>{assignto.trim()}</div>
+              ))}
+            </div>
+          );
+        }
+        
+      },
         {
-            name: "PROJECT NAME",
+            name: "Client Name",
             selector: ()=>{},
             sortable: true,
             cell:(row) => {
@@ -191,23 +138,23 @@ useEffect(()=>{
           }
           
         },
+       
         {
-          name: "Assignto Person",
-          selector: ()=>{},
+          name: "Employee",
+          selector:()=>{},
           sortable: true,
           cell:(row) => {
             return (
               <div>
               {/*  <div>{row.id}</div>*/}
-                {row.assignto.split(",").map((assignto, index) => (
-                  <div key={index}>{assignto.trim()}</div>
+                {row.first_name.split(",").map((first_name, index) => (
+                  <div key={index}>{first_name.trim()}</div>
                 ))}
               </div>
             );
           }
           
-        },
-
+      },
         // {
         //   name: "Employee",
         //   selector: ()=>{},
@@ -226,7 +173,7 @@ useEffect(()=>{
         // },
         
         {
-            name: "Duration",
+            name: "Task Completed Time",
             selector:()=>{},
             sortable: true,
             cell:(row) => {

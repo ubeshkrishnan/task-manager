@@ -283,7 +283,21 @@ useEffect(() => {
             );
           }
         },
-        
+        {
+          name: "Assigned By",
+          selector:()=>{},
+          sortable: true,
+          cell:(row) => {
+            return (
+              <div>
+              {/*  <div>{row.id}</div>*/}
+                {row.task_assignperson.split(",").map((task_assignperson, index) => (
+                  <div key={index}>{task_assignperson.trim()}</div>
+                ))}
+              </div>
+            );
+          }
+      },
         {
             name: "Duration",
             selector:()=>{},

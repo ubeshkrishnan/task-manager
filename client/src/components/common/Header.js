@@ -72,7 +72,7 @@ function Header(){
                                 <img className="avatar rounded-circle" src={Avatar4} alt=""/>
                                 <img className="avatar rounded-circle" src={Avatar7} alt=""/>
                                 <img className="avatar rounded-circle" src={Avatar8} alt=""/> */}
-                                <span className="avatar rounded-circle text-center pointer" onClick={()=>{ setIsModal(true) }}><i className="icofont-ui-add"></i></span>
+                                {/* <span className="avatar rounded-circle text-center pointer" onClick={()=>{ setIsModal(true) }}><i className="icofont-ui-add"></i></span> */}
                             </div>
                         </div>
                         <Dropdown className="notifications">
@@ -196,8 +196,8 @@ function Header(){
                                         <div><hr className="dropdown-divider border-dark" /></div>
                                     </div>
                                     <div className="list-group m-2 ">
-                                        <Link to="tasks" className="list-group-item list-group-item-action border-0 "><i className="icofont-tasks fs-5 me-3"></i>My Task</Link>
-                                        <Link to="members" className="list-group-item list-group-item-action border-0 "><i className="icofont-ui-user-group fs-6 me-3"></i>members</Link>
+                                        {/* <Link to="tasks" className="list-group-item list-group-item-action border-0 "><i className="icofont-tasks fs-5 me-3"></i>My Task</Link> */}
+                                        {/* <Link to="members" className="list-group-item list-group-item-action border-0 "><i className="icofont-ui-user-group fs-6 me-3"></i>members</Link> */}
                                         <Link to="sign-in" className="list-group-item list-group-item-action border-0 "><i className="icofont-logout fs-6 me-3"></i>Signout</Link>
                                         <div><hr className="dropdown-divider border-dark" /></div>
                                         <Link to="sign-up" className="list-group-item list-group-item-action border-0 "><i className="icofont-contact-add fs-5 me-3"></i>Add personal account</Link>

@@ -166,6 +166,7 @@ function Projects() {
               Project Name
             </label>
             <input
+            autoFocus   
               type="text"
               className="form-control"
               id="exampleFormControlInput77"

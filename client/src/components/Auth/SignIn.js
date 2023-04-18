@@ -76,7 +76,7 @@ function SignIn() {
         alert("error")
       }
       //  history.push('/Employeetask');
-      
+      console.log(Url)
     } catch (err) {
       setError(err.response.data.message);
       setBadAttempt(true);
@@ -105,8 +105,8 @@ function SignIn() {
           </div>
           <div className="col-12">
             <div className="mb-2">
-              <label className="form-label">Email address</label>
-              <input type="email" className="form-control form-control-lg" placeholder="name@example.com" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+              <label className="form-label ">Email address</label>
+              <input type="email" autoFocus className="form-control form-control-lg" placeholder="name@example.com" value={email} onChange={(e)=>setEmail(e.target.value)}/>
             </div>
           </div>
           <div className="col-12">

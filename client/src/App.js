@@ -211,11 +211,11 @@ class App extends Component {
     if (
       this.activekey() === "/Employeetask" ||
       this.activekey() === "/Taskdetails" ||
-      this.activekey() === "/holidays" ||
-      this.activekey() === "/attendance-employees" ||
-      this.activekey() === "/attendance" ||
-      this.activekey() === "/leave-request" ||
-      this.activekey() === "/calander"
+      this.activekey() === "/holidaysEmp" ||
+      this.activekey() === "/attendance-employeesEmp" ||
+      this.activekey() === "/attendanceEmp" ||
+      this.activekey() === "/leave-requestEmp" ||
+      this.activekey() === "/calanderEmp"
     ) {
       return (
         <div id="mytask-layout" className="theme-indigo">

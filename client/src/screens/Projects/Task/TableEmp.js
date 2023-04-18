@@ -571,32 +571,32 @@ function ExpereinceLetter() {
     myTask();
   }, []);
 
-  const toast = useRef(null);
-  const items = [
-    {
-      label: "Edit Row",
-      icon: "pi pi-refresh",
-      command: () => {
-        toast.current.show({
-          severity: "success",
-          summary: "Updated",
-          detail: "Data Updated",
-        });
-      },
-    },
+  // const toast = useRef(null);
+  // const items = [
+  //   {
+  //     label: "Edit Row",
+  //     icon: "pi pi-refresh",
+  //     command: () => {
+  //       toast.current.show({
+  //         severity: "success",
+  //         summary: "Updated",
+  //         detail: "Data Updated",
+  //       });
+  //     },
+  //   },
 
-    {
-      label: "Delete",
-      icon: "pi pi-times",
-      command: () => {
-        toast.current.show({
-          severity: "warn",
-          summary: "Delete",
-          detail: "Data Deleted",
-        });
-      },
-    },
-  ];
+  //   {
+  //     label: "Delete",
+  //     icon: "pi pi-times",
+  //     command: () => {
+  //       toast.current.show({
+  //         severity: "warn",
+  //         summary: "Delete",
+  //         detail: "Data Deleted",
+  //       });
+  //     },
+  //   },
+  // ];
 
   return (
     <div className="background-ExperienceHr">
@@ -1220,14 +1220,14 @@ function ExpereinceLetter() {
                             ) : (
                               <>
                                 <div className="flex justify-content-center">
-                                  <Toast ref={toast}></Toast>
-                                  <SplitButton
+                                  {/* <Toast ref={toast}></Toast> */}
+                                  <Button
                                     label="Details"
                                     onClick={() => {
                                       setSelectedRowData(row); // Set the selected row's data
                                       setVisibleTimer(true); // Show the modal
                                     }}
-                                    model={items}
+                                    // model={items}
                                     className="custom-button"
                                     severity="warning"
                                     raised

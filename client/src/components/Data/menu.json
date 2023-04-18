@@ -225,9 +225,33 @@
                     "isApp": false,
                     "children": []
                 }
+           
+           
+           
+           
             ]
-        }
-   
+        },
+        {
+            "name": "Calander",
+            "routerLink": [""],
+            "identifier": "Calander",
+            "iconClass": "icofont-contrast",
+            "breadcrumbMessage": "",
+            "isCategory": false,
+            "isApp": true,
+            "children": [
+                {
+                    "name": "Calander",
+                    "routerLink": ["calander"],
+                    "identifier": "Calander",
+                    "iconClass": "",
+                    "breadcrumbMessage": "",
+                    "isCategory": false,
+                    "isApp": false,
+                    "children": []
+                }
+            ]
+            }
        
     ]
 }

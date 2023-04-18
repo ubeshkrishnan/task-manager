@@ -57,6 +57,13 @@ import Help from "./Dashboard/Help";
 import Employeetask from "./Projects/Task/Employeetask";
 import Taskdetails from "./Projects/Task/EmployeeTime_sheet"; 
 
+// Employees
+import HolidaysEmp from "./Employee/HolidaysEmp";
+import AttendanceEmp from "./Employee/AttendanceEmp";
+import AttendanceEmployeesEmp from "./Employee/AttendanceEmployeesEmp";
+import LeaveRequestEmp from "./Employee/LeaveRequestEmp";
+import CalanderEmp from "./App/CalendarEmp";
+
 class MainIndex extends React.Component{
     render(){
         const {activekey} = this.props;
@@ -78,7 +85,7 @@ class MainIndex extends React.Component{
                     <Route exact path={`${process.env.PUBLIC_URL}/client-profile/:id`} component={ClientProfile} />
                     <Route exact path={`${process.env.PUBLIC_URL}/members`} component={Members} />
                     <Route exact path={`${process.env.PUBLIC_URL}/members-profile/:id`} component={EmployeeProfile} />
-                    <Route exact path={`${process.env.PUBLIC_URL}/holidays`} component={Holidays} />
+                    <Route exact path={`${process.env.PUBLIC_URL}/holidays`} component={Attendance} />
                     <Route exact path={`${process.env.PUBLIC_URL}/attendance-employees`} component={AttendanceEmployees} />
                     <Route exact path={`${process.env.PUBLIC_URL}/attendance`} component={Attendance} />
                     <Route exact path={`${process.env.PUBLIC_URL}/leave-request`} component={LeaveRequest} />
@@ -97,8 +104,17 @@ class MainIndex extends React.Component{
                     <Route exact path={`${process.env.PUBLIC_URL}/widgets`} component={Widgets} />
                      <Route exact path={`${process.env.PUBLIC_URL}/Employeetask`} component={Employeetask} />
                     <Route exact path={`${process.env.PUBLIC_URL}/Taskdetails`} component={Taskdetails} />
-                    
 
+
+                    {/* Employees */}
+                    <Route exact path={`${process.env.PUBLIC_URL}/HolidaysEmp`} component={HolidaysEmp} />
+                    <Route exact path={`${process.env.PUBLIC_URL}/attendance-employeesEmp`} component={AttendanceEmployeesEmp} />
+                    <Route exact path={`${process.env.PUBLIC_URL}/AttendanceEmp`} component={AttendanceEmp} />
+                    <Route exact path={`${process.env.PUBLIC_URL}/leave-requestEmp`} component={LeaveRequestEmp} />
+                    <Route exact path={`${process.env.PUBLIC_URL}/calanderEmp`} component={CalanderEmp} />
+                    
+                    
+                    
                     <Route exact path={`${process.env.PUBLIC_URL}/ui-alerts`} component={Alerts} />
                     <Route exact path={`${process.env.PUBLIC_URL}/ui-badge`} component={Badges} />
                     <Route exact path={`${process.env.PUBLIC_URL}/ui-breadcrumb`} component={Breadcrumb} />

@@ -34,7 +34,7 @@
         {
             "name": "Employees",
             "routerLink": [""],
-            "identifier": "Employees",
+            "identifier": "EmployeesEmp",
             "iconClass": "icofont-users-alt-5",
             "breadcrumbMessage": "",
             "isCategory": false,
@@ -42,8 +42,8 @@
             "children": [
                 {
                     "name": "Holidays",
-                    "routerLink": ["holidays"],
-                    "identifier": "Holidays",
+                    "routerLink": ["holidaysEmp"],
+                    "identifier": "HolidaysEmp",
                     "iconClass": "",
                     "breadcrumbMessage": "",
                     "isCategory": false,
@@ -52,7 +52,7 @@
                 },
                 {
                     "name": "Attendance Employees",
-                    "routerLink": ["attendance-employees"],
+                    "routerLink": ["attendance-employeesEmp"],
                     "identifier": "Attendance Employees",
                     "iconClass": "",
                     "breadcrumbMessage": "",
@@ -62,7 +62,7 @@
                 },
                 {
                     "name": "Attendance",
-                    "routerLink": ["attendance"],
+                    "routerLink": ["attendanceEmp"],
                     "identifier": "Attendance",
                     "iconClass": "",
                     "breadcrumbMessage": "",
@@ -72,8 +72,8 @@
                 },
                 {
                     "name": "Leave Request",
-                    "routerLink": ["leave-request"],
-                    "identifier": "Leave Request",
+                    "routerLink": ["leave-requestEmp"],
+                    "identifier": "Leave RequestEmp",
                     "iconClass": "",
                     "breadcrumbMessage": "",
                     "isCategory": false,
@@ -85,7 +85,7 @@
 {
     "name": "Calander",
     "routerLink": [""],
-    "identifier": "Calander",
+    "identifier": "CalanderEmp",
     "iconClass": "icofont-contrast",
     "breadcrumbMessage": "",
     "isCategory": false,
@@ -93,8 +93,8 @@
     "children": [
         {
             "name": "Calander",
-            "routerLink": ["calander"],
-            "identifier": "Calander",
+            "routerLink": ["calanderEmp"],
+            "identifier": "CalanderEmp",
             "iconClass": "",
             "breadcrumbMessage": "",
             "isCategory": false,

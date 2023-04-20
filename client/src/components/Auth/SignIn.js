@@ -87,10 +87,6 @@ function SignIn() {
         alert("error");
       }
       //  history.push('/Employeetask');
-<<<<<<< HEAD
-=======
-      console.log(Url)
->>>>>>> 2fe17b56333c0e2037506e38f06e901a3084473c
     } catch (err) {
       setError(err.response.data.message);
       setBadAttempt(true);
@@ -132,19 +128,15 @@ function SignIn() {
           </div>
           <div className="col-12">
             <div className="mb-2">
-<<<<<<< HEAD
-              <label className="form-label">Email address</label>
+              <label className="form-label ">Email address</label>
               <input
                 type="email"
+                autoFocus
                 className="form-control form-control-lg"
                 placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-=======
-              <label className="form-label ">Email address</label>
-              <input type="email" autoFocus className="form-control form-control-lg" placeholder="name@example.com" value={email} onChange={(e)=>setEmail(e.target.value)}/>
->>>>>>> 2fe17b56333c0e2037506e38f06e901a3084473c
             </div>
           </div>
           <div className="col-12">

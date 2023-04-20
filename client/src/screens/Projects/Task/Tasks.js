@@ -114,6 +114,7 @@ function Tasks() {
                 Task Name
               </label>
               <input
+              autoFocus
                 type="text"
                 className="form-control"
                 name="task_name"

@@ -39,7 +39,6 @@ import { useDispatch } from "react-redux";
 import { getExperienceApi } from "../../store/api/task";
 // import {getExperienceApi} from "../../store/api/task"
 import moment from "moment";
-import { Toast } from "primereact/toast";
 import { SplitButton } from "primereact/splitbutton";
 import TimeInput from "react-widgets/TimeInput";
 
@@ -582,32 +581,7 @@ function ExpereinceLetter() {
         console.error("Error fetching users data:", error);
       });
   }, []);
-  const toast = useRef(null);
-  const items = [
-    {
-      label: "Edit Row",
-      icon: "pi pi-refresh",
-      command: () => {
-        toast.current.show({
-          severity: "success",
-          summary: "Updated",
-          detail: "Data Updated",
-        });
-      },
-    },
 
-    {
-      label: "Delete",
-      icon: "pi pi-times",
-      command: () => {
-        toast.current.show({
-          severity: "warn",
-          summary: "Delete",
-          detail: "Data Deleted",
-        });
-      },
-    },
-  ];
   // Time
 
   return (
@@ -685,6 +659,7 @@ function ExpereinceLetter() {
                   </div>
                   <div className="Search">
                     <Search
+                    autoFocus
                       placeholder="Search Name"
                       onChange={(searchVal) => requestSearch(searchVal)}
                       onCancelSearch={() => cancelSearch()}
@@ -1321,19 +1296,17 @@ function ExpereinceLetter() {
                                           ) : (
                                             <>
                                               <div className="flex justify-content-center">
-                                                <Toast ref={toast}></Toast>
-                                                <SplitButton
+                                               
+                                                <Button
                                                   label="D"
                                                   onClick={() => {
                                                     setSelectedRowData(row); // Set the selected row's data
                                                     setVisibleTimer(true); // Show the modal
+                                                    
                                                   }}
-                                                  model={items}
-                                                  className="custom-button"
-                                                  severity="warning"
-                                                  raised
+                                                 
                                                 />
-                                              </div>
+                                              </div>  
                                               <IconButton
                                                 aria-label="edit"
                                                 onClick={() =>

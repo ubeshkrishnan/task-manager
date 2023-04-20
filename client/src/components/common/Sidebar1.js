@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import menu from "./menu.json";
+import menu from "./Empmenu.json";
 import menu2 from "../Data/menu2.json";
 
 class Sidebar extends React.Component{

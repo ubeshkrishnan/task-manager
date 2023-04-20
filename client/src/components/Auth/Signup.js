@@ -47,7 +47,7 @@ const InsertSignup =(e)=>{
           <div className="col-6">
             <div className="mb-2">
               <label className="form-label">Full name</label>
-              <input type="email" className="form-control form-control-lg" placeholder="John" value={fullname} onChange={(e)=>setFullName(e.target.value)} />
+              <input type="email" autoFocus className="form-control form-control-lg" placeholder="John" value={fullname} onChange={(e)=>setFullName(e.target.value)} />
             </div>
           </div>
           <div className="col-6">

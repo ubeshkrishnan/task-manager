@@ -684,6 +684,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                   </div>
                   <div className="Search">
                     <Search
+                    autoFocus
                       placeholder="Search Name"
                       onChange={(searchVal) => requestSearch(searchVal)}
                       onCancelSearch={() => cancelSearch()}

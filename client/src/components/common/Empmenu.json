@@ -10,7 +10,7 @@
             "isApp": false,
             "children": [
                 {
-                    "name": "TaskList",
+                    "name": "Task List",
                     "routerLink": ["Employeetask"],
                     "identifier": "TaskList",
                     "iconClass": "",
@@ -20,7 +20,7 @@
                     "children": []
                 },
                 {
-                    "name": "Taskdetails",
+                    "name": "Time Sheet",
                     "routerLink": ["Taskdetails"],
                     "identifier": "Taskdetails",
                     "iconClass": "",

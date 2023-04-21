@@ -253,21 +253,19 @@ useEffect(() => {
 
     title:"Timesheet List",
     columns:[
-        {
-            name: "PROJECT NAME",
-            selector: ()=>{},
-            sortable: true,
-            cell:(row) => {
-              return (
-                <div>
-                {/*  <div>{row.id}</div>*/}
-                  {row.client.split(",").map((client, index) => (
-                    <div key={index}>{client.trim()}</div>
-                  ))}
-                </div>
-              );
-            }
-        },
+      {
+        name: "TASK ID",
+        selector: ()=>{},
+        sortable: true,
+        cell:(row) => {
+          return (
+            <div>
+             <div>{row.id}</div>
+             
+            </div>
+          );
+        }
+    },
         {
           name: "Task Name",
           selector: ()=>{},
@@ -283,6 +281,21 @@ useEffect(() => {
             );
           }
         },
+        {
+          name: "CLIENT NAME",
+          selector: ()=>{},
+          sortable: true,
+          cell:(row) => {
+            return (
+              <div>
+              {/*  <div>{row.id}</div>*/}
+                {row.client.split(",").map((client, index) => (
+                  <div key={index}>{client.trim()}</div>
+                ))}
+              </div>
+            );
+          }
+      },
         {
           name: "Assigned By",
           selector:()=>{},

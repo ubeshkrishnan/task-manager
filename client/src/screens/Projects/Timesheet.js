@@ -88,26 +88,25 @@ useEffect(()=>{
 
     
 
-    title:"Timesheet List",
+    title:"TIMESHEET LIST",
     columns:[
       {
-        name: "Assignto Person",
+        name: "TASK ID",
         selector: ()=>{},
         sortable: true,
         cell:(row) => {
           return (
             <div>
-            {/*  <div>{row.id}</div>*/}
-              {row.assignto.split(",").map((assignto, index) => (
-                <div key={index}>{assignto.trim()}</div>
-              ))}
+        <div>{row.id}</div>
+        
+              
             </div>
           );
         }
         
       },
         {
-            name: "Client Name",
+            name: "CLIENT NAME",
             selector: ()=>{},
             sortable: true,
             cell:(row) => {
@@ -123,7 +122,7 @@ useEffect(()=>{
           
         },
         {
-          name: "Task Name",
+          name: "TASK NAME",
           selector: ()=>{},
           sortable: true,
           cell:(row) => {
@@ -140,15 +139,15 @@ useEffect(()=>{
         },
        
         {
-          name: "Employee",
+          name: "EMPLOYEE",
           selector:()=>{},
           sortable: true,
           cell:(row) => {
             return (
               <div>
               {/*  <div>{row.id}</div>*/}
-                {row.first_name.split(",").map((first_name, index) => (
-                  <div key={index}>{first_name.trim()}</div>
+                {row.assignto.split(",").map((assignto, index) => (
+                  <div key={index}>{assignto.trim()}</div>
                 ))}
               </div>
             );
@@ -173,7 +172,7 @@ useEffect(()=>{
         // },
         
         {
-            name: "Task Completed Time",
+            name: "TASK COMPLETED TIME",
             selector:()=>{},
             sortable: true,
             cell:(row) => {

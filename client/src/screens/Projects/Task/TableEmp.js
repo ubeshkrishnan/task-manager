@@ -442,6 +442,7 @@ function ExpereinceLetter() {
     description,
     status,
     comments,
+    assignto,
   }) => {
     console.log(comments);
     console.log(status);
@@ -457,6 +458,7 @@ function ExpereinceLetter() {
         description: description,
         status: status,
         comments: comments,
+        assignto:assignto,
       })
       .then((response) => {
         console.log("OK");

@@ -58,13 +58,24 @@ app.use(bodyparser.urlencoded({extended:true}));
   
 
 
-app.get('/AdminTimesheet',  (req, res) => {
-  db.query(`SELECT  T.id, T.task_name,T.duration,T.assignto,T.client, GROUP_CONCAT(T.task_name SEPARATOR ',') AS tasks, U.first_name FROM task T JOIN users U ON U.user_id= T.assignto GROUP BY id `, (error, results, fields) => {
-    if (error) throw error;
-    res.send(results);
+// app.get('/AdminTimesheet',  (req, res) => {
+//   db.query(`SELECT  T.id, T.task_name,T.duration,T.assignto,T.client, GROUP_CONCAT(T.task_name SEPARATOR ',') AS tasks, U.first_name FROM task T JOIN users U ON U.user_id= T.assignto GROUP BY id `, (error, results, fields) => {
+//     if (error) throw error;
+//     res.send(results);
+//   });
+//   })
+  app.get('/AdminTimesheet', (req, res) => {
+    db.query(`
+      SELECT t.id, t.task_name, t.duration, t.assignto,u.first_name AS assignto, t.client, GROUP_CONCAT(t.task_name SEPARATOR ',') AS tasks
+      FROM task t
+      JOIN users u ON t.assignto = u.user_id
+      GROUP BY t.id`,
+      (error, results, fields) => {
+        if (error) throw error;
+        res.send(results);
+      });
   });
-  })
-
+  
 
   
 

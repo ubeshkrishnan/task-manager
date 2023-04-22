@@ -85,7 +85,7 @@ class MainIndex extends React.Component{
                     <Route exact path={`${process.env.PUBLIC_URL}/client-profile/:id`} component={ClientProfile} />
                     <Route exact path={`${process.env.PUBLIC_URL}/members`} component={Members} />
                     <Route exact path={`${process.env.PUBLIC_URL}/members-profile/:id`} component={EmployeeProfile} />
-                    <Route exact path={`${process.env.PUBLIC_URL}/holidays`} component={Attendance} />
+                    <Route exact path={`${process.env.PUBLIC_URL}/holidays`} component={Holidays} />
                     <Route exact path={`${process.env.PUBLIC_URL}/attendance-employees`} component={AttendanceEmployees} />
                     <Route exact path={`${process.env.PUBLIC_URL}/attendance`} component={Attendance} />
                     <Route exact path={`${process.env.PUBLIC_URL}/leave-request`} component={LeaveRequest} />

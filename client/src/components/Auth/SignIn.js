@@ -113,7 +113,7 @@ function SignIn() {
             <h1>Sign in</h1>
             <span>Free access to our dashboard.</span>
           </div>
-          <div className="col-12 text-center mb-4">
+          {/* <div className="col-12 text-center mb-4">
             <a className="btn btn-lg btn-outline-secondary btn-block" href="#!">
               <span className="d-flex justify-content-center align-items-center">
                 <img
@@ -125,7 +125,7 @@ function SignIn() {
               </span>
             </a>
             <span className="dividers text-muted mt-4">OR</span>
-          </div>
+          </div> */}
           <div className="col-12">
             <div className="mb-2">
               <label className="form-label ">Email address</label>
@@ -144,9 +144,9 @@ function SignIn() {
               <div className="form-label">
                 <span className="d-flex justify-content-between align-items-center">
                   Password
-                  <Link className="text-secondary" to="password-reset">
+                  {/* <Link className="text-secondary" to="password-reset">
                     Forgot Password?
-                  </Link>
+                  </Link> */}
                 </span>
               </div>
               <input
@@ -159,7 +159,7 @@ function SignIn() {
               {error && <p style={{ color: "red" }}>{error}</p>}
             </div>
           </div>
-          <div className="col-12">
+          {/* <div className="col-12">
             <div className="form-check">
               <input
                 className="form-check-input"
@@ -171,7 +171,7 @@ function SignIn() {
                 Remember me
               </label>
             </div>
-          </div>
+          </div> */}
           <div className="col-12 text-center mt-4">
             <button
               className="btn btn-lg btn-block btn-light lift text-uppercase"
@@ -181,14 +181,14 @@ function SignIn() {
               SIGN IN
             </button>
           </div>
-          <div className="col-12 text-center mt-4">
+          {/* <div className="col-12 text-center mt-4">
             <span className="text-muted">
               Don't have an account yet?{" "}
               <Link to="sign-up" className="text-secondary">
                 Sign up here
               </Link>
             </span>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>

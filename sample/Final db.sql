@@ -46,7 +46,7 @@ CREATE TABLE `client_contact_details` (
   `contact_person_name` varchar(50) NOT NULL,
   `contact_person_phone` varchar(10) NOT NULL,
   `status` varchar(10) NOT NULL,
-  `client_role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `client_role` varchar(50) CHARACTER SET utf8mb4  NOT NULL,
   `active_from` date NOT NULL,
   `active_to` date NOT NULL,
   `created_by` varchar(50) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE `client_contact_details` (
 --
 
 CREATE TABLE `client_master` (
-  `profileImage` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `profileImage` varchar(250) CHARACTER SET utf8mb4 NOT NULL,
   `client_id` int NOT NULL,
   `client_name` varchar(100) NOT NULL,
   `client_shortcode` varchar(10) NOT NULL,
@@ -189,12 +189,12 @@ CREATE TABLE `image` (
 
 CREATE TABLE `login_history` (
   `id` int NOT NULL,
-  `ip_address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `ip_address` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
   `password` varchar(50) NOT NULL,
   `attempt_count` int NOT NULL,
   `bad_attempt` int NOT NULL,
-  `message` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `message` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` timestamp NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
@@ -521,12 +521,12 @@ CREATE TABLE `project` (
   `duration` date DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `project_manager` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `project_manager` varchar(200) CHARACTER SET utf8mb4 DEFAULT NULL,
   `deadline` date NOT NULL,
-  `status` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `status` varchar(200) CHARACTER SET utf8mb4 NOT NULL,
   `date` date DEFAULT NULL,
   `priority` varchar(100) NOT NULL,
-  `description` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
+  `description` varchar(250) CHARACTER SET utf8mb4 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
 
 --
@@ -678,11 +678,11 @@ CREATE TABLE `task` (
   `client` varchar(50) NOT NULL,
   `control_code` varchar(50) NOT NULL,
   `category` varchar(150) NOT NULL,
-  `task_assignperson` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `task_assignperson` varchar(150) CHARACTER SET utf8mb4 NOT NULL,
   `deadline` date NOT NULL,
   `description` varchar(150) NOT NULL,
   `duration` time NOT NULL,
-  `assignto` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `assignto` varchar(200) CHARACTER SET utf8mb4 NOT NULL,
   `status` varchar(200) NOT NULL,
   `comments` varchar(200) NOT NULL,
   `created_dt` date NOT NULL
@@ -728,7 +728,7 @@ CREATE TABLE `task_details_history` (
 
 CREATE TABLE `task_details_master` (
   `task_details_master_id` int NOT NULL,
-  `task_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `task_name` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
   `assigned_to` int NOT NULL,
   `assigned_by` int NOT NULL,
   `project_id` int NOT NULL,

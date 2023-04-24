@@ -44,6 +44,25 @@ function Header(){
               clearInterval(timer);
             };
           }, []);
+
+          const[rows,setRows] = useState([])
+          const myTask = async() => {
+            console.log("myTask function is called");
+            setRows([]);
+            const user = JSON.parse(localStorage.getItem("user"));
+            console.log(user);
+            axios.get(`http://3.7.79.196:5005/gettask/${user.user_id}`).then((response) => {
+              setRows(response.data);
+              
+            });
+          };
+        
+          useEffect(() => {
+            myTask();
+          }, []);
+
+
+
         return(
         <div className="header">
             <nav className="navbar py-4">
@@ -76,31 +95,45 @@ function Header(){
                             </div>
                         </div>
                         <Dropdown className="notifications">
-                            <Dropdown.Toggle as="a" className="nav-link dropdown-toggle pulse">
-                                <i className="icofont-alarm fs-4"></i>
+                        <Dropdown.Toggle as="a" className="nav-link dropdown-toggle pulse">
+                                <i className="icofont-alarm fs-5"></i>
+                                {rows.length > 0 && (
+                                    <span className="badge bg-danger badge-pill position-absolute top-0 start-100 translate-middle">
+                                        {rows.length}
+                                    </span>
+                                )}
                             <span className="pulse-ring"></span>
                             </Dropdown.Toggle>
                             <Dropdown.Menu className=" rounded-lg shadow border-0 dropdown-animation dropdown-menu-sm-end p-0 m-0">
                                 <div className="card border-0 w380">
                                     <div className="card-header border-0 p-3">
                                         <h5 className="mb-0 font-weight-light d-flex justify-content-between">
-                                            <span >Notifications</span>
-                                            <span className="badge text-white">11</span>
+                                            <span>Notifications</span>
+                                            <span className="badge text-white">{rows.length}</span>
                                         </h5>
                                     </div>
                                     <div className="tab-content card-body">
                                         <div className="tab-pane fade show active">
                                             <ul className="list-unstyled list mb-0">
-                                                <li className="py-2 mb-1 border-bottom">
+                    <li className="py-2 mb-1 border-bottom">
                                                     <a href="#!" className="d-flex">
-                                                        <img className="avatar rounded-circle" src={Avatar1} alt="" />
+                                                       {/* <img className="avatar rounded-circle" src={Avatar1} alt="" />*/}
+                                                        
                                                         <div className="flex-fill ms-2">
-                                                            <p className="d-flex justify-content-between mb-0 "><span className="font-weight-bold">Dylan Hunter</span> <small>2MIN</small></p>
-                                                            <span className="">Added  2021-02-19 my-Task ui/ux Design <span className="badge bg-success">Review</span></span>
+                                                        {rows.map((row,index)=>(
+                                                            <div key ={index}>
+                                                            <p className="d-flex justify-content-between mb-0 "><span className="font-weight-bold">ASSIGNED BY-{row.task_assignperson}</span> </p>
+                                                            <span className=""><span className="font-weight-bold">TASKNAME-</span>{row.task_name} 
+                                                           {/* <span className="badge bg-success">Review</span>*/}
+                                                            </span>
+                                                            </div>
+                                                            ))} 
                                                         </div>
+                                                       
                                                     </a>
                                                 </li>
-                                                <li className="py-2 mb-1 border-bottom">
+                                       
+                                                {/* <li className="py-2 mb-1 border-bottom">
                                                     <a href="#!" className="d-flex">
                                                         <div className="avatar rounded-circle no-thumbnail">DF</div>
                                                         <div className="flex-fill ms-2">
@@ -144,7 +177,7 @@ function Header(){
                                                             <span className="">Add Calander Event</span>
                                                         </div>
                                                     </a>
-                                                </li>
+                                                </li> */}
                                             </ul>
                                         </div>
                                     </div>
@@ -200,7 +233,7 @@ function Header(){
                                         {/* <Link to="members" className="list-group-item list-group-item-action border-0 "><i className="icofont-ui-user-group fs-6 me-3"></i>members</Link> */}
                                         <Link to="sign-in" className="list-group-item list-group-item-action border-0 "><i className="icofont-logout fs-6 me-3"></i>Signout</Link>
                                         <div><hr className="dropdown-divider border-dark" /></div>
-                                        <Link to="sign-up" className="list-group-item list-group-item-action border-0 "><i className="icofont-contact-add fs-5 me-3"></i>Add personal account</Link>
+                                        {/* <Link to="sign-up" className="list-group-item list-group-item-action border-0 "><i className="icofont-contact-add fs-5 me-3"></i>Add personal account</Link> */}
                                     </div>
                                 </div>
                             </Dropdown.Menu>

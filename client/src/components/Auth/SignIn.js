@@ -5,7 +5,8 @@ import GoogleImg from "../../assets/images/google.svg";
 import axios from "axios";
 import { Url } from "../../Global_variable/api_link";
 import { useHistory } from "react-router-dom";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 function SignIn() {
   const history = useHistory();
 
@@ -46,7 +47,7 @@ function SignIn() {
     e.preventDefault();
 
     if (!email || !password) {
-      setError("Please enter email and password");
+      toast.error("Please enter email and password");
       return;
     }
 
@@ -77,18 +78,29 @@ function SignIn() {
         "Login successful"
       );
 
-      if (roleSet === "0") {
-        // admin
-        history.push("/tasks");
-      } else if (roleSet === "1") {
-        // user
-        history.push("/Employeetask");
+      if(roleSet === "0"){ // admin
+        toast.success("Login successful!", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        setTimeout(() => {
+          history.push("/tasks");
+        }, 3000)
+        // history.push('/tasks');
+      }
+      else if(roleSet === "1"){  // user
+        toast.success("Login successful!", {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        setTimeout(() => {
+          history.push("/Employeetask");
+        }, 3000)
+        // history.push("/Employeetask");
       } else {
         alert("error");
       }
       //  history.push('/Employeetask');
     } catch (err) {
-      setError(err.response.data.message);
+      toast.error(err.response.data.message);
       setBadAttempt(true);
       setMessage("Login failed");
       sendLoginHistory(
@@ -133,7 +145,7 @@ function SignIn() {
                 type="email"
                 autoFocus
                 className="form-control form-control-lg"
-                placeholder="name@example.com"
+                placeholder="name@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -152,7 +164,7 @@ function SignIn() {
               <input
                 type="password"
                 className="form-control form-control-lg"
-                placeholder="***************"
+                placeholder="**********"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -189,6 +201,7 @@ function SignIn() {
               </Link>
             </span>
           </div> */}
+          <ToastContainer/>
         </form>
       </div>
     </div>

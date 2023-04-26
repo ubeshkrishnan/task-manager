@@ -103,48 +103,75 @@ app.delete("/delete_project/:id", (req, res) => {
 // const timeValue = e.target.elements.ftime.value;
 
 // update project By ID
-app.put("/update_project", (req, res) => {
-  const {
-    project_name,
-    category,
-    client,
-    duration,
-    start_date,
-    end_date,
-    project_manager,
-    status,
-    date,
-    id,
-  } = req.body;
-  // Convert duration to number of seconds
-  const durationInSeconds = duration
-    ? duration.split(":").reduce((acc, time) => 60 * acc + +time)
-    : null;
+// app.put("/update_project", (req, res) => {
+//   const {
+//     id,
+//     project_name,
+//     category,
+//     client,
+//     duration,
+//     start_date,
+//     end_date,
+//     project_manager,
+//     status,
+//     date,
+    
+//   } = req.body;
+//   // Convert duration to number of seconds
+//   const durationInSeconds = duration
+//     ? duration.split(":").reduce((acc, time) => 60 * acc + +time)
+//     : null;
 
-  db.query(
-    "update project set project_name=?, category=?, client=?, category=?, duration=?, start_date=?, end_date=?, project_manager=?, status=?, date=? where id=?",
-    [
-      project_name,
-      category,
-      client,
-      duration,
-      start_date,
-      end_date,
-      project_manager,
-      status,
-      date,
-      id,
-    ],
-    (error, result) => {
-      if (result) {
-        let s = { status: "Updated" };
-        res.send(s);
-      } else {
-        console.log(error);
-      }
+//   db.query(
+//     "update project set project_name=?, category=?, client=?, category=?, duration=?, start_date=?, end_date=?, project_manager=?, status=?, date=? where id=?",
+//     [
+//       id,
+//       project_name,
+//       category,
+//       client,
+//       duration,
+//       start_date,
+//       end_date,
+//       project_manager,
+//       status,
+//       date,
+     
+//     ],
+//     (error, result) => {
+//       if (result) {
+//         let s = { status: "Updated" };
+//         res.send(s);
+//       } else {
+//         console.log(error);
+//       }
+//     }
+//   );
+// });
+
+app.put('/projectupdate/:id', (req, res) => {
+  // Extract the client ID from the request URL
+  const id = req.params.id;
+
+  // Extract the updated values from the request body
+  const updatedProject = req.body;
+  console.log(updatedProject);
+
+  // Update the client record in the database using SQL query
+  const query = `UPDATE project SET project_name='${updatedProject.project_name}'  WHERE id=${(id)}`;
+  
+  db.query(query, (error, results, fields) => {
+    if (error) {
+      // Handle the database error
+      console.log(error);
+      res.status(500).send('Failed to update project record');
+    } else {
+      // Send the success response back to the client
+      res.status(200).send('project record updated successfully');
     }
-  );
-});
+  });
+})
+
+
 
 // Update for  Project Status
 

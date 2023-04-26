@@ -368,7 +368,7 @@ function Projects() {
             Done
           </button>
           <button type="button" className="btn btn-primary" onClick={project}>
-            Create ajaj
+            Create
           </button>
         </Modal.Footer>
       </Modal>

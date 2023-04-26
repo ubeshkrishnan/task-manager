@@ -187,45 +187,7 @@ useEffect(()=>{
             }
             
         },
-        // {
-        //     name: "TUE",
-        //     selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.tue} onChange={()=>{}}/>,
-        //     sortable: true,
-        // },
-        // {
-        //     name: "WED",
-        //     selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.wed} onChange={()=>{}}/>,
-        //     sortable: true,
-        // },
-        // {
-        //     name: "THUR",
-        //     selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.thur} onChange={()=>{}}/>,
-        //     sortable: true,
-        // },
-        // {
-        //     name: "FRI",
-        //     selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.fri} onChange={()=>{}}/>,
-        //     sortable: true
-        // },
-        // {
-        //     name: "SAT",
-        //     selector: (row)=><input type="text" className="form-control" id="timepickerded29" value={row.sat} onChange={()=>{}}/>,
-        //     sortable: true
-        // },
-        // {
-        //     name: "TOTAL",
-        //     selector: (row)=>row.total,
-        //     sortable: true,
-        //     cell:row=><button type="button" className="btn light-success-bg">{row.total}</button>
-        // },
-        // {
-        //     name: "",
-        //     selector: (row)=>{},
-        //     cell:()=>   <div className="btn-group" role="group" aria-label="Basic outlined example">
-        //                     <button type="button" className="btn btn-outline-secondary"><i className="icofont-edit text-success"></i></button>
-        //                     <button type="button" className="btn btn-outline-secondary deleterow"><i className="icofont-ui-delete text-danger"></i></button>
-        //                 </div>
-        // }
+      
     ],
    
 }

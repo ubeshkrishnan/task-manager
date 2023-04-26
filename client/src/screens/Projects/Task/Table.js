@@ -599,13 +599,10 @@ function ExpereinceLetter() {
                   sheet="users"
                   currentTableRef={tableRef.current}
                 >
-                  <Button type="danger">
-                    <div className="download">
-                      {" "}
-                      Download
-                      <DownloadIcon />
-                    </div>
-                  </Button>
+                 <button type="button" className="btn btn-success">Download
+                 
+                 <DownloadIcon/>
+                 </button>
                 </DownloadTableExcel>
               </div>
 

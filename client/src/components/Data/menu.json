@@ -39,17 +39,8 @@
                     "isCategory": false,
                     "isApp": false,
                     "children": []
-                },
-                {
-                    "name": "Leaders",
-                    "routerLink": ["leaders"],
-                    "identifier": "Leaders",
-                    "iconClass": "",
-                    "breadcrumbMessage": "",
-                    "isCategory": false,
-                    "isApp": false,
-                    "children": []
                 }
+              
 
             ]
         },
@@ -179,16 +170,6 @@
                     "name": "Leave Request",
                     "routerLink": ["leave-request"],
                     "identifier": "Leave Request",
-                    "iconClass": "",
-                    "breadcrumbMessage": "",
-                    "isCategory": false,
-                    "isApp": false,
-                    "children": []
-                },
-                {
-                    "name": "Department",
-                    "routerLink": ["department"],
-                    "identifier": "Department",
                     "iconClass": "",
                     "breadcrumbMessage": "",
                     "isCategory": false,

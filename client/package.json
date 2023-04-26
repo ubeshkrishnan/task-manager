@@ -35,6 +35,7 @@
     "mobiscroll": "^3.0.0-beta6",
     "mobiscroll-react": "^4.0.0",
     "moment": "^2.29.4",
+    "nodemailer": "^6.9.1",
     "primeicons": "^6.0.1",
     "primereact": "^9.2.0",
     "react": "^17.0.2",

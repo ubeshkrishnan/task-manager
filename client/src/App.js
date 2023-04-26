@@ -145,7 +145,7 @@ import Sidebar from "./components/common/Sidebar";
 import AuthIndex from "./screens/AuthIndex";
 import MainIndex from "./screens/MainIndex";
 import Sidebar1 from "./components/common/Sidebar1";
-import Spinner from "./Spinner";
+import { Button, Spinner } from 'react-bootstrap';
 import "./spinner.css";
 class App extends Component {
   
@@ -183,8 +183,12 @@ class App extends Component {
     if (isLoading) {
       return <div className="pos-center">
      
-      <Spinner />
-      <h1>Loading</h1>
+     <Button variant="outline-secondary" className="me-1" style={{backgroundColor: "light"}}>
+    <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" className="me-1"  style={{backgroundColor: "#484C7F"}}></Spinner>
+    <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" className="me-1"  style={{backgroundColor: "#484C7F"}}></Spinner>
+    <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" className="me-1"  style={{backgroundColor: "#484C7F"}}></Spinner>
+    Loading...
+</Button>
     </div>
     }
 

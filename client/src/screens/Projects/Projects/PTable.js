@@ -37,10 +37,10 @@ import "./PTable.css";
 import { useDispatch } from "react-redux";
 import { getExperienceApi } from "../../store/api/task";
 // import {getExperienceApi} from "../../store/api/task"
-import moment from "moment";
-import { Toast } from 'primereact/toast';
-import { SplitButton } from 'primereact/splitbutton';
-import TimeInput from "react-widgets/TimeInput";
+
+
+import DataTable from "react-data-table-component";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,55 +64,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CustomTableCell = ({ row, name, onChange }) => {
-  const classes = useStyles();
-  const { isEditMode } = row;
-  const formattedDeadline = new Date(row[name]).toLocaleDateString();
-  const formatted_date = moment(row[name]).fromNow();
-  // const formatted_duration = new Date(row[name]).toLocaleDateString();
-  const formatted_start_date = new Date(row[name]).toLocaleDateString();
-  const formatted_end_date = new Date(row[name]).toLocaleDateString();
-  const formatted_created_dt = new Date(row[name]).toLocaleDateString();
-  
-  return (
-    <TableCell align="Center" className={classes.tableCell}>
-  {isEditMode ? (
-    <Input
-      value={row[name]}
-      name={name}
-      onChange={(e) => onChange(e, row)}
-      className={classes.input}
-    />
-  ) : (
-    name === 'deadline' ? formattedDeadline
-   : name === 'date' ? formatted_date
-    : name === 'start_date' ? formatted_start_date
-    : name === 'end_date' ? formatted_end_date
-    : name === 'created_dt' ? formatted_created_dt
-
-    : row[name]
-  )}
-</TableCell>
-
-  );
-      };
-
-
 function Ptable() {
   const tableRef = useRef(null);
   const [visible, setVisible] = useState(false);
   const [visibleTimer, setVisibleTimer] = useState(false);
   const [rows, setRows] = useState([]);
   const [previous, setPrevious] = useState({});
+  
   // Define a new state variable to hold the selected row data
   const classes = useStyles();
   const dispatch = useDispatch();
+
   const onToggleEditDone = (id) => {
     console.log(id);
     setRows(() => {
       return rows.map((row) => {
         if (row.id === id) {
-          updateExp(row);
+          updateProject (row);
           return { ...row, isEditMode: !row.isEditMode };
         }
         return row;
@@ -248,154 +216,6 @@ function Ptable() {
   // Search
   //Backend API
 
-  const [order, setorder] = useState("ASC");
-
-  const sortingid = (col) => {
-    if (order === "ASC") {
-      const sorted = [...rows].sort((a, b) => {
-        let valueA = a[col];
-        let valueB = b[col];
-        if (typeof valueA !== "string") {
-          valueA = String(valueA);
-        }
-        if (typeof valueB !== "string") {
-          valueB = String(valueB);
-        }
-        return valueA.toLowerCase() > valueB.toLowerCase() ? 1 : -1;
-      });
-      setRows(sorted);
-      setorder("DSC");
-    }
-    if (order === "DSC") {
-      const sorted = [...rows].sort((a, b) => {
-        let valueA = a[col];
-        let valueB = b[col];
-        if (typeof valueA !== "string") {
-          valueA = String(valueA);
-        }
-        if (typeof valueB !== "string") {
-          valueB = String(valueB);
-        }
-        return valueA.toLowerCase() < valueB.toLowerCase() ? 1 : -1;
-      });
-      setRows(sorted);
-      setorder("ASC");
-    }
-  };
-
-  const sortingname = (col) => {
-    if (order === "ASC") {
-      const sorted = [...rows].sort((a, b) =>
-        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
-      );
-      setRows(sorted);
-      setorder("DSC");
-    }
-    if (order === "DSC") {
-      const sorted = [...rows].sort((a, b) =>
-        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
-      );
-      setRows(sorted);
-      setorder("ASC");
-    }
-  };
-  const sortingclient = (col) => {
-    if (order === "ASC") {
-      const sorted = [...rows].sort((a, b) => {
-        let valueA = a[col];
-        let valueB = b[col];
-        if (typeof valueA !== "string") {
-          valueA = String(valueA);
-        }
-        if (typeof valueB !== "string") {
-          valueB = String(valueB);
-        }
-        return valueA.toLowerCase() > valueB.toLowerCase() ? 1 : -1;
-      });
-      setRows(sorted);
-      setorder("DSC");
-    }
-    if (order === "DSC") {
-      const sorted = [...rows].sort((a, b) => {
-        let valueA = a[col];
-        let valueB = b[col];
-        if (typeof valueA !== "string") {
-          valueA = String(valueA);
-        }
-        if (typeof valueB !== "string") {
-          valueB = String(valueB);
-        }
-        return valueA.toLowerCase() < valueB.toLowerCase() ? 1 : -1;
-      });
-      setRows(sorted);
-      setorder("ASC");
-    }
-  };
-  const sortingcategory = (col) => {
-    if (order === "ASC") {
-      const sorted = [...rows].sort((a, b) =>
-        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
-      );
-      setRows(sorted);
-      setorder("DSC");
-    }
-    if (order === "DSC") {
-      const sorted = [...rows].sort((a, b) =>
-        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
-      );
-      setRows(sorted);
-      setorder("ASC");
-    }
-  };
- 
-  const sortingtaskassignperson = (col) => {
-    if (order === "ASC") {
-      const sorted = [...rows].sort((a, b) =>
-        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
-      );
-      setRows(sorted);
-      setorder("DSC");
-    }
-    if (order === "DSC") {
-      const sorted = [...rows].sort((a, b) =>
-        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
-      );
-      setRows(sorted);
-      setorder("ASC");
-    }
-  };
-  const sortingdeadline = (col) => {
-    if (order === "ASC") {
-      const sorted = [...rows].sort((a, b) =>
-        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
-      );
-      setRows(sorted);
-      setorder("DSC");
-    }
-    if (order === "DSC") {
-      const sorted = [...rows].sort((a, b) =>
-        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
-      );
-      setRows(sorted);
-      setorder("ASC");
-    }
-  };
-  const sortingdescription = (col) => {
-    if (order === "ASC") {
-      const sorted = [...rows].sort((a, b) =>
-        a[col].toLowerCase() > b[col].toLowerCase() ? 1 : -1
-      );
-      setRows(sorted);
-      setorder("DSC");
-    }
-    if (order === "DSC") {
-      const sorted = [...rows].sort((a, b) =>
-        a[col].toLowerCase() < b[col].toLowerCase() ? 1 : -1
-      );
-      setRows(sorted);
-      setorder("ASC");
-    }
-  };
 
   const [task_name, setTask_name] = useState("");
   const [client, setClient] = useState("");
@@ -427,7 +247,9 @@ function Ptable() {
       const result = response.data.map(function (el) {
         var o = Object.assign({}, el);
         // o.deadline = moment(el.formatted_deadline).format('YYYY-MM-DD');
-        o.deadline = new Date(el.formatted_deadline).toLocaleDateString();
+        // o.deadline = new Date(el.formatted_deadline).toLocaleDateString();
+        // o.created_dt = new Date(el.created_dt).toLocaleDateString("en-GB");
+        // o.date = new Date(el.date).toLocaleDateString("en-GB");
         console.log(o.deadline);
         o.isEditMode = false;
         return o;
@@ -453,7 +275,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
     }
   };
 
-  const updateExp = ({
+  const updateProject = ({
     id,
     project_name,
     created_dt,
@@ -464,14 +286,14 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
     end_date,
     project_manager,
     deadline,
-     status,
+    status,
     date,
     priority,
     description
   }) => {
     console.log(status);
     axios
-      .put(Url + "/update_project", {
+      .put(Url + `/projectupdate/${id}`, { // update the endpoint
         id: id,
         project_name: project_name,
         created_dt : created_dt,
@@ -482,15 +304,20 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
         end_date:end_date,
         project_manager:project_manager,
         deadline:deadline,
-         status:status,
+        status:status,
         date:date,
         priority:priority,
         description:description
       })
       .then((response) => {
         console.log("OK");
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
+
+
   const handleStatus = (status, id) => {
     axios
       .put(Url + "/project_status_update", {
@@ -589,25 +416,166 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
         console.error("Error fetching users data:", error);
       });
   }, []);
-  const toast = useRef(null);
-    const items = [
-        {
-            label: 'Edit Row',
-            icon: 'pi pi-refresh',
-            command: () => {
-                toast.current.show({ severity: 'success', summary: 'Updated', detail: 'Data Updated' });
+  
+const LeadersListData={
+      title:"Leaders List",
+      columns:[
+          {
+              name: " ID",
+              selector:(row)=>row.id,
+              sortable: true,
+              cell:(row)=>{
+                return(
+
+                  <div>
+                    <div style={{ backgroundColor: colorCode[row.status] }}>{row.id}</div>
+                  </div>
+                
+                )
+              }
+          },
+
+          {
+            name: "PROJECT NAME",
+            selector:(row)=>row.project_name,
+            sortable: true,
+            cell:(row)=>{
+              return(
+                <div>
+                <div style={{ backgroundColor: colorCode[row.status] }}>{row.project_name}</div>
+                </div>
+              )
             }
         },
-        
-        {
-            label: 'Delete',
-            icon: 'pi pi-times',
-            command: () => {
-                toast.current.show({ severity: 'warn', summary: 'Delete', detail: 'Data Deleted' });
-            }
-        },  
-    ];
 
+        {
+          name: "CREATED DATE",
+          selector:(row)=>row.created_dt,
+          sortable: true,
+          cell:(row)=>{
+            return(
+              <div>
+              <div style={{ backgroundColor: colorCode[row.status] }}>{row.created_dt}</div>
+              </div>
+            )
+          }
+      },
+
+      {
+        name: "CATEGORY",
+        selector:(row)=>row.category,
+        sortable: true,
+        cell:(row)=>{
+          return(
+            <div>
+              <div style={{ backgroundColor: colorCode[row.status] }}>{row.category}</div>
+            </div>
+          )
+        }
+    },
+    {
+      name: "CLIENT",
+      selector:(row)=>row.client,
+      sortable: true,
+      cell:(row)=>{
+        return(
+          <div>
+            <div  style={{ backgroundColor: colorCode[row.status] }}>{row.client}</div>
+          </div>
+        )
+      }
+  },
+
+  {
+    name: "PROJECT MANAGER",
+    selector:(row)=>row.project_manager,
+    sortable: true,
+    cell:(row)=>{
+      return(
+        <div>
+          <div style={{ backgroundColor: colorCode[row.status] }}>{row.project_manager}</div>
+        </div>
+      )
+    }
+},
+
+{
+  name: "DEADLINE",
+  selector:(row)=>row.deadline,
+  sortable: true,
+  cell:(row)=>{
+    return(
+      <div>
+      
+        <div style={{backgroundColor: colorCode[row.status] }}>{row.deadline}</div>
+      </div>
+    )
+  }
+},
+
+{
+  name:"STATUS",
+  selector: (row) =>row.status,
+  sortable: true,
+  cell: (row) => {
+    return (
+      <Form.Select
+        style={{
+          width: "113px",
+          height: "40px",
+          paddingTop: "5px",
+          backgroundColor:
+            row.status === "completed"
+              ? "#80FFAD"
+              : row.status === "pending"
+              ? "red"
+              : row.status === "InProgress"
+              ? "#FFAF64"
+              : "grey",
+          color: "white",
+          fontWeight: "bold",
+ }}
+        value={row.status}
+        onChange={(e) => handleStatus(e.target.value, row.id)}
+        disabled={!row.isEditMode}
+      >
+        <option value="">Select</option>
+        <option value="Completed">Completed</option>
+        <option value="InProgress">In Progress</option>
+        <option value="Pending">Pending</option>
+      </Form.Select>
+    );
+  },
+},
+{
+  name: "DATE",
+  selector:(row)=>row.date,
+  sortable: true,
+  cell:(row)=>{
+    return(
+      <div>
+        <div style={{ backgroundColor: colorCode[row.status] }}>{row.date}</div>
+      </div>
+    )
+  }
+},
+{
+  name: "ACTION",
+  selector: (row)=>{},
+  sortable: true,
+  cell: (row) => (
+    <div className="btn-group" role="group" aria-label="Basic outlined example">
+      <button type="button" className="btn btn-outline-secondary" onClick={() => onToggleEditDone(row.id)}>
+        <i className="icofont-edit text-success"></i>
+      </button>
+      <button type="button" className="btn btn-outline-secondary deleterow" onClick={() => deleteExperience(row.id)}>
+        <i className="icofont-ui-delete text-danger"></i>
+      </button>
+    </div>
+  )
+}
+     ],
+    }
   return (
     <>
       <div className="background-ExperienceHr">
@@ -745,9 +713,9 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
 <Button severity="warning" style={{marginLeft:'10px',backgroundColor:'#FFAF64',fontWeight:'550',color:'white'}} onClick={() => handleFilter("Inprogress")} >InProgress({InProgressCount}) </Button>
 <Button style={{marginLeft:'10px',backgroundColor:'#FF7F7F',color:'white',fontWeight:'550'}} onClick={() => handleFilter("pending")} >Pending({pendingCount})</Button> */}
               </>
-              <div className="flex-row">
+             
                 <div className="row_search">
-                  <p style={{ color: "red", paddingTop: "10px" }}>
+                  <p style={{ color: "red"}}>
                     Page:{page}
                   </p>
                   <Pagination
@@ -755,737 +723,36 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                     page={page}
                     onChange={handleChangePage}
                   />
-                </div>
-              </div>
-              {/* <TablePagination
-              component="div"
-              rowsPerPageOptions={[2, 10, 25, 50]}
-              count={rows.length}
-              page={page}
-              onPageChange={handleChangePage}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            /> */}
-            <Paper>
-              <TableContainer
-                style={{
-                  borderRadius: "10px",
-                }}
-              >
-                <Table
-                  className={classes.table}
-                  aria-label="caption table"
-                  ref={tableRef}
-                >
-                  <TableHead className={classes.tableHead}>
-                    <TableRow className="satustable">
-                      <TableCell>
+                  </div>
+                    {/* <TablePagination
+                    component="div"
+                    rowsPerPageOptions={[2, 10, 25, 50]}
+                    count={rows.length}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    /> */}
+      
+                  <div >
+                  <DataTable
+                    title={LeadersListData.title}
+                    columns={LeadersListData.columns}
+                    data={rows}
+                    defaultSortField="title"
+                    pagination
+                    subHeader
+                    selectableRows={false}
+                    className="table myDataTable table-hover align-middle mb-0 d-row nowrap dataTable no-footer dtr-inline"
+                    highlightOnHover={true}
+                   />
+                    </div>
 
-              <Paper>
-                <TableContainer>
-                  <Table
-                    className={classes.table}
-                    style={{ paddingTop: "45px" }}
-                    aria-label="caption table"
-                    ref={tableRef}
-                  >
-                    {/* <caption>A barbone structure table example with a caption</caption> */}
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>
-                          <div
-                            style={{}}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable table_name">ID</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingid("id")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white" 
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{}}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable table_name">project_Name</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingname("task_name")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white"
-                                  
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{}}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable">Created_dt</th>
-                             <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingdeadline("deadline")}
-                              
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white" 
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{}}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable table_name">Category</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingclient("client")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white"
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{}}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable table_name">Client</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingclient("client")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white" 
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        {/* <TableCell>
-                          <div
-                            style={{}}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable table_name">Duration</th>
-                            <i
-                              style={{ paddingLeft: '2px', color: "#FF7F7F" }}
-                              onClick={() => sortingcategory("category")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white" 
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell> */}
-                        {/* <TableCell>
 
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-
-                          Task_ID
-
-                          <th className="hrtable ">Start Date</th>
-                          <i
-                            style={{ paddingLeft: '2px' }}
-                            onClick={() => sortingstart("start_date")}
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
->>>>>>> 55ef620eb846488394303e3874ce994b1098ab63
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-<<<<<<< HEAD
-                          Task_Name
-                          <i style={{ paddingLeft: '2px' }}>
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          Client
-                          <i style={{ paddingLeft: '2px' }}>
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          Control_Code
-                          <i style={{ paddingLeft: '2px' }}>
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          // className="d-flex flex-row justify-content-center"
-                        >
-                          Category
-                          <i style={{ paddingLeft: '2px' }}>
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell>
-
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          Assigned_by
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          Assigned_To
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          Deadline
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          Description
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          Status
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          Comments
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div
-                          style={{ paddingTop: 15 }}
-                          className="d-flex flex-row justify-content-center"
-                        >
-                          Actions
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows
-                      .slice((page - 1) * rowsPerPage, page * rowsPerPage)
-
-                      .map((row, index) => (
-                        <TableRow
-                          key={row.id}
-                          style={{ backgroundColor: colorCode[row.status] }}
-                        >
-                          <CustomTableCell
-                            {...{ row, name: "id", onChange }}
-                            style={{ borderBottom: "1px solid black" }}
-                          />
-                          <CustomTableCell
-                            {...{ row, name: "task_name", onChange }}
-                            style={{ borderBottom: "1px solid black" }}
-                          />
-                          <CustomTableCell
-                            {...{ row, name: "client", onChange }}
-                            style={{ borderBottom: "1px solid black" }}
-                          />
-                          <CustomTableCell
-                            {...{ row, name: "control_code", onChange }}
-                            style={{ borderBottom: "1px solid black" }}
-                          />
-
-                          <CustomTableCell
-                            {...{ row, name: "category", onChange }}
-                            style={{ borderBottom: "1px solid black" }}
-                          />
-
-                          <CustomTableCell
-                            {...{ row, name: "task_assignperson", onChange }}
-                            style={{ borderBottom: "1px solid black" }}
-                          />
-
-                          <Form.Select
-                            value={row?.assignto}
-                            disabled={!row.isEditMode}
-                            onChange={(e) => {
-                              const { value } = e.target;
-                              const temp = rows;
-                              temp[index].assignto = value || "";
-                              setRows(temp);
-
-                          <th className="hrtable">End Date</th>
-                          <i
-                            style={{ paddingLeft: '2px' }}
-                            onClick={() => sortingend("end_date")}
-                          >
-                            <BiSort
-                              style={{
-                                fontSize: 18,
-                                color: "white",
-                                marginBottom: "10",
-                              }}
-                            />
-                          </i>
-                        </div>
-                      </TableCell> */}
-                        {/* <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable">
-                              Start_Date
-                              <span style={{ textAligh: "center" }}> </span>
-                            </th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() =>
-                                sortingtaskassignperson("task_assignperson")
-                              }
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{ paddingTop: 18 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable">
-                              End Date
-                              <span style={{ textAligh: "center" }}> </span>
-                            </th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() =>
-                                sortingtaskassignperson("task_assignperson")
-                              }
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell> */}
-                        
-                        <TableCell>
-                          <div
-                            style={{ }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                          
-                            <th className="hrtable">Project_Manager</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingdeadline("deadline")}
-                              
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white" 
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{}}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable">Deadline</th>
-                             <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingdeadline("deadline")}
-                              
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white" 
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{ }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable">Status</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingdescription("description")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white" 
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                       
-                        <TableCell>
-                          <div
-                            style={{}}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th
-                              className="hrtable"
-                              style={{ borderCollapse: "collapse" }}
-                            >
-                              Date
-                            </th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingdescription("status")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white" 
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell>
-                        {/* <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable">
-                            Priority</th>
-
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingdescription("comments")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: "18px",
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell> */}
-                        {/* <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th
-                              className="hrtable"
-                              style={{ paddingRight: "10px", paddingTop: "" }}
-                            >
-                              Description
-                            </th>
-                          </div>
-                        </TableCell> */}
-                        <TableCell>
-                          <div
-                            style={{}}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th
-                              className="hrtable"
-                              style={{ paddingRight: "10px", paddingTop: "" }}
-                            >
-                              Actions
-                            </th>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {/* .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      ) */}
-                      {rows
-                        .slice((page - 1) * rowsPerPage, page * rowsPerPage)
-
-                        .map((row, index) => (
-                      
-                          <TableRow
-                            key={row.id}
-                            style={{ backgroundColor: colorCode[row.status] }}
-                           
-                          >
-                            <CustomTableCell
-                              {...{ row, name: "id", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
-                            <CustomTableCell
-                              {...{ row, name: "project_name", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
-                             <CustomTableCell
-                              {...{ row, name: "created_dt", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
-                            <CustomTableCell
-                              {...{ row, name: "category", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
-                            <CustomTableCell
-                              {...{ row, name: "client", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
-
-                            {/* <CustomTableCell
-                              {...{ row, name: "duration", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            /> */}
-                            
-                            {/* <CustomTableCell
-                                {...{ row, name: "start_date", onChange }}
-                                style={{ borderBottom: "1px solid black" }}
-                              />
-                              <CustomTableCell
-                                {...{ row, name: "end_date", onChange }}
-                                style={{ borderBottom: "1px solid black" }}
-                              /> */}
-                            <CustomTableCell
-                              {...{ row, name: "project_manager", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
-<CustomTableCell
-                              {...{ row, name: "deadline", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
-                                  <Form.Select
-                              style={{
-                                width: "133px",
-                                height:"40px",
-                                paddingTop:"5px",
-
-                                backgroundColor:
-                                  row.status === "completed"
-                                    ? "#80FFAD"
-                                    : row.status === "pending"
-                                    ? "red"
-                                    : row.status === "Inprogress"
-                                    ? "#FFAF64"
-                                    : "grey",
-                                color: "white",
-                                fontWeight: "bold",
-                              }}
-                              id={row.id}
-                              disabled={!row.isEditMode}
-                              // style={{  }}
-                              value={row.status}
-                              onChange={(e) =>
-                                handleStatus(e.target.value, row.id)
-                              }
-                            >
-                              <option value="">Select</option>
-                              <option value="Completed">Completed</option>
-                              <option value="InProgress">In Progress</option>
-                              <option value="Pending">Pending</option>
-                            </Form.Select>
-
-                            
-                            
-                            {/* {console.log( {...{ row, name: "deadline", onChange }},'d')} */}
-                            {/* <input
-                          type="time"
-                          name="ftime"
-                          className="form-control"
-                          {...{ row, name: "duration", onChange }}
-                        /> */}
-                        <CustomTableCell
-                              {...{ row, name: "date", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
-                            {/* <CustomTableCell
-                              {...{ row, name: "priority", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            />
-                            <CustomTableCell
-                              {...{ row, name: "description", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            /> */}
-                     
-                            {/* <CustomTableCell
-                              {...{ row, name: "comments", onChange }}
-                            /> */}
- 
-                            <TableCell
-                              style={{ display: "flex", width: "100%" }}
-                              className={classes.selectTableCell}
-                              class
-                            >
-                              {row.isEditMode ? (
-                                <>
-                                  <IconButton
-                                    aria-label="done"
-                                    onClick={() => onToggleEditDone(row.id)}
-                                  >
-                                    <DoneIcon />
-                                  </IconButton>
-                                  <IconButton
-                                    aria-label="revert"
-                                    onClick={() => getExperience()}
-                                  >
-                                    <RevertIcon />
-                                  </IconButton>
-                                </>
-                              ) : (
-                                <>
-                                <div className="flex justify-content-center">
-            <Toast ref={toast}></Toast>
-            <SplitButton label="Details"
-                            onClick={() => {
-                              setSelectedRowData(row); // Set the selected row's data
-                              setVisibleTimer(true); // Show the modal
-
-                            }} model={items} className="custom-button" severity="warning" raised />
-           
-
-           
-                                                  </div>
-                                    <IconButton
-                                    aria-label="edit"
-                                    onClick={() => onToggleEditMode(row.id)}
-                                      >
-                                    <EditIcon />
-                                  </IconButton>
-                                  <IconButton
-                                    aria-label="delete"
-                                    onClick={() => deleteExperience(row.id)}
-                                  >
-                                    <DeleteIcon />
-                                  </IconButton>
-                                </>
-                              )}
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Paper>
-              </TableCell>
-              </TableRow>
-              </TableHead>
-              </Table>
-</TableContainer>
-              </Paper>
-            </div>
-          </div>
-        </div>
-      </div>
+                      </div>
+                    </div>
+                  </div>
       <Modal show={visibleTimer} onHide={() => setVisibleTimer(!visibleTimer)}>
         <Modal.Header closeButton>
           <Modal.Title className="fw-bold">

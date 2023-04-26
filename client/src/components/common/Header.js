@@ -60,12 +60,9 @@ function Header(){
           useEffect(() => {
             myTask();
           }, []);
-
-
-
         return(
         <div className="header">
-            <nav className="navbar py-4">
+            <nav className="navbar py-1">
                 <div className="container-xxl">
                     <div className="h-right d-flex align-items-center mr-5 mr-lg-0 order-1">
                         <div className="d-flex">

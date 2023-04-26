@@ -1,83 +1,124 @@
-import React from "react";
+import React, { useState } from "react";
 import DataTable from "react-data-table-component";
 import { Modal } from "react-bootstrap";
 import PageHeader from "../../components/common/PageHeader";
 import { TicketsViewData } from "../../components/Data/AppData";
 
-var columnT="";
-class TicketsView extends React.Component{
-    state={
-        isModal:false,
-        siEditModal:""
-    }
-    componentWillMount(){
-        columnT = [
-            {
-                name: "TICKET ID",
-                selector: (row)=>row.ticketid,
-                sortable: true,
-                cell:(row)=> <a href="tickets-detail" className="fw-bold text-secondary">{row.ticketid}</a>
-            },
-            {
-                name: "SUBJECT",
-                selector: (row)=>row.subject,
-                sortable: true
-            },
-            {
-                name: "ASSIGNED",
-                selector: (row)=>row.assigned,
-                sortable: true,
-                cell:row=><><img className="avatar rounded-circle" src={row.image} alt="" /> <span className="fw-bold ms-1">{row.assigned}</span></>,
-                minWidth:"250px"
-            },
-            {
-                name: "CREATD DATE",
-                selector: (row)=>row.createdate,
-                sortable: true
-            },
-            {
-                name: "STATUS",
-                selector: (row)=>{},
-                sortable: true,
-                cell:row=><span className={`badge ${row.status==="Completed"?'bg-success':"bg-warning"}`}>{row.status}</span>
-            },
-            {
-                name: "ACTION",
-                selector: (row)=>{},
-                sortable: true,
-                cell:(row)=><div className="btn-group" role="group" aria-label="Basic outlined example">
-                            <button type="button" className="btn btn-outline-secondary" onClick={()=>{ this.setState({ siEditModal:row,isModal:true }) }}><i className="icofont-edit text-success"></i></button>
-                            <button type="button" className="btn btn-outline-secondary deleterow"><i className="icofont-ui-delete text-danger"></i></button>
-                        </div>
-            }
-    
-        ]
-    }
-    render(){
-        const {isModal,siEditModal} = this.state;
-        return(
-            <div className="container-xxl">
-                <PageHeader headerTitle="Tickets"  renderRight={()=>{
-                    return <div className="col-auto d-flex w-sm-100">
-                                <button className="btn btn-dark btn-set-task w-sm-100" onClick={()=>{ this.setState({isModal:true}) }}><i className="icofont-plus-circle me-2 fs-6"></i>Add Tickets</button>
-                            </div>
-                }} />
-                <div className="row clearfix g-3">
-                    <div className="col-md-12">
-                        <div className="card">
-                            <div className="card-body">
-                                <DataTable
-                                title={TicketsViewData.title}
-                                columns={columnT}
-                                data={TicketsViewData.rows}
-                                defaultSortField="title"
-                                pagination
-                                selectableRows={false}
-                                className="table myDataTable table-hover align-middle mb-0 d-row nowrap dataTable no-footer dtr-inline"
-                                highlightOnHover={true}
-                                />
-                            </div>
-                        </div>
+const TicketsView = () => {
+  const [isModal, setIsModal] = useState(false);
+  const [siEditModal, setSiEditModal] = useState("");
+
+  const columnT = [
+    {
+      name: "TICKET ID",
+      selector: (row) => row.ticketid,
+      sortable: true,
+      cell: (row) => (
+        <a href="tickets-detail" className="fw-bold text-secondary">
+          {row.ticketid}
+        </a>
+      ),
+    },
+    {
+      name: "SUBJECT",
+      selector: (row) => row.subject,
+      sortable: true,
+    },
+    {
+      name: "ASSIGNED",
+      selector: (row) => row.assigned,
+      sortable: true,
+      cell: (row) => (
+        <>
+          <img className="avatar rounded-circle" src={row.image} alt="" />{" "}
+          <span className="fw-bold ms-1">{row.assigned}</span>
+        </>
+      ),
+      minWidth: "250px",
+    },
+    {
+      name: "CREATD DATE",
+      selector: (row) => row.createdate,
+      sortable: true,
+    },
+    {
+      name: "STATUS",
+      selector: (row) => {},
+      sortable: true,
+      cell: (row) => (
+        <span
+          className={`badge ${
+            row.status === "Completed" ? "bg-success" : "bg-warning"
+          }`}
+        >
+          {row.status}
+        </span>
+      ),
+    },
+    {
+      name: "ACTION",
+      selector: (row) => {},
+      sortable: true,
+      cell: (row) => (
+        <div
+          className="btn-group"
+          role="group"
+          aria-label="Basic outlined example"
+        >
+          <button
+            type="button"
+            className="btn btn-outline-secondary"
+            onClick={() => {
+              setSiEditModal(row);
+              setIsModal(true);
+            }}
+          >
+            <i className="icofont-edit text-success"></i>
+          </button>
+          <button type="button" className="btn btn-outline-secondary deleterow">
+            <i className="icofont-ui-delete text-danger"></i>
+          </button>
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <div className="container-xxl">
+      <PageHeader
+        headerTitle="Tickets"
+        renderRight={() => {
+          return (
+            <div className="col-auto d-flex w-sm-100">
+              <button
+                className="btn btn-dark btn-set-task w-sm-100"
+                onClick={() => {
+                  setIsModal(true);
+                }}
+              >
+                <i className="icofont-plus-circle me-2 fs-6"></i>Add Tickets
+              </button>
+            </div>
+          );
+        }}
+      />
+      <div className="row clearfix g-3">
+        <div className="col-md-12">
+          <div className="card">
+            <div className="card-body">
+              <DataTable
+                title={TicketsViewData.title}
+                columns={columnT}
+                data={TicketsViewData.rows}
+                defaultSortField="title"
+                pagination
+                selectableRows={false}
+                className="table myDataTable table-hover align-middle mb-0 d-row nowrap dataTable no-footer dtr-inline"
+                highlightOnHover={true}
+              />
+            </div>
+          </div>
+
                     </div>
                 </div>
                 <Modal centered show={isModal} onHide={()=>{this.setState({isModal:false,siEditModal:""}) }}>
@@ -122,6 +163,5 @@ class TicketsView extends React.Component{
             </div>
         )
     }
-}
 
 export default TicketsView;

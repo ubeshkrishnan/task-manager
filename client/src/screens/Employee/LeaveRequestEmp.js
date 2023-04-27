@@ -64,7 +64,8 @@ class LeaveRequest extends React.Component{
         return(
             <div className="container-xxl">
                 <PageHeader headerTitle="Leave Request" renderRight={()=>{
-                    return <div className="col-auto d-flex w-sm-100">
+                    return
+                     <div className="col-auto d-flex w-sm-100">
                                 <button className="btn btn-dark btn-set-task w-sm-100" onClick={()=>{ this.setState({isModal:true}) }}><i className="icofont-plus-circle me-2 fs-6"></i>Add Leave</button>
                             </div>
                 }}/>

@@ -51,7 +51,7 @@ function Header(){
             setRows([]);
             const user = JSON.parse(localStorage.getItem("user"));
             console.log(user);
-            axios.get(`http://3.7.79.196:5005/gettask/${user.user_id}`).then((response) => {
+            axios.get(Url+`/gettask/${user.user_id}`).then((response) => {
               setRows(response.data);
               
             });
@@ -228,7 +228,7 @@ function Header(){
                                     <div className="list-group m-2 ">
                                         {/* <Link to="tasks" className="list-group-item list-group-item-action border-0 "><i className="icofont-tasks fs-5 me-3"></i>My Task</Link> */}
                                         {/* <Link to="members" className="list-group-item list-group-item-action border-0 "><i className="icofont-ui-user-group fs-6 me-3"></i>members</Link> */}
-                                        <Link to="sign-in" className="list-group-item list-group-item-action border-0 "><i className="icofont-logout fs-6 me-3"></i>Signout</Link>
+                                        <Link to="/sign-in" className="list-group-item list-group-item-action border-0 "><i className="icofont-logout fs-6 me-3"></i>Signout</Link>
                                         <div><hr className="dropdown-divider border-dark" /></div>
                                         {/* <Link to="sign-up" className="list-group-item list-group-item-action border-0 "><i className="icofont-contact-add fs-5 me-3"></i>Add personal account</Link> */}
                                     </div>

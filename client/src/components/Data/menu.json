@@ -94,17 +94,8 @@
                     "isCategory": false,
                     "isApp": false,
                     "children": []
-                },
-                {
-                    "name": "Client Profile",
-                    "routerLink": ["client-profile"],
-                    "identifier": "Client Profile",
-                    "iconClass": "",
-                    "breadcrumbMessage": "",
-                    "isCategory": false,
-                    "isApp": false,
-                    "children": []
                 }
+               
             ]
         },
         {
@@ -126,16 +117,7 @@
                     "isApp": false,
                     "children": []
                 },
-                {
-                    "name": "Members Profile",
-                    "routerLink": ["members-profile"],
-                    "identifier": "Members Profile",
-                    "iconClass": "",
-                    "breadcrumbMessage": "",
-                    "isCategory": false,
-                    "isApp": false,
-                    "children": []
-                },
+               
                 {
                     "name": "Holidays",
                     "routerLink": ["holidays"],

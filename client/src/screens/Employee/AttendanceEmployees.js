@@ -8,7 +8,7 @@ import StatisticsCard from "../../components/Employees/StatisticsCard";
 import GeneralChartCard from "../../components/Employees/TodayTimeUtilisation";
 import axios from "axios";
 import moment from "moment";
-
+import  {Url} from "../../Global_variable/api_link";
 
 
 function AttendanceEmployees() {
@@ -52,7 +52,7 @@ function AttendanceEmployees() {
 
         const workHours =calculateWorkHours(punchInTime, punchOutTime);
        console.log(workHours);
-        axios.post('http://localhost:3001/punch', {
+        axios.post(Url+'/punch', {
           punchInTime: formattedPunchInTime,
           punchOutTime: formattedPunchOutTime,
           workHours: workHours

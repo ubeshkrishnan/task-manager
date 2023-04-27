@@ -1,9 +1,6 @@
 import React , {useState, useEffect} from "react";
 
 
-
-
-
 function OurClients(props) {
     const {id,avatar, post, name, Companyname, isMember, onClickEdit, onClickDelete, details} = props;
     return (
@@ -39,7 +36,7 @@ function OurClients(props) {
                     {isMember ? (
                         <div className="d-flex flex-wrap align-items-center ct-btn-set">
                             <a href="tasks" className="btn btn-dark btn-sm mt-1 me-2"><i className="icofont-plus-circle me-2 fs-6  "></i>Add Task</a>
-                            <a href="members-profile" className="btn btn-dark btn-sm mt-1"><i className="icofont-invisible me-2 fs-6"></i>Profile</a>
+                            <a href={`members-profile/${id}`} className="btn btn-dark btn-sm mt-1"><i className="icofont-invisible me-2 fs-6"></i>Profile</a>
                         </div>
                   ) : (
                         <div className="d-flex flex-wrap align-items-center ct-btn-set">

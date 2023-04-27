@@ -17,11 +17,6 @@ app.use(compression());
 
 
 
-
-
-
-
-
 // INSERTING THE MEMBER
 app.post("/member", (req, res) => {
   // Extract data from the request body
@@ -135,6 +130,57 @@ app.put("/memberupdate/:id", (req, res) => {
     }
 
     // IMGE upload
+  });
+});
+
+//getting rolesid
+app.get('/roles', (req, res) => {
+
+  db.query("SELECT * FROM user_roles", (error, results, fields) => {
+    if (error) throw error;
+    res.send(results);
+  });
+});
+
+//getting groupid
+app.get('/groups', (req, res) => {
+  db.query("SELECT * FROM user_groups", (error, results, fields) => {
+    if(error) throw error;
+    res.send(results);
+  });
+});
+
+// define a DELETE route for deleting a member
+
+// Attendance
+app.post('/punch', async (req, res) => {
+  const { punchOutTime, workHours } = req.body;
+  const query = `UPDATE punchin_punchout SET punchout_time = NOW(), work_hours = ? WHERE punchout_time IS NULL`;
+// Execute the query with the extracted data
+db.query(query, [workHours], (error, results, fields) => {
+  if (error) {
+      console.log(error);
+      res.status(500).send('Error updating data in the database');
+  } else {
+      res.status(200).send('Data updated successfully');
+  }
+});
+})
+
+app.delete('/delete_member/:id', (req, res) => {
+  const { id } = req.params;
+
+  // Delete client from MySQL
+  const sql = `DELETE FROM users WHERE user_id = ?`;
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error deleting client from database');
+    } else if (result.affectedRows === 0) {
+      res.status(404).send(`Client with ID ${id} not found`);
+    } else {
+      res.send(`Client with ID ${id} deleted successfully!`);
+    }
   });
 });
 

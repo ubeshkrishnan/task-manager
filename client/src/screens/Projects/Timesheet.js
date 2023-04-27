@@ -81,8 +81,9 @@ useEffect(()=>{
   .catch((error)=>{
     console.log(error);
   })
+}, []) // add empty dependency array here to run only once
 
-})
+
 
   const TimesheetListData={
 

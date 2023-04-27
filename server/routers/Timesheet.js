@@ -5,11 +5,12 @@ const app = express();
 const mysql = require("mysql2");
 const bcrypt = require('bcrypt');
 const db= require("../Sql/db")
+const compression = require('compression');
 
 app.use(cors());
 app.use(express.json());
 app.use(bodyparser.urlencoded({extended:true}));
-
+app.use(compression())
 
 
 // Weekly Time sheet
@@ -64,18 +65,17 @@ app.use(bodyparser.urlencoded({extended:true}));
 //     res.send(results);
 //   });
 //   })
-  app.get('/AdminTimesheet', (req, res) => {
-    db.query(`
-      SELECT t.id, t.task_name, t.duration, t.assignto,u.first_name AS assignto, t.client, GROUP_CONCAT(t.task_name SEPARATOR ',') AS tasks
-      FROM task t
-      JOIN users u ON t.assignto = u.user_id
-      GROUP BY t.id`,
-      (error, results, fields) => {
-        if (error) throw error;
-        res.send(results);
-      });
-  });
-  
+app.get('/AdminTimesheet', (req, res) => {
+  db.query(`
+    SELECT t.id, t.task_name, t.duration, t.assignto,u.first_name AS assignto, t.client, GROUP_CONCAT(t.task_name SEPARATOR ',') AS tasks
+    FROM task t
+    JOIN users u ON t.assignto = u.user_id
+    GROUP BY t.id`,
+    (error, results, fields) => {
+      if (error) throw error;
+      res.send(results);
+    });
+});
 // For Email the Time
   
 

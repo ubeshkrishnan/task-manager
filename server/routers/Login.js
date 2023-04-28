@@ -15,62 +15,44 @@ app.use(compression());
 
 
 
-
-
 // Insert
-const { body, validationResult } = require('express-validator');
+app.post("/insert", (req, res) => {
+  console.log(req.body);
+  const fullname = req.body.fullname + " " + req.body.lastname;
+  const email = req.body.email;
+  const password = req.body.password;
+  const confirmpassword = req.body.confirmpassword;
 
-app.post('/insert', 
-  body('fullname').notEmpty(),
-  body('email').isEmail(),
-  body('password').isLength({ min: 6 }),
-  body('confirmpassword').custom((value, { req }) => {
-    if (value !== req.body.password) {
-      throw new Error('Passwords do not match');
+  const sqlInsert =
+    "INSERT INTO sign_in(fullname, email, password,confirmpassword) VALUES (?,?,?,?)";
+  db.query(
+    sqlInsert,
+    [fullname, email, password, confirmpassword],
+    (err, result) => {
+      if (err) throw err;
     }
-    return true;
-  }),
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-
-    const fullname = req.body.fullname + ' ' + req.body.lastname;
-    const email = req.body.email;
-    const password = req.body.password;
-
-    try {
-      const sqlInsert =
-        'INSERT INTO sign_in (fullname, email, password) VALUES (?, ?, ?)';
-      await db.query(sqlInsert, [fullname, email, password]);
-      res.status(200).json({ message: 'Data inserted successfully' });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Internal server error' });
-    }
-  }
-);
-
+  );
+});
 
 // Login
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
-  const sql = `SELECT * FROM users WHERE user_email = ? AND password = ?`;
-  db.query(sql, [email, password], (err, result) => {
+  const sql = `SELECT * FROM users WHERE user_email = '${email}' AND password = '${password}'`;
+  db.query(sql, (err, result) => {
     if (err) {
-      console.error(err);
-      return res.status(500).send({ message: "An error occurred" });
+      res.status(500).send({ message: "Error occurred" });
+    } else if (result.length === 0) {
+      res.status(401).send({ message: "Invalid username or password" });
+    } else {
+      console.log("ddddddddddd", result);
+      const user = result[0];
+      const roleSet = user.role || "";
+      res
+        .status(200)
+        .send({ message: "Login successful", user, role: roleSet });
     }
-    if (result.length === 0) {
-      return res.status(401).send({ message: "Invalid email or password" });
-    }
-    const user = result[0];
-    const roleSet = user.role || "";
-    return res.status(200).send({ message: "Login successful", user, role: roleSet });
   });
 });
-
 
 // Login History  Save
 app.post("/history", (req, res) => {
@@ -151,11 +133,10 @@ app.post("/user_loginHistory", (req, res) => {
 });
 
 // Users Login
-
 app.post("/user_login", (req, res) => {
   const { email, password } = req.body;
-  const sql = `SELECT * FROM sign_in WHERE email = ? AND password = ?`;
-  db.query(sql, [email, password], (err, result) => {
+  const sql = `SELECT * FROM sign_in WHERE email = '${email}' AND password = '${password}'`;
+  db.query(sql, (err, result) => {
     if (err) {
       res.status(500).send({ message: "Error occurred" });
     } else if (result.length === 0) {

@@ -12,7 +12,7 @@ import MemberProfileCard from "../../components/Employees/MembersprofileCard";
 
 function EmployeeProfile(){
     const [ismodal, setModal] = useState(false);
-    const [modalData, setModalData] = useState("");
+    const [modalData, setModalData] = useState(""); 
     const {id} = useParams()
     const handleEditClick = (data) => {
       setModalData(data);

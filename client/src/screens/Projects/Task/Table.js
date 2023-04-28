@@ -593,17 +593,6 @@ function ExpereinceLetter() {
             <div className="content container-fluid">
               <div className="row_search">
                 <div>{/* <h3 className="">Task Details</h3> */}</div>
-
-                <DownloadTableExcel
-                  filename="Experience Table"
-                  sheet="users"
-                  currentTableRef={tableRef.current}
-                >
-                 <button type="button" className="btn btn-success">Download
-                 
-                 <DownloadIcon/>
-                 </button>
-                </DownloadTableExcel>
               </div>
 
               <>
@@ -663,6 +652,16 @@ function ExpereinceLetter() {
                       className="form-control"
                     />
                   </div>
+                  <DownloadTableExcel
+                  filename="Experience Table"
+                  sheet="users"
+                  currentTableRef={tableRef.current}
+                >
+                 <button type="button" className="btn btn-success">Download
+                 
+                 <DownloadIcon/>
+                 </button>
+                </DownloadTableExcel>
                 </div>
 
                 <CCollapse visible={visible}>

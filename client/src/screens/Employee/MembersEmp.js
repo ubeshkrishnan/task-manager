@@ -15,7 +15,7 @@ class Members extends React.Component{
                 <PageHeader headerTitle="Employee" renderRight={()=>{
                     return <div className="col-auto d-flex w-sm-100">
                                 <button className="btn btn-dark btn-set-task w-sm-100 me-2" onClick={()=>{ this.setState({isModal:true}) }}><i className="icofont-plus-circle me-2 fs-6"></i>Add Employee</button>
-                                <Dropdown>
+                                {/* <Dropdown>
                                     <Dropdown.Toggle as="button" className="btn btn-primary ">Status</Dropdown.Toggle>
                                     <Dropdown.Menu as="ul" className="dropdown-menu-end">
                                         <li><a className="dropdown-item" href="#!">Company</a></li>
@@ -26,7 +26,7 @@ class Members extends React.Component{
                                         <li><a className="dropdown-item" href="#!">Deltasoft Tech</a></li>
                                         <li><a className="dropdown-item" href="#!">Design Tech</a></li>
                                     </Dropdown.Menu>
-                                </Dropdown>
+                                </Dropdown> */}
                             </div>
                 }} />
                 <div className="row g-3 row-cols-1 row-cols-sm-1 row-cols-md-1 row-cols-lg-2 row-cols-xl-2 row-cols-xxl-2 row-deck py-1 pb-4">

@@ -60,18 +60,22 @@
 
 // Function component
 
-import React, { useState ,useEffect} from "react";
+import React, { useState ,useEffect, useRef} from "react";
 import { Modal } from "react-bootstrap";
 import DataTable from "react-data-table-component";
 import PageHeader from "../../components/common/PageHeader";
-import { TimesheetListData } from "../../components/Data/AppData";
+// import { TimesheetListData } from "../../components/Data/AppData";
 import {Url} from "../../Global_variable/api_link"
 import axios from "axios";
+import { DownloadTableExcel } from "react-export-table-to-excel";
+import DownloadIcon from "@mui/icons-material/Download";
+
 
 const Timesheet = () => {
   const [isModal, setIsModal] = useState(false);
 
 const[rows,setRows] =useState([])
+const tableRef = useRef(null);
 
 useEffect(()=>{
   axios.get(Url+'/AdminTimesheet')
@@ -86,8 +90,6 @@ useEffect(()=>{
 
 
   const TimesheetListData={
-
-    
 
     title:"TIMESHEET LIST",
     columns:[
@@ -155,23 +157,7 @@ useEffect(()=>{
           }
           
       },
-        // {
-        //   name: "Employee",
-        //   selector: ()=>{},
-        //   sortable: true,
-        //   cell:(row) => {
-        //     return (
-        //       <div>
-        //       {/*  <div>{row.id}</div>*/}
-        //         {row.assignto.split(",").map((assignto, index) => (
-        //           <div key={index}>{assignto.trim()}</div>
-        //         ))}
-        //       </div>
-        //     );
-        //   }
-          
-        // },
-        
+       
         {
             name: "TASK COMPLETED TIME",
             selector:()=>{},
@@ -185,12 +171,9 @@ useEffect(()=>{
                   ))}
                 </div>
               );
-            }
-            
+            }  
         },
-      
-    ],
-   
+    ],  
 }
   return (
     <div className="container-xxl">
@@ -198,7 +181,20 @@ useEffect(()=>{
         headerTitle="Weekly Timesheet Management"
         renderRight={() => {
           return (
-            <div className="col-auto d-flex w-sm-100">
+            <div style={{paddingRight:"1 0px"}} className="col-auto d-flex w-sm-100">
+            
+              <DownloadTableExcel
+                  filename="Timesheet Table"
+                  sheet="rows"
+                  rows = {rows}
+                  currentTableRef={tableRef.current}
+                >
+            
+            <button type="button" className="btn btn-success">Download
+                 
+                 <DownloadIcon/>
+                 </button>
+                </DownloadTableExcel>
               <button
                 type="button"
                 className="btn btn-dark btn-set-task w-sm-100"
@@ -206,6 +202,7 @@ useEffect(()=>{
                   setIsModal(true);
                 }}
               >
+              
                 <i className="icofont-file-spreadsheet me-2 fs-6"></i>Sheets Sent
               </button>
             </div>
@@ -216,7 +213,14 @@ useEffect(()=>{
         <div className="col-md-12">
           <div className="card">
             <div className="card-body">
-              <DataTable
+            <DownloadTableExcel
+      data={TimesheetListData}
+      filename="table_data"
+      sheetName="Sheet1"
+      buttonText="Download Table as Excel"
+    />
+<table ref={tableRef}>
+     <DataTable
                 title={TimesheetListData.title}
                 columns={TimesheetListData.columns}
                 data={rows}
@@ -225,8 +229,11 @@ useEffect(()=>{
                 selectableRows={false}
                 className="table myDataTable table-hover align-middle mb-0 d-row nowrap dataTable no-footer dtr-inline"
                 highlightOnHover={true}
+            
               />
-            </div>
+  </table>
+              </div>
+            
           </div>
         </div>
       </div>
@@ -262,7 +269,7 @@ useEffect(()=>{
           </button>
         </Modal.Footer>
       </Modal>
-</div>
-);
-};
-export default Timesheet;
+      </div>
+      );
+    };
+    export default Timesheet;

@@ -437,7 +437,7 @@ const handlesubmit = (event) => {
         renderRight={() => {
           return (
             <div className="col-auto d-flex">
-              <Dropdown>
+              {/* <Dropdown>
                 <Dropdown.Toggle as="button" className="btn btn-primary ">
                   Status
                 </Dropdown.Toggle>
@@ -478,7 +478,7 @@ const handlesubmit = (event) => {
                     </a>
                   </li>
                 </Dropdown.Menu>
-              </Dropdown>
+              </Dropdown> */}
               <button
                 type="button"
                 className="btn btn-dark ms-1"

@@ -84,8 +84,8 @@ const CustomTableCell = ({ row, name, onChange }) => {
       className={classes.input}
     />
   ) : (
-    name === 'deadline' ? formattedDeadline
-   : name === 'date' ? formatted_date
+    name   === 'deadline' ? formattedDeadline
+   : name  === 'date' ? formatted_date
     : name === 'start_date' ? formatted_start_date
     : name === 'end_date' ? formatted_end_date
     : name === 'created_dt' ? formatted_created_dt
@@ -617,18 +617,6 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
             <div className="content container-fluid">
               <div className="row_search">
                 <div>{/* <h3 className="">Task Details</h3> */}</div>
-
-                <DownloadTableExcel
-                  filename="Experience Table"
-                  sheet="users"
-                  currentTableRef={tableRef.current}
-                >
-            
-            <button type="button" className="btn btn-success">Download
-                 
-                 <DownloadIcon/>
-                 </button>
-                </DownloadTableExcel>
               </div>
 
               <>
@@ -688,6 +676,17 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                       className="form-control"
                     />
                   </div>
+                  <DownloadTableExcel
+                  filename="Experience Table"
+                  sheet="users"
+                  currentTableRef={tableRef.current}
+                >
+            
+            <button type="button" className="btn btn-success">Downloads
+                 
+                 <DownloadIcon/>
+                 </button>
+                </DownloadTableExcel>
                 </div>
 
                 <CCollapse visible={visible}>
@@ -778,22 +777,22 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                     <TableRow className="satustable">
                       <TableCell>
 
-              <Paper>
-                <TableContainer>
-                  <Table
-                    className={classes.table}
-                    style={{ paddingTop: "45px" }}
-                    aria-label="caption table"
-                    ref={tableRef}
-                  >
-                    {/* <caption>A barbone structure table example with a caption</caption> */}
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>
-                          <div
+                        <Paper>
+            <TableContainer>
+                            <Table
+                              className={classes.table}
+                              style={{ paddingTop: "45px" }}
+                              aria-label="caption table"
+                              ref={tableRef}
+                            >
+                              {/* <caption>A barbone structure table example with a caption</caption> */}
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell>
+                                    <div
                             style={{}}
                             className="d-flex flex-row justify-content-center"
-                          >
+                            >
                             <th className="hrtable table_name">ID</th>
                             <i
                               style={{ paddingLeft: '2px' }}
@@ -805,25 +804,25 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                                   color: "white" 
                                 }}
                               />
-                            </i>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <div
-                            style={{}}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable table_name">project_Name</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingname("task_name")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white"
-                                  
-                                }}
+                                </i>
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                                <div
+                                  style={{}}
+                                  className="d-flex flex-row justify-content-center"
+                                >
+                                  <th className="hrtable table_name">project_Name</th>
+                                  <i
+                                    style={{ paddingLeft: '2px' }}
+                                    onClick={() => sortingname("task_name")}
+                                  >
+                                    <BiSort
+                                      style={{
+                                        fontSize: 18,
+                                        color: "white"
+                                        
+                                      }}
                               />
                             </i>
                           </div>
@@ -927,7 +926,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                               }}
                             />
                           </i>
->>>>>>> 55ef620eb846488394303e3874ce994b1098ab63
+
                         </div>
                       </TableCell>
                       <TableCell>
@@ -935,7 +934,7 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                           style={{ paddingTop: 15 }}
                           className="d-flex flex-row justify-content-center"
                         >
-<<<<<<< HEAD
+
                           Task_Name
                           <i style={{ paddingLeft: '2px' }}>
                             <BiSort

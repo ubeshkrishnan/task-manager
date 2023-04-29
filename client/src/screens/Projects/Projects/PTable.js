@@ -41,7 +41,7 @@ import moment from "moment";
 import { Toast } from 'primereact/toast';
 import { SplitButton } from 'primereact/splitbutton';
 import TimeInput from "react-widgets/TimeInput";
-
+import { FaEye } from 'react-icons/fa';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -1440,18 +1440,15 @@ const formattedDate = new Date(deadline).toLocaleDateString('en-GB');
                                 </>
                               ) : (
                                 <>
-                                <div className="flex justify-content-center">
-            <Toast ref={toast}></Toast>
-            <SplitButton label="Details"
-                            onClick={() => {
-                              setSelectedRowData(row); // Set the selected row's data
-                              setVisibleTimer(true); // Show the modal
+                                <Button
+  onClick={() => {
+    setSelectedRowData(row); // Set the selected row's data
+    setVisibleTimer(true); // Show the modal
+  }}
+> <FaEye size={16} />
+</Button>
 
-                            }} model={items} className="custom-button" severity="warning" raised />
-           
 
-           
-                                                  </div>
                                     <IconButton
                                     aria-label="edit"
                                     onClick={() => onToggleEditMode(row.id)}

@@ -156,9 +156,7 @@ function SignIn() {
               <div className="form-label">
                 <span className="d-flex justify-content-between align-items-center">
                   Password
-                  {/* <Link className="text-secondary" to="password-reset">
-                    Forgot Password?
-                  </Link> */}
+                 
                 </span>
               </div>
               <input
@@ -184,6 +182,11 @@ function SignIn() {
               </label>
             </div>
           </div> */}
+          <Link className="text-secondary" to="password-reset">
+                    Forgot Password?
+                  </Link>
+
+                  
           <div className="col-12 text-center mt-4">
             <button
               className="btn btn-lg btn-block btn-light lift text-uppercase"

@@ -5,7 +5,9 @@ const mysql = require("mysql2");
 const app = express();
 const bcrypt = require('bcrypt');
 const compression = require('compression');
-
+const router = express.Router();
+const nodemailer = require("nodemailer");
+require('dotenv').config()
 const db = require("../Sql/db")
 
 app.use(cors());
@@ -149,6 +151,59 @@ app.post("/user_login", (req, res) => {
   });
 });
 
+
+// Forgot password
+app.post('/forgot_password', (req, res) => {
+  const { email } = req.body;
+
+  // Check if email exists in database
+  const checkEmailQuery = `SELECT * FROM users WHERE user_email = '${email}'`;
+  db.query(checkEmailQuery, (err, result) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error checking email');
+    } else if (result.length === 0) {
+      res.status(404).send('User not found');
+    } else {
+      // Generate verification token
+      const token = Math.floor(Math.random() * 1000000);
+
+      // Save the token in the database
+      const updateTokenQuery = `UPDATE users SET reset_password_token = ${token}, reset_password_expires = DATE_ADD(NOW(), INTERVAL 1 HOUR) WHERE user_email = '${email}'`;
+
+      db.query(updateTokenQuery, (err, result) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send('Failed to save token');
+        } else {
+          // Send verification email
+          const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+              user: process.env.GMAIL_USERNAME,
+              pass: process.env.GMAIL_PASSWORD,
+            },
+          });
+          
+          const mailOptions = {
+            from: '<noreply@yourapp.com>',
+            to: email,
+            subject: 'Password Reset Verification Code',
+            text: `Verification code: ${token}`,
+          };
+          transporter.sendMail(mailOptions, (err, info) => {
+            if (err) {
+              console.error(err);
+              res.status(500).send('Failed to send email');
+            } else {
+              res.send('Verification email sent!');
+            }
+          });
+        }
+      });
+    }
+  });
+});
 
 
 

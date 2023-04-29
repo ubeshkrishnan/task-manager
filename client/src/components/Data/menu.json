@@ -1,6 +1,27 @@
 {
     "menu": [
-       
+        {
+            "name": "Our Clients",
+            "routerLink": [""],
+            "identifier": "Our Clients",
+            "iconClass": "icofont-user-male",
+            "breadcrumbMessage": "",
+            "isCategory": false,
+            "isApp": true,
+            "children": [
+                {
+                    "name": "Clients",
+                    "routerLink": ["clients"],
+                    "identifier": "Clients",
+                    "iconClass": "",
+                    "breadcrumbMessage": "",
+                    "isCategory": false,
+                    "isApp": false,
+                    "children": []
+                }
+               
+            ]
+        },
         {
             "name": "Projects",
             "routerLink": [""],
@@ -76,28 +97,7 @@
                 }
             ]
         },
-        {
-            "name": "Our Clients",
-            "routerLink": [""],
-            "identifier": "Our Clients",
-            "iconClass": "icofont-user-male",
-            "breadcrumbMessage": "",
-            "isCategory": false,
-            "isApp": true,
-            "children": [
-                {
-                    "name": "Clients",
-                    "routerLink": ["clients"],
-                    "identifier": "Clients",
-                    "iconClass": "",
-                    "breadcrumbMessage": "",
-                    "isCategory": false,
-                    "isApp": false,
-                    "children": []
-                }
-               
-            ]
-        },
+       
         {
             "name": "Employees",
             "routerLink": [""],

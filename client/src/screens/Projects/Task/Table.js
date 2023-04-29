@@ -41,6 +41,8 @@ import { getExperienceApi } from "../../store/api/task";
 import moment from "moment";
 import { SplitButton } from "primereact/splitbutton";
 import TimeInput from "react-widgets/TimeInput";
+import { FaEye } from 'react-icons/fa';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -1292,16 +1294,15 @@ function ExpereinceLetter() {
                                           ) : (
                                             <>
                                               <div className="flex justify-content-center">
-                                               
-                                                <Button
-                                                  label="D"
-                                                  onClick={() => {
-                                                    setSelectedRowData(row); // Set the selected row's data
-                                                    setVisibleTimer(true); // Show the modal
-                                                    
-                                                  }}
-                                                 
-                                                />
+                                              <Button
+  onClick={() => {
+    setSelectedRowData(row); // Set the selected row's data
+    setVisibleTimer(true); // Show the modal
+  }}
+>
+  <FaEye size={16} />
+</Button>
+
                                               </div>  
                                               <IconButton
                                                 aria-label="edit"
@@ -1345,7 +1346,9 @@ function ExpereinceLetter() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <table>
+        
+        <table class="form-table">
+          <tbody>
             <tr>
               <th>ID</th>
               <td>{selectedRowData?.id}</td>
@@ -1379,8 +1382,9 @@ function ExpereinceLetter() {
               <td>{selectedRowData?.deadline}</td>
             </tr>
             <tr>
-              <th>Description</th>
-              <td>{selectedRowData?.description}</td>
+            <th>Description</th>
+            <textarea class="form-control" disabled rows="10">{selectedRowData?.description}</textarea>
+           
             </tr>
             <tr>
               <th>Comments</th>
@@ -1390,6 +1394,7 @@ function ExpereinceLetter() {
               <th>Status</th>
               <td>{selectedRowData?.status}</td>
             </tr>
+          </tbody>
           </table>
         </Modal.Body>
       </Modal>

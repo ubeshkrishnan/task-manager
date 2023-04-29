@@ -103,7 +103,10 @@ font-size: 14px;
     margin-top: 20px;
 }
 
-
+.description-cell {
+  max-height: 10em; /* Set the maximum height to 10 lines */
+  overflow-y: auto; /* Add a vertical scrollbar when the content overflows */
+}
   
   .row_search{
     display: flex;
@@ -152,3 +155,5 @@ height:"200px"
   .form_assignto{
     width: 50px;
   }
+
+  

@@ -14,7 +14,7 @@ const PasswordReset = () => {
       alert("Please enter your email address");
       return;
     }
-    if (!/\S+@\S+\.\S+/.test(email)) {
+    if ( /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#\$%\^&\*])[a-zA-Z\d!@#\$%\^&\*]+$/.test(email)) {
       alert("Please enter a valid email address");
       return;
     }

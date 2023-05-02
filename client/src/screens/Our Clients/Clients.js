@@ -862,7 +862,7 @@ const handlesubmit = (event) => {
                             <label htmlFor="exampleFormControlTextarea78" className="form-label">Description (optional)</label>
                             <textarea className="form-control" id="exampleFormControlTextarea78" rows="3" placeholder="Add any extra details about the request"></textarea>
                         </div>  */}
-            <div className="table-responsive">
+            {/* <div className="table-responsive">
               <table className="table table-striped custom-table">
                 <thead>
                   <tr>
@@ -1252,7 +1252,7 @@ const handlesubmit = (event) => {
                   </tr>
                 </tbody>
               </table>
-            </div>
+            </div> */}
           </div>
         </Modal.Body>
         <Modal.Footer>

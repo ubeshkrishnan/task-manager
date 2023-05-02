@@ -7,6 +7,8 @@ import { Url } from "../../Global_variable/api_link";
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import "../Auth/Sign-In.css"
+
 function SignIn() {
   const history = useHistory();
 
@@ -16,6 +18,8 @@ function SignIn() {
   const [attempt_count, setAttemptCount] = useState(1);
   const [bad_attempt, setBadAttempt] = useState(false);
   const [message, setMessage] = useState("");
+  const [captcha, setCaptcha] = useState(generateCaptcha());
+  const [captchaInput, setCaptchaInput] = useState("");
 
   const sendLoginHistory = (
     ip_address,
@@ -50,6 +54,12 @@ function SignIn() {
       toast.error("Please enter email and password");
       return;
     }
+
+    if (!/^[0-9]+$/.test(captchaInput) || parseInt(captchaInput) !== captcha) {
+      toast.error("Invalid captcha");
+      return;
+    }
+    
 
     // Get the client's IP address
     const ip_response = await axios.get("https://api.ipify.org/?format=json");
@@ -114,6 +124,10 @@ function SignIn() {
     }
   };
 
+  function generateCaptcha() {
+    // Generate a random number between 1000 and 9999
+    return Math.floor(Math.random() * 9000) + 1000;
+  }
   return (
     <div className="col-lg-6 d-flex justify-content-center align-items-center border-0 rounded-lg auth-h100">
       <div
@@ -150,13 +164,16 @@ function SignIn() {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+            
           </div>
           <div className="col-12">
             <div className="mb-2">
               <div className="form-label">
                 <span className="d-flex justify-content-between align-items-center">
                   Password
-                 
+                  <Link className="text-secondary" to="password-reset">
+                    Forgot Password?
+                  </Link>
                 </span>
               </div>
               <input
@@ -168,6 +185,39 @@ function SignIn() {
               />
               {error && <p style={{ color: "red" }}>{error}</p>}
             </div>
+            <div className="captcha-container" style={{marginTop:'30px', display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+  
+  <p style={{paddingRight:'27px',fontSize:'16px'}}> Captcha : <span style={{color: "red", fontSize:'28px', letterSpacing: '5px', fontWeight: 'bold', fontFamily: 'monospace'}} >{captcha}</span>
+  </p>
+  <form onSubmit={handleLogin}>
+  <div className="captcha-input-container">
+  <input 
+  type="text" 
+  pattern="[0-9]*" 
+  style={{ 
+    border: 'dotted 1px gray', 
+    borderRadius: '10px',
+    width: '100px', 
+    height: '40px',
+    paddingRight: '10px',
+    textAlign: 'center',
+    marginBottom:'10px'
+  }} 
+  value={captchaInput}
+  onChange={(event) => {
+    setCaptchaInput(event.target.value);
+  }}
+/>
+
+  <button className="new-captcha-button"  onClick={(event) => {
+    event.preventDefault();
+    setCaptcha(generateCaptcha());
+  }} style={{ marginLeft: '10px' }}>
+    &#8635; {/* reset symbol */}
+  </button>
+  </div>
+  </form>
+</div>
           </div>
           {/* <div className="col-12">
             <div className="form-check">
@@ -182,12 +232,7 @@ function SignIn() {
               </label>
             </div>
           </div> */}
-          <Link className="text-secondary" to="password-reset">
-                    Forgot Password?
-                  </Link>
-
-                  
-          <div className="col-12 text-center mt-4">
+           <div className="col-12 text-center mt-4">
             <button
               className="btn btn-lg btn-block btn-light lift text-uppercase"
               atl="signin"
@@ -195,6 +240,7 @@ function SignIn() {
             >
               SIGN IN
             </button>
+           
           </div>
           {/* <div className="col-12 text-center mt-4">
             <span className="text-muted">
@@ -204,6 +250,7 @@ function SignIn() {
               </Link>
             </span>
           </div> */}
+        
           <ToastContainer/>
         </form>
       </div>

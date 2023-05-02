@@ -40,7 +40,7 @@ import { useDispatch } from "react-redux";
 import moment, { duration } from "moment";
 import { Toast } from "primereact/toast";
 import { SplitButton } from "primereact/splitbutton";
-
+import { FaEye } from 'react-icons/fa';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -1221,16 +1221,13 @@ function ExpereinceLetter() {
                                 <div className="flex justify-content-center">
                                   {/* <Toast ref={toast}></Toast> */}
                                   <Button
-                                    label="Details"
-                                    onClick={() => {
-                                      setSelectedRowData(row); // Set the selected row's data
-                                      setVisibleTimer(true); // Show the modal
-                                    }}
-                                    // model={items}
-                                    className="custom-button"
-                                    severity="warning"
-                                    raised
-                                  />
+  onClick={() => {
+    setSelectedRowData(row); // Set the selected row's data
+    setVisibleTimer(true); // Show the modal
+  }}
+>
+  <FaEye size={16} />
+</Button>
                                 </div>
                                 <IconButton
                                   aria-label="edit"

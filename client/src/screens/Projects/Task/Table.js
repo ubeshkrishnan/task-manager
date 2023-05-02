@@ -741,15 +741,7 @@ function ExpereinceLetter() {
                   />
                 </div>
               </div>
-              {/* <TablePagination
-              component="div"
-              rowsPerPageOptions={[2, 10, 25, 50]}
-              count={rows.length}
-              page={page}
-              onPageChange={handleChangePage}
-              rowsPerPage={rowsPerPage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-            /> */}
+             
               <Paper>
                 <TableContainer
                   style={{
@@ -896,46 +888,7 @@ function ExpereinceLetter() {
                                         </i>
                                       </div>
                                     </TableCell>
-                                    {/* <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable table_name">Control_Code</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingclient("client")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell> */}
-                                    {/* <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable table_name">Category</th>
-                            <i
-                              style={{ paddingLeft: '2px', color: "#FF7F7F" }}
-                              onClick={() => sortingcategory("category")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell> */}
+                                   
 
                                     <TableCell>
                                       <div
@@ -1002,26 +955,7 @@ function ExpereinceLetter() {
                                         </th>
                                       </div>
                                     </TableCell>
-                                    {/* <TableCell>
-                          <div
-                            style={{ paddingTop: 15 }}
-                            className="d-flex flex-row justify-content-center"
-                          >
-                            <th className="hrtable">Description</th>
-                            <i
-                              style={{ paddingLeft: '2px' }}
-                              onClick={() => sortingdescription("description")}
-                            >
-                              <BiSort
-                                style={{
-                                  fontSize: 18,
-                                  color: "white",
-                                  marginBottom: "10",
-                                }}
-                              />
-                            </i>
-                          </div>
-                        </TableCell> */}
+                                
 
                                     <TableCell>
                                       <div
@@ -1092,10 +1026,7 @@ function ExpereinceLetter() {
                                   </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                  {/* .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage
-                      ) */}
+                                 
                                   {rows
                                     .slice(
                                       (page - 1) * rowsPerPage,
@@ -1143,14 +1074,7 @@ function ExpereinceLetter() {
                                           }}
                                         />
 
-                                        {/* <CustomTableCell
-                              {...{ row, name: "category", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            /> */}
-                                        {/* {/* <CustomTableCell
-                                {...{ row, name: "start_date", onChange }}
-                                style={{ borderBottom: "1px solid black" }}
-                              /> */}
+                                      
                                         <CustomTableCell
                                           {...{
                                             row,
@@ -1162,10 +1086,7 @@ function ExpereinceLetter() {
                                           }}
                                         />
 
-                                        {/* <CustomTableCell
-                              {...{ row, name: "task_assignperson", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            /> */}
+                                      
 
                                         <Form.Select
                                           class="form_assignto"
@@ -1218,10 +1139,7 @@ function ExpereinceLetter() {
                                           }}
                                         />
 
-                                        {/* <CustomTableCell
-                              {...{ row, name: "description", onChange }}
-                              style={{ borderBottom: "1px solid black" }}
-                            /> */}
+                                     
                                         <Form.Select
                                           style={{
                                             width: "133px",

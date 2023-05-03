@@ -16,23 +16,27 @@ app.use(bodyparser.urlencoded({extended:true}));
 app.use(express.json());
 
 // API endpoint for creating a new record
-app.post('/records', (req, res) => {
+app.post('/ticket_view', (req, res) => {
   const { subject, assign_name, created_date, status } = req.body;
-  const sql = `INSERT INTO mytable (subject, assign_name, created_date, status) VALUES ('${subject}', '${assign_name}', '${created_date}', '${status}')`;
-  connection.query(sql, (err, result) => {
+  const sql = `INSERT INTO ticket_view (subject, assign_name, created_date, status) VALUES ('${subject}', '${assign_name}', '${created_date}', '${status}')`;
+  db.query(sql, (err, result) => {
     if (err) throw err;
     res.send(result);
   });
 });
 
+
 // API endpoint for reading all records
-app.get('/records', (req, res) => {
-  const sql = 'SELECT * FROM mytable';
-  connection.query(sql, (err, result) => {
-    if (err) throw err;
-    res.send(result);
+app.get('/getticket', (req, res) => {
+  const sql = "SELECT * from ticket_view";
+  db.query(sql, (err, result) => {
+    if (err) {
+      throw err;
+    }
+    res.json(result);
   });
 });
+
 
 // API endpoint for updating a record
 app.put('/records/:id', (req, res) => {
@@ -52,6 +56,8 @@ app.delete('/records/:id', (req, res) => {
     res.send(result);
   });
 });
+
+
 
 
 module.exports = app;

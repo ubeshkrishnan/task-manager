@@ -424,8 +424,8 @@ function ExpereinceLetter() {
       const result = response.data.map(function (el) {
         var o = Object.assign({}, el);
         // o.deadline = moment(el.formatted_deadline).format('YYYY-MM-DD');
-        o.deadline = new Date(el.formatted_deadline).toLocaleDateString();
-        o.created_dt = new Date(el.formatted_created_dt).toLocaleDateString();
+        // o.deadline = new Date(el.formatted_deadline).toLocaleDateString();
+        // o.created_dt = new Date(el.formatted_created_dt).toLocaleDateString();
         console.log(o.created_dt);
         o.isEditMode = false;
         return o;

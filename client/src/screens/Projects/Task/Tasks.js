@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import PageHeader from "../../../components/common/PageHeader";
 import AllocatedTask from "../../../components/Projects/AllocatedTask";
@@ -6,6 +6,8 @@ import RecentActivity from "../../../components/Projects/RecentActivity";
 import TaskProgress from "../../../components/Projects/TaskProgress";
 import "react-nestable/dist/styles/index.css";
 import {Url} from "../../../Global_variable/api_link"
+import Form from "react-bootstrap/Form";
+import Select from "react-select"
 
 import {
   CompletedData,
@@ -28,6 +30,44 @@ function Tasks() {
     duration: "",
     description: "",
   });
+  const handleSelectChange = (selectedOptions) => {
+    const categories = selectedOptions.map((option) => option.value);
+    setEditModelData({
+      ...editModeldata,
+      category: categories,
+
+    });
+  };
+
+  // Project
+  const[projects,setProjects] = useState([]);
+  useEffect(() => {
+      axios
+        .get(Url+"/projectcard")
+        .then((response) => {
+          setProjects(response.data);
+          console.log(projects);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, []);
+
+  
+  
+  const[tasks,setTasks] = useState([]);
+  useEffect(() => {
+      axios
+        .get(Url+"/worktype_task")
+        .then((response) => {
+          setTasks(response.data);
+          console.log(tasks);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }, []);
+
 
   const handleInputChange = (e) => {
     setEditModelData({
@@ -61,6 +101,7 @@ function Tasks() {
       .catch((error) => {
         console.log(error);
       });
+    
   };
   return (
     <div className="container-xxl">
@@ -125,28 +166,7 @@ function Tasks() {
                 placeholder="Explain what the Project Name"
               />
             </div>
-            <div className="mb-3">
-              <label className="form-label">Task Category</label>
-              <select
-                className="form-select"
-                onChange={handleInputChange}
-                name="category"
-                value={editModeldata.category}
-              >
-                <option>select Name</option>
-                <option value="UI/UX Design">UI/UX Design</option>
-                <option value="Website Design">Website Design</option>
-                <option value="App Development">App Development</option>
-                <option value="Development">Quality Assurance</option>
-                <option value="4">Development</option>
-                <option value="Development">Backend Development</option>
-                <option value="Software Testing">Software Testing</option>
-                <option value="Website Design">Website Design</option>
-                {/* <option value="8">Marketing</option>
-                                <option value="9">SEO</option>
-                                <option value="10">Other</option> */}
-              </select>
-            </div>
+           
             <div className="mb-3 ">
               <label htmlFor="formFileMultipleone" className="form-label">
                 Task Images &amp; Document
@@ -177,6 +197,9 @@ function Tasks() {
                     <option value="KV">KV</option>
                   </select>
                 </div>
+
+              
+
                 <div className="col">
                   <label htmlFor="datepickerdedone" className="form-label">
                     Change Control Code
@@ -194,17 +217,51 @@ function Tasks() {
                   </select>
                 </div>
               </div>
+
+ 
+
               <div className="deadline-form">
-                {/* <div className="row g-3 mb-3">
-                         <div className="col">
-                             <label htmlFor="datepickerded" className="form-label">Task Start Date</label>
-                             <input type="date" className="form-control" onChange={handleInputChange}  name="start_date"  id="datepickerded"  value={editModeldata.start_date}/>
-                         </div>
-                         <div className="col">
-                             <label htmlFor="datepickerdedone" className="form-label">Task End Date</label>
-                             <input type="date" className="form-control" onChange={handleInputChange} name="end_date"  id="datepickerdedone"  value={editModeldata.end_date}/>
-                         </div>
-                         </div> */}
+              <div className="row g-3 mb-3">
+                <div className="col">
+                <label className="form-label">worktype_task</label>
+                   
+                   <Form.Group controlId="formPlaintextPassword">
+                                   <div>
+                                     <Select
+                                       isMulti
+                                       placeholder="Select category"
+                                       name="category"
+                                       
+                                       onChange={handleSelectChange}
+                                      
+                                       options={tasks.map((item) => ({
+                                         label: item.code,
+                                         value: item.code,
+                                       }))}
+                                       closeMenuOnSelect={false}
+                                     />
+                                   </div>
+                                 </Form.Group>
+                </div>
+                <div className="col">
+                  <label htmlFor="datepickerdedone" className="form-label">
+                   Projects
+                  </label>
+                  <select
+                    className="form-select"
+                    onChange={handleInputChange}
+                    name="control_code"
+                    value={editModeldata.control_code}
+                  >
+                    <option>Select</option>
+    {projects.map((project) => (
+      <option key={project.project_name} value={project.project_name}>
+        {project.project_name}
+      </option>
+    ))}
+                  </select>
+                </div>
+              </div>
                 <div className="row g-3 mb-3">
                   <div className="col-sm-12">
                     <label className="form-label">Notifation Sent</label>
@@ -225,14 +282,10 @@ function Tasks() {
                       name="task_assignperson"
                       value={editModeldata.task_assignperson}
                     >
-                      <option>select Name</option>
-                      <option value="Satheesh">Satheesh</option>
-                      <option value="dharani">dharani</option>
-                      {/* <option value="2">Oliver Black</option>
-                                            <option value="3">Adam Walker</option>
-                                            <option value="4">Brian Skinner</option>
-                                            <option value="5">Dan Short</option>
-                                            <option value="5">Jack Glover</option> */}
+                       <option>Select</option>
+                       <option>Satheesh</option>
+                       <option>Sanjay</option>
+                       <option>Harshanth</option>
                     </select>
                   </div>
                   <div className="col-sm-6">

@@ -82,6 +82,21 @@ function Projects() {
       });
   }, []);
   
+  const [worktyp, setWorkType] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(Url+"/worktype_project")
+      .then((response) => {
+        if (response && response.data) {
+          setWorkType(response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+  
 
   const Updateproject = async (project, id) => {
     console.log(project, "dahgdsa");
@@ -146,8 +161,6 @@ function Projects() {
         />
         <Table />
        
-          
-        
       </Tab.Container>
 
       <Modal
@@ -165,6 +178,7 @@ function Projects() {
             <label htmlFor="exampleFormControlInput77" className="form-label">
               Project Name
             </label>
+            
             <input
             autoFocus   
               type="text"
@@ -184,18 +198,12 @@ function Projects() {
               onChange={handleInputChange}
               value={editModeldata.category}
             >
-              <option>select</option>
-              <option value="UI/UX Design">UI/UX Design</option>
-              <option value="Website Design">Website Design</option>
-              <option value="App Development">App Development</option>
-              <option value="Quality Assurance">Quality Assurance</option>
-              <option value="Development">Development</option>
-              <option value="Backend Development">Backend Development</option>
-              <option value="Software Testing">Software Testing</option>
-              <option value="Website Design">Website Design</option>
-              <option value="Marketing">Marketing</option>
-              <option value="SEO">SEO</option>
-              <option value="Other">Other</option>
+              <option>Select</option>
+    {worktyp.map((worktype) => (
+      <option key={worktype.description} value={worktype.description}>
+        {worktype.description}
+      </option>
+    ))}
             </select>
           </div>
 
@@ -204,18 +212,16 @@ function Projects() {
               <label htmlFor="formFileMultipleone" className="form-label">
                 Client
               </label>
-              <select
-                className="form-select"
-                onChange={handleInputChange}
-                name="client"
-                value={editModeldata.client}
-              >
-                <option>Select</option>
-                <option value="KASC">KASC</option>
-                <option value="SEC">SEC</option>
-                <option value="HRMS">HRMS</option>
-                <option value="KV">KV</option>
-              </select>
+              <input
+            
+              type="text"
+              className="form-control"
+              id="exampleFormControlInput77"
+              placeholder="Client Name"
+              name="client"
+              onChange={handleInputChange}
+              value={editModeldata.client}
+            />
             </div>
             <div className="col-sm">
               <label htmlFor="formFileMultipleone" className="form-label">

@@ -81,7 +81,8 @@ app.post("/project", (req, res) => {
 app.get("/projectcard", (req, res) => {
   // db.query("SELECT * FROM project", (error, results, fields) => {
   db.query(
-    "SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline FROM project",
+    // "SELECT *, DATE_FORMAT(deadline, '%d-%m-%y') AS formatted_deadline FROM project",
+    "SELECT * FROM project",
     (error, results, fields) => {
       if (error) throw error;
       console.log(results);

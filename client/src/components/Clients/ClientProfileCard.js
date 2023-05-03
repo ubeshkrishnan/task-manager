@@ -35,7 +35,7 @@ function ClientProfileCard({id}) {
                 <h6 className="mb-0 fw-bold d-block fs-6">
                   {client.owner_name }
                 </h6>
-                <span className="text-muted small">Client ID - {client.client_id}</span>
+                <span className="text-muted small">CLIENT ID - {client.client_id}</span>
               </div>
             </div>
             <div className="teacher-info border-start ps-xl-4 ps-md-4 ps-sm-4 ps-4 w-100">

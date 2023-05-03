@@ -180,6 +180,7 @@ useEffect(() => {
                 avatar={Avatar3}
                name={data.designation}
                 Companyname={data.first_name}
+                description={data.description}
                 isMember={true}
                 onClickEdit={() => {
                   setIsModal(true);

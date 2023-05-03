@@ -38,8 +38,6 @@ import { useDispatch } from "react-redux";
 import { getExperienceApi } from "../../store/api/task";
 // import {getExperienceApi} from "../../store/api/task"
 import moment from "moment";
-import { Toast } from 'primereact/toast';
-import { SplitButton } from 'primereact/splitbutton';
 import TimeInput from "react-widgets/TimeInput";
 import { FaEye } from 'react-icons/fa';
 const useStyles = makeStyles((theme) => ({
@@ -427,7 +425,8 @@ function Ptable() {
       const result = response.data.map(function (el) {
         var o = Object.assign({}, el);
         // o.deadline = moment(el.formatted_deadline).format('YYYY-MM-DD');
-        o.deadline = new Date(el.formatted_deadline).toLocaleDateString();
+        // o.deadline = new Date(el.formatted_deadline).toLocaleDateString();
+        
         console.log(o.deadline);
         o.isEditMode = false;
         return o;

@@ -186,6 +186,7 @@ const Timesheet = () => {
   useEffect(() => {
     myTask();
   }, []);
+  
   const [timesheetData, setTimesheetData] = useState([
     {
       project: "Project A",
@@ -237,16 +238,7 @@ useEffect(() => {
   Task();
 }, []);
 
-// useEffect(()=>{
-//   axios.get(Url+'/taskname')
-//   .then((response)=>{
-//     setRows(response.data)
-//   })
-//   .catch((error)=>{
-//     console.log(error);
-//   })
 
-// })
   const TimesheetListData={
 
     

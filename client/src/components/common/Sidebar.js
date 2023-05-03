@@ -107,7 +107,8 @@ class Sidebar extends React.Component{
         return(
             <div id="mainSideMenu" className={`sidebar px-4 py-4 py-md-5 me-0 ${isSidebarMini?"sidebar-mini":""}`}>
                 <div className="d-flex flex-column h-100">
-                    <a href="hr-dashboard" className="mb-0 brand-icon">
+                    {/* <a href="hr-dashboard" className="mb-0 brand-icon"> */}
+                    <a  className="mb-0 brand-icon">
                         <span className="logo-icon">
                             <svg width="35" height="35" fill="currentColor" className="bi bi-clipboard-check" viewBox="0 0 16 16">
                                 <path fillRule="evenodd" d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"></path>

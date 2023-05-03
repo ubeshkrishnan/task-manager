@@ -16,58 +16,67 @@ app.use(compression());
 
 
  // Task Insert
-app.post("/task", (req, res) => {
-    // Extract data from the request body
-    console.log(req.body);
-    const {
+ app.post('/task', (req, res) => {
+  // Extract data from the request body
+  console.log(req.body);
+  const {
+     
       task_name,
       client,
       control_code,
       category,
+      // start_date,
+      // end_date,
+      
       task_assignperson,
       deadline,
       description,
-      created_dt,
-    } = req.body;
-  
-    // Create a MySQL query to insert the data into a table
-    const query = `
-        INSERT INTO task (
-        
-         task_name,
-         client,
-         control_code,
-          category,
-        task_assignperson,
-          deadline,
-          description,
-          created_dt
-        ) VALUES (?, ?, ?, ?, ?, ?, ?,NOW());
-    `;
-    // Execute the query with the extracted data
-    db.query(
-      query,
-      [
-        task_name,
-        client,
-        control_code,
-        category,
-        task_assignperson,
+     
+     
+      
+  } = req.body;
+  const categoryString = Array.isArray(category) ? category.join(',') : '';
+
+
+
+  // Create a MySQL query to insert the data into a table
+  const query = `
+      INSERT INTO task (
+      
+       task_name,
+       client,
+       control_code,
+      category,
+      task_assignperson,
         deadline,
-        description,
-        created_dt,
-      ],
-      (error, results, fields) => {
-        if (error) {
+        description
+        
+      ) VALUES (?, ?, ?, ?, ?, ?, ?);
+  `;
+    // Execute the query with the extracted data
+    db.query(query, [
+
+      task_name,
+      client,
+      control_code,
+      categoryString,
+      // start_date,
+      // end_date,
+      // project_manager,
+      task_assignperson,
+      deadline,
+      description,
+     
+     
+  ], (error, results, fields) => {
+      if (error) {
           console.log(error);
-          res.status(500).send("Error inserting data into the database");
-        } else {
-          res.status(200).send("Data inserted successfully");
-        }
+          res.status(500).send('Error inserting data into the database');
+      } else {
+          res.status(200).send('Data inserted successfully');
       }
-    );
   });
-  
+})
   // Task card Map
   app.get("/taskcard", (req, res) => {
     // db.query("SELECT * FROM task", (error, results, fields) => {
@@ -193,6 +202,21 @@ app.get("/gettask/:userId", async (req, res) => {
     } else {
       res.status(200).send(results);
     }
+  });
+});
+
+
+app.get('/worktype_task', (req, res) => {
+  db.query("SELECT * FROM worktype_task", (error, results, fields) => {
+    if(error) throw error;
+    res.send(results);
+  });
+});
+
+app.get('/worktype_project', (req, res) => {
+  db.query("SELECT * FROM worktype_project", (error, results, fields) => {
+    if(error) throw error;
+    res.send(results);
   });
 });
 

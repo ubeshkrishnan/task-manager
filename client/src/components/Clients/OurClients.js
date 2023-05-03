@@ -2,7 +2,7 @@ import React , {useState, useEffect} from "react";
 
 
 function OurClients(props) {
-    const {id,avatar, post, name, Companyname, isMember, onClickEdit, onClickDelete, details} = props;
+    const {id,avatar, post, name, Companyname,description, isMember, onClickEdit, onClickDelete, details} = props;
     return (
         <div className="card teacher-card">
             <div className="card-body d-flex">
@@ -31,7 +31,7 @@ function OurClients(props) {
                         <span className="py-1 fw-bold small-11 mb-0 mt-1 text-muted">{name}</span>
                     )}
                     <div className="video-setting-icon mt-3 pt-3 border-top">
-                        <p>A college is an educational institution or a constituent part of one. {details ? details : null}</p>
+                        <p>{description}</p>
                     </div>
                     {isMember ? (
                         <div className="d-flex flex-wrap align-items-center ct-btn-set">

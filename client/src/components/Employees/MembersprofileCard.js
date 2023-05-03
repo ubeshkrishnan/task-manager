@@ -35,7 +35,7 @@ console.log('memberprofile',memberprofile);
                 <h6 className="mb-0 fw-bold d-block fs-6">
                   {member.first_name }
                 </h6>
-                <span className="text-muted small">Member ID - {member.user_id}</span>
+                <span style={{marginTop:"5px"}} className="text-muted small">EMPLOYEE ID - {member.user_id}</span>
               </div>
             </div>
             <div className="teacher-info border-start ps-xl-4 ps-md-4 ps-sm-4 ps-4 w-100">

@@ -33,7 +33,7 @@ class Members extends React.Component{
                     {
                         MembersData.map((data,i)=>{
                             return <div key={"skhd"+i} className="col">
-                                        <OurClients avatar={data.avatar} post={data.post} name={data.name} Companyname={data.Companyname} isMember={true}/>
+                                        <OurClients avatar={data.avatar} post={data.post} name={data.name} Companyname={data.Companyname} description={data.description} isMember={true}/>
                                     </div>
                         })
                     }

@@ -1,0 +1,11 @@
+
+
+.popform{
+    max-height: 650px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.modal-dialog
+{
+    max-width: 40% !important;
+}

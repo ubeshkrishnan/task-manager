@@ -6,6 +6,8 @@ const app = express();
 const bcrypt = require('bcrypt');
 const compression = require('compression');
 const router = express.Router();
+const jwt = require("jsonwebtoken");
+
 const nodemailer = require("nodemailer");
 require('dotenv').config()
 const db = require("../Sql/db")
@@ -39,8 +41,8 @@ app.post("/insert", (req, res) => {
 // Login
 app.post("/login", (req, res) => {
   const { email, password } = req.body;
-  const sql = `SELECT * FROM users WHERE user_email = '${email}' AND password = '${password}'`;
-  db.query(sql, (err, result) => {
+  const sql = "SELECT * FROM users WHERE user_email = ? AND password = ?";
+  db.query(sql, [email, password], (err, result) => {
     if (err) {
       res.status(500).send({ message: "Error occurred" });
     } else if (result.length === 0) {
@@ -137,20 +139,24 @@ app.post("/user_loginHistory", (req, res) => {
 // Users Login
 app.post("/user_login", (req, res) => {
   const { email, password } = req.body;
-  const sql = `SELECT * FROM sign_in WHERE email = '${email}' AND password = '${password}'`;
-  db.query(sql, (err, result) => {
+  const sql = `SELECT * FROM sign_in WHERE email = ?`;
+  db.query(sql, [email], async (err, result) => {
     if (err) {
       res.status(500).send({ message: "Error occurred" });
     } else if (result.length === 0) {
       res.status(401).send({ message: "Invalid username or password" });
     } else {
       const user = result[0];
-      // generate an access token or session cookie here
-      res.status(200).send({ message: "Login successful", user });
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) {
+        res.status(401).send({ message: "Invalid username or password" });
+      } else {
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET);
+        res.status(200).send({ message: "Login successful", user, token });
+      }
     }
   });
 });
-
 
 // Forgot password
 app.post('/forgot_password', (req, res) => {

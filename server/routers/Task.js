@@ -49,9 +49,10 @@ app.use(compression());
       category,
       task_assignperson,
         deadline,
-        description
-        
-      ) VALUES (?, ?, ?, ?, ?, ?, ?);
+        description,
+        created_dt
+
+      ) VALUES (?, ?, ?, ?, ?, ?, ?,NOW());
   `;
     // Execute the query with the extracted data
     db.query(query, [
@@ -66,7 +67,8 @@ app.use(compression());
       task_assignperson,
       deadline,
       description,
-     
+      created_dt,
+
      
   ], (error, results, fields) => {
       if (error) {

@@ -589,7 +589,7 @@ function ExpereinceLetter() {
   return (
     <>
       <div className="background-ExperienceHr">
-        <div className="container">
+        <div className=" ">
           <div className="shedule">
             {/* <HrModule /> */}
             <div className="content container-fluid">
@@ -789,18 +789,19 @@ function ExpereinceLetter() {
                                         </i>
                                       </div>
                                     </TableCell>
+                                 
                                     <TableCell>
                                       <div
                                         style={{ paddingTop: 15 }}
                                         className="d-flex flex-row justify-content-center"
                                       >
                                         <th className="hrtable table_name">
-                                          Task_Name
+                                          Project
                                         </th>
                                         <i
                                           style={{ paddingLeft: "2px" }}
                                           onClick={() =>
-                                            sortingname("task_name")
+                                            sortingclient("client")
                                           }
                                         >
                                           <BiSort
@@ -813,18 +814,20 @@ function ExpereinceLetter() {
                                         </i>
                                       </div>
                                     </TableCell>
+                                    
+                                 
                                     <TableCell>
                                       <div
                                         style={{ paddingTop: 15 }}
                                         className="d-flex flex-row justify-content-center"
                                       >
                                         <th className="hrtable table_name">
-                                          Client
+                                          Task_Name
                                         </th>
                                         <i
                                           style={{ paddingLeft: "2px" }}
                                           onClick={() =>
-                                            sortingclient("client")
+                                            sortingname("task_name")
                                           }
                                         >
                                           <BiSort

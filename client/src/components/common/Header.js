@@ -110,25 +110,29 @@ function Header(){
                                         </h5>
                                     </div>
                                     <div className="tab-content card-body">
-                                        <div className="tab-pane fade show active">
-                                            <ul className="list-unstyled list mb-0">
-                    <li className="py-2 mb-1 border-bottom">
-                                                    <a href="#!" className="d-flex">
-                                                       {/* <img className="avatar rounded-circle" src={Avatar1} alt="" />*/}
-                                                        
-                                                        <div className="flex-fill ms-2">
-                                                        {rows.map((row,index)=>(
-                                                            <div key ={index}>
-                                                            <p className="d-flex justify-content-between mb-0 "><span className="font-weight-bold">ASSIGNED BY-{row.task_assignperson}</span> </p>
-                                                            <span className=""><span className="font-weight-bold">TASKNAME-</span>{row.task_name} 
-                                                           {/* <span className="badge bg-success">Review</span>*/}
-                                                            </span>
-                                                            </div>
-                                                            ))} 
-                                                        </div>
-                                                       
-                                                    </a>
-                                                </li>
+    <div className="tab-pane fade show active">
+        <ul className="list-unstyled list">
+            {rows.map((row, index) => (
+                <li key={index} className="py-2 mb-1 border-bottom">
+                    <a href="#!" className="d-flex">
+                        {/* <img className="avatar rounded-circle" src={Avatar1} alt="" />*/}
+                        <div className="flex-fill ms-2">
+                            {index === 0 && <hr/>} {/* add a line break before the first task */}
+                            <p className="d-flex justify-content-between mb-0">
+                                <span className="font-weight-bold">Assigned By --{row.task_assignperson}</span>
+                            </p>
+                            <span className="">
+                                <span className="font-weight-bold">Task -- </span>{row.task_name} 
+                                {/* <span className="badge bg-success">Review</span>*/}
+                            </span>
+                        </div>
+                    </a>
+                </li>
+            ))}
+        </ul>
+    </div>
+</div>
+
                                        
                                                 {/* <li className="py-2 mb-1 border-bottom">
                                                     <a href="#!" className="d-flex">
@@ -175,9 +179,7 @@ function Header(){
                                                         </div>
                                                     </a>
                                                 </li> */}
-                                            </ul>
-                                        </div>
-                                    </div>
+                                           
                                     <a className="card-footer text-center border-top-0" href="#!"> View all notifications</a>
                                 </div>
                             </Dropdown.Menu>
@@ -195,9 +197,6 @@ function Header(){
                                 <span className="font-weight-bold">NAME</span></p> */}
                             {/* <small>Employee Profile</small> */}
 
-
-
-                            
                             </div>
                             <Dropdown.Toggle as="a" className="nav-link dropdown-toggle pulse p-0">
                                 <img className="avatar lg rounded-circle img-thumbnail" src={ProfileImg} alt="profile" />

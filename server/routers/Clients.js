@@ -50,6 +50,18 @@ app.get("/users", (req, res) => {
   );
 });
 
+// Details get for leave from users
+app.get("/leave_users", (req, res) => {
+  db.query(
+    "SELECT * FROM users",
+    (error, results, fields) => {
+      if (error) throw error;
+      res.send(results);
+    }
+  );
+});
+
+
 //get the id Clients separete ID
 app.get("/users/:id", (req, res) => {
   const id = req.params.id;

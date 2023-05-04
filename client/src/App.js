@@ -139,108 +139,93 @@
 
 // Class Component
 
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import { Switch, withRouter, Redirect } from "react-router";
 import Sidebar from "./components/common/Sidebar";
 import AuthIndex from "./screens/AuthIndex";
 import MainIndex from "./screens/MainIndex";
 import Sidebar1 from "./components/common/Sidebar1";
-import { Button, Spinner } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { PacmanLoader } from 'react-spinners';
+import "./App.css";
 import "./spinner.css";
-class App extends Component {
-  
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: true,
-    };
-    this.activekey = this.activekey.bind(this);
-  }
-  
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ isLoading: false });
-    },500);
-  }
-  
 
-  activekey() {
-    const { location } = this.props;
-    let res = location.pathname;
-    let baseUrl = process.env.PUBLIC_URL;
-    baseUrl = baseUrl.split("/sign-in");
-    res = res.split("/");
-    res = res.length > 0 ? res[baseUrl.length] : "/";
-    res = res ? `/${res}` : "/";
-    return res;
+function App(props) {
+  const { history, location } = props;
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    return () => clearTimeout(timerId);
+  }, []);
+
+  const activeKey = () => {
+    const res = location.pathname.split("/");
+    return res.length > 1 ? `/${res[1]}` : "/";
   }
 
-  render() {
-    
-    const { history, location } = this.props;
-    const { isLoading } = this.state;
+  if (isLoading) {
+    return (
+      <div className="pos-center">
+        <PacmanLoader color="#350977" loading size={30} speedMultiplier={2} />
+        <span style={{ paddingTop: '30px' }}>Loading...</span>
+      </div>
+    );
+  }
 
-    if (isLoading) {
-      return <div className="pos-center">
-     
-     <Button variant="outline-secondary" className="me-1" style={{backgroundColor: "light"}}>
-    <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" className="me-1"  style={{backgroundColor: "#484C7F"}}></Spinner>
-    <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" className="me-1"  style={{backgroundColor: "#484C7F"}}></Spinner>
-    <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true" className="me-1"  style={{backgroundColor: "#484C7F"}}></Spinner>
-    Loading...
-</Button>
-    </div>
-    }
+  if (location.pathname === "/" || location.pathname === "/index.html") {
+    return <Redirect to="/sign-in" />;
+  }
 
-    if (location.pathname === "/" || location.pathname === "/index.html") {
-      return <Redirect to="/sign-in" />;
-      
-    }
-    if (
-      this.activekey() === "/sign-in" ||
-      this.activekey() === "/sign-up" ||
-      this.activekey() === "/password-reset" ||
-      this.activekey() === "/2-step-authentication" ||
-      this.activekey() === "/page-404"
-    ) {
-      return (
-        <div id="mytask-layout" className="theme-indigo">
-          <Switch>
-            <AuthIndex />
-          </Switch>
-        </div>
-      );
-    }
-
-    if (
-      this.activekey() === "/Employeetask" ||
-      this.activekey() === "/Taskdetails" ||
-      this.activekey() === "/holidaysEmp" ||
-      this.activekey() === "/attendance-employeesEmp" ||
-      this.activekey() === "/attendanceEmp" ||
-      this.activekey() === "/leave-requestEmp" ||
-      this.activekey() === "/calanderEmp"
-    ) {
-      return (
-        <div id="mytask-layout" className="theme-indigo">
-          <Sidebar1 activekey={this.activekey()} history={history} />
-          <Switch>
-            <MainIndex activekey={this.activekey()} />
-          </Switch>
-        </div>
-      );
-    }
-
+  if (
+    [
+      "/sign-in",
+      "/sign-up",
+      "/password-reset",
+      "/2-step-authentication",
+      "/page-404",
+    ].includes(activeKey())
+  ) {
     return (
       <div id="mytask-layout" className="theme-indigo">
-        {/* <NavigationBar />*/}
-        <Sidebar activekey={this.activekey()} history={history} />
         <Switch>
-          <MainIndex activekey={this.activekey()} />
+          <AuthIndex />
         </Switch>
       </div>
     );
   }
+
+  if (
+    [
+      "/Employeetask",
+      "/Taskdetails",
+      "/holidaysEmp",
+      "/attendance-employeesEmp",
+      "/attendanceEmp",
+      "/leave-requestEmp",
+      "/calanderEmp",
+    ].includes(activeKey())
+  ) {
+    return (
+      <div id="mytask-layout" className="theme-indigo">
+        <Sidebar1 activekey={activeKey()} history={history} />
+        <Switch>
+          <MainIndex activekey={activeKey()} />
+        </Switch>
+      </div>
+    );
+  }
+
+  return (
+    <div id="mytask-layout" className="theme-indigo">
+      <Sidebar activekey={activeKey()} history={history} />
+      <Switch>
+        <MainIndex activekey={activeKey()} />
+      </Switch>
+    </div>
+  );
 }
 
 export default withRouter(App);

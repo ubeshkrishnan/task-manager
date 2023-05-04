@@ -4,7 +4,7 @@ import OurClients from "../../components/Clients/OurClients";
 import PageHeader from "../../components/common/PageHeader";
 // import { OurClientsData} from "../../components/Data/AppData";
 import axios from "axios";
-// import College from "../../uploads";
+import College from "../../GCT.jpg";
 import { useHistory, useParams } from "react-router-dom";
 import {Url} from "../../Global_variable/api_link"
 
@@ -522,7 +522,7 @@ const handlesubmit = (event) => {
             <div key={"skhd" + i} className="col">
               <div>
                 <OurClients
-                  avatar={data.profileImage}
+                  avatar={College}
                   post={data.owner_name}
                   name={data.client_shortcode}
                   Companyname={data.client_name}

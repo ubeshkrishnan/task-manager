@@ -8,7 +8,7 @@ import "react-nestable/dist/styles/index.css";
 import {Url} from "../../../Global_variable/api_link"
 import Form from "react-bootstrap/Form";
 import Select from "react-select"
-
+import "./Task.css"
 import {
   CompletedData,
   InProgressTaskData,
@@ -24,6 +24,7 @@ function Tasks() {
     task_name: "",
     client: "",
     control_code: "",
+    project_name:"",
     category: "",
     task_assignperson: "",
     deadline: "",
@@ -83,6 +84,7 @@ function Tasks() {
       .post(Url+"/task", {
         task_name: editModeldata.task_name,
         client: editModeldata.client,
+        project_name: editModeldata.project_name,
         control_code: editModeldata.control_code,
         category: editModeldata.category,
         //  taskImages:editModeldata.taskImages,
@@ -150,7 +152,7 @@ function Tasks() {
           <Modal.Title className="fw-bold">Create Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <form>
+          <form className="popform" style={{}}>
             <div className="mb-3">
               <label htmlFor="exampleFormControlInput77" className="form-label">
                 Task Name
@@ -190,39 +192,62 @@ function Tasks() {
                     name="client"
                     value={editModeldata.client}
                   >
-                    <option>Select</option>
-                    <option value="KASC">KASC</option>
-                    <option value="SEC">SEC</option>
-                    <option value="HRMS">HRMS</option>
-                    <option value="KV">KV</option>
+                   <option>Select</option>
+{projects.map((project) => (
+<option key={project.client} value={project.client}>
+{project.client}
+</option>
+))}
                   </select>
                 </div>
-
-              
 
                 <div className="col">
-                  <label htmlFor="datepickerdedone" className="form-label">
-                    Change Control Code
-                  </label>
-                  <select
-                    className="form-select"
-                    onChange={handleInputChange}
-                    name="control_code"
-                    value={editModeldata.control_code}
-                  >
-                    <option>Select</option>
-                    <option value="D001">D001</option>
-                    <option value="N002">N002</option>
-                    <option value="M002">M002</option>
-                  </select>
-                </div>
+<label htmlFor="datepickerdedone" className="form-label">
+ Projects
+</label>
+<select
+  className="form-select"
+  onChange={handleInputChange}
+  name="project_name"
+  value={editModeldata.project_name}
+>
+  <option>Select</option>
+{projects.map((project) => (
+<option key={project.project_name} value={project.project_name}>
+{project.project_name}
+</option>
+))}
+</select>
+</div>
+
+               
               </div>
 
  
 
               <div className="deadline-form">
               <div className="row g-3 mb-3">
-                <div className="col">
+              <div className="col">
+ <label htmlFor="datepickerdedone" className="form-label">
+   Change Control Code
+ </label>
+ <select
+   className="form-select"
+   onChange={handleInputChange}
+   name="control_code"
+   value={editModeldata.control_code}
+ >
+   <option>Select</option>
+   <option value="D001">D001</option>
+   <option value="N002">N002</option>
+   <option value="M002">M002</option>
+ </select>
+</div>
+              
+
+
+
+ <div className="col">
                 <label className="form-label">worktype_task</label>
                    
                    <Form.Group controlId="formPlaintextPassword">
@@ -242,24 +267,6 @@ function Tasks() {
                                      />
                                    </div>
                                  </Form.Group>
-                </div>
-                <div className="col">
-                  <label htmlFor="datepickerdedone" className="form-label">
-                   Projects
-                  </label>
-                  <select
-                    className="form-select"
-                    onChange={handleInputChange}
-                    name="control_code"
-                    value={editModeldata.control_code}
-                  >
-                    <option>Select</option>
-    {projects.map((project) => (
-      <option key={project.project_name} value={project.project_name}>
-        {project.project_name}
-      </option>
-    ))}
-                  </select>
                 </div>
               </div>
                 <div className="row g-3 mb-3">

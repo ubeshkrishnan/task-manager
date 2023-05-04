@@ -184,4 +184,95 @@ app.delete('/delete_member/:id', (req, res) => {
   });
 });
 
+// Leave Request
+//CHANGING THE LEAVES FROM ADMIN TO MYSQL 
+app.put('/api/leaves/:id', (req, res) => {
+  const id = req.params.id;
+  const action = req.body.action;
+
+  const sql = `UPDATE leaves SET action = ? WHERE id = ?`;
+  const values = [action, id];
+
+  db.query(sql, values, (error, results) => {
+    if (error) {
+      res.status(500).json({ error: 'Failed to update leave request' });
+    } else {
+      res.status(200).json({ message: 'Leave request updated successfully' });
+    }
+  });
+});
+
+//All the employees leave data for the admin
+app.get("/leavecard", (req, res) => {
+  // db.query("SELECT * FROM task", (error, results, fields) => {
+    db.query("SELECT * FROM leaves", (error, results, fields) => {  
+      if (error) throw error;
+    // console.log(results);
+    res.send(results);
+  });
+});
+
+
+//Leave Request
+
+app.post('/leave', (req, res) => {
+  // Extract data from the request body
+  console.log(req.body);
+  const {
+      emp_id,
+      emp_name,
+      leave_type,
+      from_date,
+      to_date,
+      reason,
+     
+      
+  } = req.body;
+
+  // Create a MySQL query to insert the data into a table
+  const query = `
+      INSERT INTO leaves (
+        emp_id,
+        emp_name,
+        leave_type,
+        from_date,
+        to_date,
+        reason
+          
+      ) VALUES (?, ?, ?, ?, ?, ?);
+  `;
+    // Execute the query with the extracted data
+    db.query(query, [
+      emp_id,
+      emp_name,
+      leave_type,
+      from_date,
+      to_date,
+      reason
+     
+  ], (error, results, fields) => {
+      if (error) {
+          console.log(error);
+          res.status(500).send('Error inserting data into the database');
+      } else {
+          res.status(200).send('Data inserted successfully');
+      }
+  });
+})
+
+
+//Getting the that which user logged in that users data's
+app.get("/getleave/:userId", async (req, res) => {
+  const { userId } = req.params;
+  const query = `SELECT * from leaves where emp_id = ${userId}`;
+  db.query(query, (error, results, fields) => {
+    if (error) {
+      console.log(error);
+      res.status(500).send(error);
+    } else {
+      res.status(200).send(results);
+    }
+  });
+});
+
 module.exports = app;

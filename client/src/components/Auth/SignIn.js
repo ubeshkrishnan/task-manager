@@ -171,9 +171,9 @@ function SignIn() {
               <div className="form-label">
                 <span className="d-flex justify-content-between align-items-center">
                   Password
-                  <Link className="text-secondary" to="password-reset">
+                  {/* <Link className="text-secondary" to="password-reset">
                     Forgot Password?
-                  </Link>
+                  </Link> */}
                 </span>
               </div>
               <input
@@ -209,12 +209,12 @@ function SignIn() {
   }}
 />
 
-  <button className="new-captcha-button"  onClick={(event) => {
+  <div className="new-captcha-button"  onClick={(event) => {
     event.preventDefault();
     setCaptcha(generateCaptcha());
-  }} style={{ marginLeft: '10px' }}>
+  }} style={{ marginLeft: '10px',backgroundColor:'white' }}>
     &#8635; {/* reset symbol */}
-  </button>
+  </div>
   </div>
   </form>
 </div>

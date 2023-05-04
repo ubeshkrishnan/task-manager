@@ -38,26 +38,24 @@ app.get('/getticket', (req, res) => {
 });
 
 
-// API endpoint for updating a record
-app.put('/records/:id', (req, res) => {
-  const { subject, assign_name, created_date, status } = req.body;
-  const sql = `UPDATE mytable SET subject='${subject}', assign_name='${assign_name}', created_date='${created_date}', status='${status}' WHERE id=${req.params.id}`;
-  connection.query(sql, (err, result) => {
-    if (err) throw err;
+// Update ticket by ID
+app.put('/ticket_update :id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const ticket = await Ticket.findByIdAndUpdate(id, req.body, { new: true });
+    res.json(ticket);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
+// Delete ticket by ID
+app.delete("/ticket_delete/:id", (req, res) => {
+  const { id } = req.params;
+  db.query("delete from project where id=?", [id], (err, result) => {
     res.send(result);
   });
 });
-
-// API endpoint for deleting a record
-app.delete('/records/:id', (req, res) => {
-  const sql = `DELETE FROM mytable WHERE id=${req.params.id}`;
-  connection.query(sql, (err, result) => {
-    if (err) throw err;
-    res.send(result);
-  });
-});
-
-
-
 
 module.exports = app;

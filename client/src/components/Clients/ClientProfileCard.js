@@ -3,6 +3,7 @@ import profileImg from "../../assets/images/lg/avatar3.jpg";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import {Url} from "../../Global_variable/api_link"
+import College from "../../GCT.jpg"
 function ClientProfileCard({id}) {
     const [clientsprofile, setClientsProfile] = useState([]);
     
@@ -26,7 +27,8 @@ function ClientProfileCard({id}) {
             <div className="profile-teacher pe-xl-4 pe-md-2 pe-sm-4 pe-4 text-center w220">
               <a href="#!">
               <img
-                      src={Url+`/Viewfile/${client.profileImage}`}
+                      // src={Url+`/Viewfile/${client.profileImage}`}
+                      src={College}
                       alt="Profile"
                       className="avatar xl rounded-circle img-thumbnail shadow-sm"
                     />

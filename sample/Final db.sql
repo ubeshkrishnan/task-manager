@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Apr 28, 2023 at 09:56 AM
+-- Generation Time: May 04, 2023 at 11:51 AM
 -- Server version: 8.0.32-0ubuntu0.20.04.2
 -- PHP Version: 7.4.3-4ubuntu2.18
 
@@ -32,7 +32,7 @@ CREATE TABLE `admin` (
   `id` int NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -46,14 +46,14 @@ CREATE TABLE `client_contact_details` (
   `contact_person_name` varchar(50) NOT NULL,
   `contact_person_phone` varchar(10) NOT NULL,
   `status` varchar(10) NOT NULL,
-  `client_role` varchar(50) CHARACTER SET utf8mb4  NOT NULL,
+  `client_role` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `active_from` date NOT NULL,
   `active_to` date NOT NULL,
   `created_by` varchar(50) NOT NULL,
   `updated_by` varchar(50) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -62,7 +62,7 @@ CREATE TABLE `client_contact_details` (
 --
 
 CREATE TABLE `client_master` (
-  `profileImage` varchar(250) CHARACTER SET utf8mb4  NOT NULL,
+  `profileImage` int NOT NULL,
   `client_id` int NOT NULL,
   `client_name` varchar(100) NOT NULL,
   `client_shortcode` varchar(10) NOT NULL,
@@ -85,24 +85,19 @@ CREATE TABLE `client_master` (
   `updated_by` varchar(50) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `client_master`
 --
 
 INSERT INTO `client_master` (`profileImage`, `client_id`, `client_name`, `client_shortcode`, `vertical_id`, `owner_name`, `owner_phone`, `owner_email`, `accounts_contact`, `accounts_phone`, `accounts_email`, `gst_no`, `description`, `address_line_1`, `address_line_2`, `city`, `state`, `country`, `pin_code`, `created_by`, `updated_by`, `created_date`, `updated_date`) VALUES
-('', 57, 'Government College Coimbatore', 'GCT', 1, 'Ramasamy', '8956237845', 'gct@gmail.com', '7845217547', '7845124578', 'gct@gmail.com', '7895556454456565655', 'GCT is a leading PCB connector & cable assembly manufacturer. Browse our innovative product range for solutions to your interconnect design challenges!', 'coimbatore', 'coimbatore', 'coimbatore', 'tamilnadu', '', '652145', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-('', 58, 'KVIM College Coimbatore', 'KVIM', 1, 'Kumar', '8956237845', 'gct@gmail.com', '7845217547', '7845124578', 'gct@gmail.com', '7895556454456565655', 'Best Spoke Institution PMO-IEDP Award. Nestled at the foothills of the Western Ghats, located in a sprawling 52-acre campus in Kovaipudur, Coimbatore, Sri Krishna College of', 'coimbatore', 'coimbatore', 'coimbatore', 'tamilnadu', '', '652145', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-('', 59, 'Rajas College of Engineering', 'RCE', 1, 'Venugopal', '8956237845', 'gct@gmail.com', '7845217547', '7845124578', 'gct@gmail.com', '7895556454456565655', 'We believe that each child is an individual with varying needs. A long cherished dream of our founder Chairman Dr. S.A.Raja was to establish number of institutions and bring out ', 'coimbatore', 'coimbatore', 'coimbatore', 'tamilnadu', '', '652145', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-('', 99, 'sengunthar college erode', 'SEC', 1, 'Robin', '7854784578', 'robin@gmail.com', 'jai', '7845789856', 'sengunthar@gmail.com', '457858712875878578', '', 'Erode', 'Erode', 'Erode', 'Tamilnadu', '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-('', 151, 'GCT college of engineering', 'GCT', 1, 'Kathir', '7845214578', 'gct@gmail.com', '7845124578', '7845124578', 'gct@gmail.com', '78451254457865', 'ebContact GCT Government College of Technology Thadagam Road, Coimbatore, Tamil Nadu - 641 013 Phone: (0422) - 2432221 E-mail: principal@gct.ac.in', 'coimbatore', 'coimbatore', 'coimbatore', 'Tamilnadu', '', '652145', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-('', 153, 'Kongunadu college coimbatore', 'KASC', 1, 'Aruchami k', '8956747895', 'aruchami@gmail.com', 'Ram', '9856895689', 'kongunadu@gmail.com', '10AABCU9603R1Z2', '', 'Coimbatore', 'Coimbatore', 'Coimbatore', 'Tamilnadu', '', '641008', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-('798fd0631a73a4c66a46723f024200e6', 200, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-('df6abd2ebabb932a794727bed8b7a6ed', 202, '', '', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-('aa4ff5d6cfa0db5983d6e02de6ee3031', 209, 'Profile Check', 'Prile', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-('666cefe653105f1a36995d8b2b959a6a', 211, 'TEst', 'ewewe', 0, 'ewew', 'wewe', '', 'wewe', 'tr', 'dr', 'hg', '', 'g', 'gjg', 'g', 'jhgjh', '', 'ghj', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-('', 216, 'SER', 'undefined', 0, 'undefined', 'undefined', 'undefined', 'undefined', 'undefined', 'undefined', 'undefined', '', 'undefined', 'undefined', 'undefined', 'undefined', '', 'undefined', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(0, 58, 'KVIM College Coimbatore', 'KVIM', 1, 'Kumar', '8956237845', 'gct@gmail.com', '7845217547', '7845124578', 'gct@gmail.com', '7895556454456565655', 'Best Spoke Institution PMO-IEDP Award. Nestled at the foothills of the Western Ghats, located in a sprawling 52-acre campus in Kovaipudur, Coimbatore, ', 'coimbatore', 'coimbatore', 'coimbatore', 'tamilnadu', '', '652145', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(0, 59, 'Rajas College of Engineering', 'RCE', 1, 'Venugopal', '8956237845', 'gct@gmail.com', '7845217547', '7845124578', 'gct@gmail.com', '7895556454456565655', 'We believe that each child is an individual with varying needs. A long cherished dream of our founder Chairman Dr. S.A.Raja was to establish number of institutions and bring out ', 'coimbatore', 'coimbatore', 'coimbatore', 'tamilnadu', '', '652145', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(0, 99, 'sengunthar college erode', 'SEC', 1, 'Robin', '7854784578', 'robin@gmail.com', 'jai', '7845789856', 'sengunthar@gmail.com', '457858712875878578', 'Sengunthar Engineering College was established in 2001 with an aim to accomplish distinction in Engineering and Technological pursuits. It is affiliated to Anna University ', 'Erode', 'Erode', 'Erode', 'Tamilnadu', '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(0, 151, 'GCT college of engineering', 'GCT', 1, 'Kathir', '7845214578', 'gct@gmail.com', '7845124578', '7845124578', 'gct@gmail.com', '78451254457865', 'GCT Government College of Technology Thadagam Road, Coimbatore, Tamil Nadu - 641 013 Phone: (0422) - 2432221 E-mail: principal@gct.ac.in', 'coimbatore', 'coimbatore', 'coimbatore', 'Tamilnadu', '', '652145', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(0, 153, 'Kongunadu college coimbatore', 'KASC', 1, 'Aruchami k', '8956747895', 'aruchami@gmail.com', 'Ram', '9856895689', 'kongunadu@gmail.com', '10AABCU9603R1Z2', 'KONGUNADU COLLEGE OF ENGINEERING AND TECHNOLOGY – [KNCET], TIRUCHIRAPPALLI Kongunadu College of Engineering and Technology (KCET),', 'Coimbatore', 'Coimbatore', 'Coimbatore', 'Tamilnadu', '', '641008', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+(0, 209, 'Profile Check', 'Prile', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -125,7 +120,7 @@ CREATE TABLE `customer_project_details` (
   `updated_by` varchar(50) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -149,7 +144,7 @@ CREATE TABLE `customer_project_master` (
   `updated_by` varchar(50) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -163,7 +158,7 @@ CREATE TABLE `designation` (
   `user_role_id` int NOT NULL,
   `designation` varchar(100) NOT NULL,
   `roles` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -174,7 +169,34 @@ CREATE TABLE `designation` (
 CREATE TABLE `image` (
   `id` int NOT NULL,
   `filename` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `leaves`
+--
+
+CREATE TABLE `leaves` (
+  `id` int NOT NULL,
+  `emp_id` varchar(50) NOT NULL,
+  `emp_name` varchar(100) NOT NULL,
+  `leave_type` varchar(100) NOT NULL,
+  `from_date` date NOT NULL,
+  `to_date` date NOT NULL,
+  `reason` varchar(100) NOT NULL,
+  `action` varchar(100) NOT NULL,
+  `comments` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `leaves`
+--
+
+INSERT INTO `leaves` (`id`, `emp_id`, `emp_name`, `leave_type`, `from_date`, `to_date`, `reason`, `action`, `comments`) VALUES
+(1, '11', 'selva', 'Casual Leave', '2023-04-29', '2023-04-29', 'family function', 'Pending', ''),
+(2, '11', 'selva', 'Casual Leave', '2023-04-29', '2023-04-29', 'fever', 'Approved', ''),
+(3, '3', 'sanjay', 'Permission', '2023-04-28', '2023-04-28', 'Personal Reason', 'Approved', '');
 
 -- --------------------------------------------------------
 
@@ -184,15 +206,15 @@ CREATE TABLE `image` (
 
 CREATE TABLE `login_history` (
   `id` int NOT NULL,
-  `ip_address` varchar(100) CHARACTER SET utf8mb4  NOT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4  NOT NULL,
+  `ip_address` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `password` varchar(50) NOT NULL,
   `attempt_count` int NOT NULL,
   `bad_attempt` int NOT NULL,
-  `message` varchar(50) CHARACTER SET utf8mb4  NOT NULL,
+  `message` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` timestamp NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `login_history`
@@ -386,7 +408,102 @@ INSERT INTO `login_history` (`id`, `ip_address`, `email`, `password`, `attempt_c
 (874, '103.194.242.18', 'satheesh@gmail.com', '$2b$10$8WR/g0P0IZWx4Fc40cm7IOsPt.r1Skk0cuWa5VXvsKq', 1, 0, 'Login successful', '2023-04-28 09:15:18', '2023-04-28 03:45:18'),
 (875, '103.194.242.18', 'satheesh@gmail.com', '$2b$10$oNlaT965urSixGhK4bXQZ.UtSFF92kmV2b8kYafnwcV', 1, 0, 'Login successful', '2023-04-28 09:23:30', '2023-04-28 03:53:30'),
 (876, '103.194.242.18', 'selva@gmail.com', '$2b$10$DX2utxOmjM2IN/iNOwPcGee1BFCNrlIv8S/6WxZgF.6', 1, 0, 'Login successful', '2023-04-28 09:24:03', '2023-04-28 03:54:03'),
-(877, '103.194.242.18', 'kumar@gmail.com', '$2b$10$WqwvgxY84FTXSTdnuqUU6u8oK0YhDuPeJnstthXcPfS', 1, 0, 'Login successful', '2023-04-28 09:31:37', '2023-04-28 04:01:37');
+(877, '103.194.242.18', 'kumar@gmail.com', '$2b$10$WqwvgxY84FTXSTdnuqUU6u8oK0YhDuPeJnstthXcPfS', 1, 0, 'Login successful', '2023-04-28 09:31:37', '2023-04-28 04:01:37'),
+(878, '203.223.189.230', 'kumar@gmail.com', '$2b$10$M8NbBUNjcDyRxRzWEJeJOONlGhfpUG57KdIy5hOkoT1', 1, 0, 'Login successful', '2023-04-28 10:28:29', '2023-04-28 04:58:29'),
+(879, '203.223.189.230', 'selva@gmail.com', '$2b$10$ZJN26PY2a7rScidqlNvmfuBRwAvWxLtkIJTsvw5Z/z7', 1, 0, 'Login successful', '2023-04-28 10:36:12', '2023-04-28 05:06:12'),
+(880, '103.114.210.211', 'selva@gmail.com', '$2b$10$DYw3kZydZtg0KQ6WFYLRreYiPbeZDD.lbvNRgZkbeE8', 1, 0, 'Login successful', '2023-04-28 12:30:22', '2023-04-28 07:00:22'),
+(881, '103.114.210.211', 'satheesh@gmail.com', '$2b$10$E9pqsv309hEFprktE3oQteM3YEWPZlE1u8iwOsEWeFu', 1, 0, 'Login successful', '2023-04-28 12:30:51', '2023-04-28 07:00:51'),
+(882, '203.223.189.230', 'kumar@gmail.com', '$2b$10$EWCDSn11jxgEDm/94da7audPLXlgHOz6WN4zHFuBUmd', 1, 0, 'Login successful', '2023-04-28 12:54:24', '2023-04-28 07:24:24'),
+(883, '203.223.189.230', 'kumar@gmai.com', '$2b$10$zdKOiQfHIgPe8fLKOPkfR.lVijaNEsUPqw57oZU6MBN', 1, 1, 'Login failed', '2023-04-28 12:58:47', '2023-04-28 07:28:47'),
+(884, '203.223.189.230', 'kumar@gmail.com', '$2b$10$PjIQr7dvMpShsQodN9GMrOBzDJ7zlkmayo3632AWsef', 2, 0, 'Login successful', '2023-04-28 12:58:53', '2023-04-28 07:28:53'),
+(885, '103.114.210.211', 'selva@gmail.com', '$2b$10$2ayi8TRzIMQmmIx5YvfeN.MVPiuRIe06MkkZN/QOZvg', 1, 0, 'Login successful', '2023-04-28 13:07:08', '2023-04-28 07:37:08'),
+(886, '103.114.210.211', 'sanjay@gmail.com', '$2b$10$vWyv0YMhzcnrjcy/JDlE6ei.0RvXIYHX/tJagUMNES9', 1, 1, 'Login failed', '2023-04-28 13:07:35', '2023-04-28 07:37:35'),
+(887, '103.114.210.211', 'sanjay@gmail.com', '$2b$10$ygVyZmdhajM.e1wKFxLRHelqSJcT1WoOuz5.yNf03Ka', 2, 1, 'Login failed', '2023-04-28 13:07:55', '2023-04-28 07:37:55'),
+(888, '103.114.210.211', 'selva@gmail.com', '$2b$10$SAj35bAHhKzjT/fL3Mf5VOFZC5faegfCapoVtsv76ml', 3, 0, 'Login successful', '2023-04-28 13:08:34', '2023-04-28 07:38:34'),
+(889, '103.114.210.211', 'sanjay@gmail.com', '$2b$10$nSv7EBHTzjnMVcqrZcnlnulPrjsL7PdESy3JvFJwxj9', 1, 1, 'Login failed', '2023-04-28 13:09:55', '2023-04-28 07:39:55'),
+(890, '103.114.210.211', 'harshanth@gmail.com', '$2b$10$FYt9AsmXYjhmr.82zZQBcuaG.GMp1ungIACq3PuR8vw', 2, 0, 'Login successful', '2023-04-28 13:10:16', '2023-04-28 07:40:16'),
+(891, '103.114.210.211', 'sanjay@gmail.comm', '$2b$10$wV.iXA5qFVsAFSguxmwsAui6wodcZIpjetOA2p03RE9', 1, 0, 'Login successful', '2023-04-28 13:11:00', '2023-04-28 07:41:00'),
+(892, '103.114.210.211', 'selva@gmail.com', '$2b$10$RcKGrwvObxmmpj3WotZu4O5B4rqlt.IGJVJ0HlxKAoT', 1, 0, 'Login successful', '2023-04-28 13:12:42', '2023-04-28 07:42:42'),
+(893, '103.114.210.211', 'sanjay@gmail.comm', '$2b$10$7p2hsDdtxwKY2NJjnXyGm.gAPoSKxIkrY4O4eDIMMf.', 1, 1, 'Login failed', '2023-04-28 15:19:16', '2023-04-28 09:49:16'),
+(894, '103.114.210.211', 'sanjay@gmail.comm', '$2b$10$ur.JeM1rdCEU7HAuHwErSOp7aUWL7JQJQNYQriCkvcI', 2, 1, 'Login failed', '2023-04-28 15:19:24', '2023-04-28 09:49:24'),
+(895, '103.114.210.211', 'sanjay@gmail.com', '$2b$10$N8TN3eBWzVhSYeh1SAHVy.45qgnAO1u1UlL/DPaWt8v', 3, 0, 'Login successful', '2023-04-28 15:19:33', '2023-04-28 09:49:33'),
+(896, '103.114.210.211', 'kumar@gmail.com', '$2b$10$zvLquzwxHlbTYg70NQ6OWelCMNY2/6/jfRxOyWK5S5r', 1, 0, 'Login successful', '2023-04-28 15:20:05', '2023-04-28 09:50:05'),
+(897, '103.194.242.18', 'kumar@gmail.com', '$2b$10$4/uGlzCBXnB69yrxxrFhD.cIiLfdoUgIZ63Rr042S2l', 1, 0, 'Login successful', '2023-04-28 15:44:43', '2023-04-28 10:14:43'),
+(898, '103.194.242.18', 'sanjay@gmail.comm', '$2b$10$fTM.UHXepm/2lb9RFm.Gn.uRoE/2zFsnutujk06715W', 1, 1, 'Login failed', '2023-04-28 15:45:01', '2023-04-28 10:15:01'),
+(899, '103.194.242.18', 'sanjay@gmail.com', '$2b$10$C0hsOwVzuA2oLIOW8eAcw.NLyt1XEFYgym0DydFVQOy', 2, 0, 'Login successful', '2023-04-28 15:45:09', '2023-04-28 10:15:09'),
+(900, '103.194.242.18', 'kumar@gmail.com', '$2b$10$.tbYUXc6xT29CmKk4vXToe0wP31dlVlOMkJ98SvXwKR', 1, 1, 'Login failed', '2023-04-28 15:46:20', '2023-04-28 10:16:20'),
+(901, '103.194.242.18', 'kumar@gmail.com', '$2b$10$K9DxVR.R7FqI98FZLUO6dely7QqzL38akQmbg7rpblA', 2, 0, 'Login successful', '2023-04-28 15:46:22', '2023-04-28 10:16:22'),
+(902, '103.114.210.211', 'kumar@gmail.com', '$2b$10$B5Wx0wRR4A6xhW7WVFU14.au/aRGzKAT3KoidLGSVbZ', 1, 0, 'Login successful', '2023-04-28 15:47:43', '2023-04-28 10:17:43'),
+(903, '103.114.210.211', 'kumar@gmail.com', '$2b$10$MrLx96uN4e1KKf6BI.Pm0.IV8qYm9x4IDx.NcOYjb88', 1, 0, 'Login successful', '2023-04-28 16:54:20', '2023-04-28 11:24:20'),
+(904, '103.114.210.211', 'sanjay@gmail.com', '$2b$10$V4Pmm6DhEvyxrwMDYiZnUe5o85OnQpUlB68oNYzzVjO', 1, 0, 'Login successful', '2023-04-28 16:54:44', '2023-04-28 11:24:44'),
+(905, '103.194.242.18', 'kumar@gmail.com', '$2b$10$KRlue5wWgxKPK3C5z6.04O44ikIxsohXh7HZ0QjHkv5', 1, 0, 'Login successful', '2023-04-28 17:13:21', '2023-04-28 11:43:21'),
+(906, '203.223.189.230', 'satheesh@gmail.com', '$2b$10$UUaTL9KC4h0WCFtvhUNFM.DaikOXaalqslisOmjkW0F', 1, 0, 'Login successful', '2023-04-29 09:14:51', '2023-04-29 03:44:51'),
+(907, '203.223.189.230', 'selva@gmail.com', '$2b$10$hWvc1cDNZxxwzACsBpM7iuhvHub8UG3HwOtccic1KX1', 1, 0, 'Login successful', '2023-04-29 09:15:57', '2023-04-29 03:45:57'),
+(908, '203.223.189.230', 'sanjay@gmail.com', '$2b$10$N0gh9yEKLxeV5L6cJZqqOuXzMEfwwRo1T/97.VBoHAH', 1, 0, 'Login successful', '2023-04-29 09:32:56', '2023-04-29 04:02:56'),
+(909, '203.223.189.230', 'kumar@gmail.com', '$2b$10$VHbDSNeqlU6oDKFVgRbqSuNZgQAU.psdQ8iNV3z5H.6', 1, 0, 'Login successful', '2023-04-29 09:33:41', '2023-04-29 04:03:41'),
+(910, '203.223.189.230', 'kumar@gmail.com', '$2b$10$vpSOqUAsrj78oc/L29mxDejtCqMTTgw9r4lUlyYJjd/', 1, 0, 'Login successful', '2023-04-29 09:38:14', '2023-04-29 04:08:14'),
+(911, '103.194.242.18', 'kumar@gmail.com', '$2b$10$vu3bK0kumsWj.U90RG9GoeZFXHTOUqwONADJR5fGgrw', 1, 0, 'Login successful', '2023-04-29 09:38:19', '2023-04-29 04:08:19'),
+(912, '103.194.242.18', 'kumar@gmail.com', '$2b$10$PSnxd91YF3wcnMkug3.YTu1fckFmVoUWsy7k3G.L7ZD', 1, 0, 'Login successful', '2023-04-29 09:38:41', '2023-04-29 04:08:41'),
+(913, '103.114.210.211', 'kumar@gmail.com', '$2b$10$6AuuMUHBQuoCzwlCr.yDGeDrWr1W80mRp5mrC9.yi96', 1, 0, 'Login successful', '2023-04-29 10:18:07', '2023-04-29 04:48:07'),
+(914, '103.194.242.18', 'kumar@gmail.com', '$2b$10$/EiKYeKE7ZVE2dfN/CDPJOW4zgRfasyvr40omIhjSSM', 1, 0, 'Login successful', '2023-04-29 10:38:31', '2023-04-29 05:08:31'),
+(915, '103.194.242.18', 'kumar@gmail.com', '$2b$10$/RGExiFJfjM7HWlxrBzVcuETacTttLScbJ99h9QY1yq', 1, 0, 'Login successful', '2023-04-29 12:48:17', '2023-04-29 07:18:17'),
+(916, '203.223.189.230', 'kumar@gmail.com', '$2b$10$xRNB22PTXeVTNoOi/Xm4D.7QNn8qT.Vm97i1C1hTMxE', 1, 0, 'Login successful', '2023-04-29 15:27:56', '2023-04-29 09:57:56'),
+(917, '103.114.210.211', 'kumar@gmail.com', '$2b$10$ltYkHikfmSP0/DrsI/scduVd2RbPYCSKKyLQzm0WaO0', 1, 0, 'Login successful', '2023-04-29 15:50:01', '2023-04-29 10:20:01'),
+(918, '103.114.210.211', 'satheesh@gmail.com', '$2b$10$KoBLFj2YdZFwSm5PR0Qk3Og03F12.Noo55G/RV2dJX1', 1, 0, 'Login successful', '2023-05-02 09:16:20', '2023-05-02 03:46:20'),
+(919, '103.114.210.211', 'selva@gmail.com', '$2b$10$XGaPWEYYgVkmzPVRH91Ohu3I3Y3UOz7.V4escUlw52w', 1, 0, 'Login successful', '2023-05-02 09:17:58', '2023-05-02 03:47:58'),
+(926, '103.194.242.18', 'kumar@gmail.com', '$2b$10$0dsqS2DShbri2N6tE0vhvuM8DbpH8KhRzLnL4QFqJJ8', 1, 0, 'Login successful', '2023-05-02 11:05:53', '2023-05-02 05:35:53'),
+(927, '103.194.242.18', 'kumar@gmail.com', '$2b$10$Z71noeGHa12wIwqTDbyg4uuLzuiJ698xlsEHsU2jBH.', 1, 0, 'Login successful', '2023-05-02 11:06:09', '2023-05-02 05:36:09'),
+(928, '103.194.242.18', 'satheesh@gmail.com', '$2b$10$xPVar.iOVxABKiOHGWOYv.vILll8NliSUmQNvbJV/.o', 5, 0, 'Login successful', '2023-05-02 11:10:55', '2023-05-02 05:40:55'),
+(929, '103.194.242.18', 'sanjay@gmail.comm', '$2b$10$HLAI5kLv6qAPd8kspGc1Uel.nfWULYDayXcLJZNWO/t', 1, 1, 'Login failed', '2023-05-02 11:37:19', '2023-05-02 06:07:19'),
+(930, '103.194.242.18', 'sanjay@gmail.com', '$2b$10$LLeVnyr4bWuLm65IvXCkkODAfbQkAFhck./0Ew8TXuF', 2, 0, 'Login successful', '2023-05-02 11:37:57', '2023-05-02 06:07:57'),
+(931, '103.194.242.18', 'kumar@gmail.comm', '$2b$10$DQrMxgSGQzWpy1OVp46TOulLP4ImX5rgM03cCNzvC13', 1, 1, 'Login failed', '2023-05-02 11:38:35', '2023-05-02 06:08:35'),
+(932, '103.194.242.18', 'kumar@gmail.com', '$2b$10$ez/ZcO44DPs/0G/XKSY5YuBB.f1.FrO5Gvvt01YT7tY', 2, 1, 'Login failed', '2023-05-02 11:38:38', '2023-05-02 06:08:38'),
+(933, '103.194.242.18', 'kumar@gmail.com', '$2b$10$c7WC2ZP8xg71rYUrODmF3.V6xgg.wM6YbPMlnH0ULe3', 3, 0, 'Login successful', '2023-05-02 11:38:43', '2023-05-02 06:08:43'),
+(934, '203.223.189.230', 'sanjay@gmail.com', '$2b$10$X9zELlgdwizvFJ9yyjyd/OafGZAsbS4KSgOHL12CxHz', 1, 0, 'Login successful', '2023-05-02 12:19:12', '2023-05-02 06:49:12'),
+(935, '103.194.242.18', 'kumar@gmail.com', '$2b$10$t1wvnb4eBaNpalBwOfHjiufWmxuKpXcUW0O8JYGyuf6', 1, 0, 'Login successful', '2023-05-02 12:45:15', '2023-05-02 07:15:15'),
+(936, '103.194.242.18', 'kumar@gmail.com', '$2b$10$dvITg8utz64v97qMkHW/y.0wSb.LX4Tl6kpUp7AjPeY', 2, 0, 'Login successful', '2023-05-02 12:45:36', '2023-05-02 07:15:36'),
+(937, '103.194.242.18', 'kumar@gmail.com', '$2b$10$GAvkyPVs87WjocwpEx2vN.fQFfTmUJgvVBr/BQI7VGM', 1, 1, 'Login failed', '2023-05-02 12:46:01', '2023-05-02 07:16:01'),
+(938, '103.194.242.18', 'kumar@gmail.com', '$2b$10$Jqxv1eRlBF58MfMhoT1y1.p5oKU3WqNVneSjdwIrLEY', 1, 0, 'Login successful', '2023-05-02 12:54:17', '2023-05-02 07:24:17'),
+(939, '103.194.242.18', 'sanjay@gmail.com', '$2b$10$tjBD0DaShfo7zOFjItHxk.YnvrGwOfp.sYT3eTYew3K', 1, 0, 'Login successful', '2023-05-02 13:02:20', '2023-05-02 07:32:20'),
+(940, '103.194.242.18', 'sanjay@gmail.com', '$2b$10$Rs6nxsEWiHPn2iqLlqcKlua348RhSTtY9lVOKc2btxz', 1, 0, 'Login successful', '2023-05-02 13:48:16', '2023-05-02 08:18:16'),
+(941, '103.114.210.211', 'selva@gmail.com', '$2b$10$xOskmokmri8E7qG8B/AMA.MScwud.Bmm9xLg3WKGa.c', 1, 0, 'Login successful', '2023-05-02 13:50:45', '2023-05-02 08:20:45'),
+(942, '103.114.210.211', 'selva@gmail.com', '$2b$10$qYEvzEvNMJXrpOHAbaxEzO8E8Ebqqi8lGs9709h3Gn9', 1, 0, 'Login successful', '2023-05-02 13:50:45', '2023-05-02 08:20:45'),
+(943, '103.194.242.18', 'kumar@gmail.com', '$2b$10$t..5r.61hO515f1pA1EA7OFvcoIbTNTp1C5Wy6eOhsX', 1, 0, 'Login successful', '2023-05-02 13:51:20', '2023-05-02 08:21:20'),
+(944, '103.114.210.211', 'sanjay@gmail.com', '$2b$10$sjvceh2SWphyi/WSlvoK8OdXHoxHopzhF.oCnkKbNo7', 1, 0, 'Login successful', '2023-05-02 14:40:44', '2023-05-02 09:10:44'),
+(945, '103.114.210.211', 'sanjay@gmail.comm', '$2b$10$qGR/WQPFkkpS1xQS978h.uQsSx7YR4hec2kqoLnLLdq', 1, 1, 'Login failed', '2023-05-02 14:45:13', '2023-05-02 09:15:13'),
+(946, '203.223.189.230', 'sanjay@gmail.comm', '$2b$10$9qqCQSWC5nPxsFf4MC9alu6X6pr6PO8PEPWTRoBpUm2', 2, 1, 'Login failed', '2023-05-02 14:50:21', '2023-05-02 09:20:21'),
+(947, '203.223.189.230', 'sanjay@gmail.comm', '$2b$10$r4NBvnreF4Jgi7jI63EvTekK7gd1kVUZECHz8Jgqvc0', 3, 1, 'Login failed', '2023-05-02 14:50:22', '2023-05-02 09:20:22'),
+(948, '203.223.189.230', 'sanjay@gmail.com', '$2b$10$2B3tZht74xz5qtAdhkGqmuvruxPeahtoBIraqPvLTSp', 4, 0, 'Login successful', '2023-05-02 14:50:28', '2023-05-02 09:20:28'),
+(949, '103.194.242.18', 'sanjay@gmail.com', '$2b$10$XEFVzH8SRBqeCEoQvduRY.UEkQ9V5Z.7MfJDXcnbaW/', 1, 0, 'Login successful', '2023-05-02 15:00:37', '2023-05-02 09:30:37'),
+(950, '103.194.242.18', 'sanjay@gmail.comm', '$2b$10$9Edq3URyyRw65px1fOjRruH4V3qQ.Prd1/5sx5Qe1k5', 1, 1, 'Login failed', '2023-05-02 15:08:10', '2023-05-02 09:38:10'),
+(951, '103.194.242.18', 'sanjay@gmail.com', '$2b$10$0YdthlK7hLM4NykVKjk0NufAp22npj9YPYwNPWb1hSr', 2, 0, 'Login successful', '2023-05-02 15:08:21', '2023-05-02 09:38:21'),
+(952, '203.223.189.230', 'sanjay@gmail.com', '$2b$10$bRFld2CFi2e3eXMk5Q4gTOalqIE0lYMcry2K8InjzRe', 1, 0, 'Login successful', '2023-05-02 15:19:04', '2023-05-02 09:49:04'),
+(953, '203.223.189.230', 'sanjay@gmail.com', '$2b$10$LqJvp68h3SROehP9lK9Azu5AKsFMgpf.hG9wPkUvUlA', 1, 0, 'Login successful', '2023-05-02 15:19:04', '2023-05-02 09:49:04'),
+(954, '203.223.189.230', 'kumar@gmail.com', '$2b$10$b8wYGgShdm6N/7QLHuIJW.EWJWqp/l2oaoCpRc/JYKi', 1, 0, 'Login successful', '2023-05-02 15:19:23', '2023-05-02 09:49:23'),
+(955, '103.194.242.18', 'satheesh@gmail.com', '$2b$10$HgTts1sdiUfI0AZ3e.ikGOy6E5ZVgyPGAKvW6RqNwqG', 1, 0, 'Login successful', '2023-05-03 09:15:03', '2023-05-03 03:45:03'),
+(956, '103.194.242.18', 'selva@gmail.com', '$2b$10$geZxYxJ79QvamqvvbZ5Myubg6NLgsPNXYfRyrEZQKeZ', 1, 0, 'Login successful', '2023-05-03 09:15:26', '2023-05-03 03:45:26'),
+(957, '103.194.242.18', 'kumar@gmail.com', '$2b$10$7XdlIePyU/D4huGgWGiaqeLtLU68HjbQ8ZaTp0OQkER', 1, 0, 'Login successful', '2023-05-03 09:25:56', '2023-05-03 03:55:56'),
+(958, '103.194.242.18', 'satheesh@gmail.com', '$2b$10$7NdG32ZSRzssC9Nq2pbLhuSzN5ByZIASp8ronFhxFFE', 1, 0, 'Login successful', '2023-05-03 11:16:49', '2023-05-03 05:46:49'),
+(959, '103.194.242.18', 'satheesh@gmail.com', '$2b$10$jPVvj2wT1gh0pl9zsuaSTexvS6g50WAmIoKW4KFmCG4', 1, 0, 'Login successful', '2023-05-03 11:17:10', '2023-05-03 05:47:10'),
+(960, '103.194.242.18', 'satheesh@gmail.com', '$2b$10$T96D6SkhZ8JzgCuSykG9VevvQhQgGDydDmyHK1C7D3I', 1, 0, 'Login successful', '2023-05-03 11:19:19', '2023-05-03 05:49:19'),
+(961, '103.194.242.18', 'selva@gmail.com', '$2b$10$E5kzrVnpX1q3yFXLE4IXFeY9vqq4mqRyS3nwyYMKA2f', 1, 0, 'Login successful', '2023-05-03 11:19:59', '2023-05-03 05:49:59'),
+(962, '103.114.210.211', 'satheesh@gmail.com', '$2b$10$NC8BjIiQREBsQorkVjQLO.GXqeVXhkHyV75Rt02ZVhJ', 1, 0, 'Login successful', '2023-05-03 11:30:31', '2023-05-03 06:00:31'),
+(963, '103.194.242.18', 'sanjay@gmail.com', '$2b$10$Xj5rYlbxDvzuIIWdcVRVd.ojUAgRWxA8ycwHGkhAMwW', 1, 0, 'Login successful', '2023-05-03 12:21:28', '2023-05-03 06:51:28'),
+(964, '103.194.242.18', 'selva@gmail.com', '$2b$10$9NvmApvUMdsATC3/2Zb71uzV4olTmAIEgFoCZkisUck', 1, 0, 'Login successful', '2023-05-03 12:22:13', '2023-05-03 06:52:13'),
+(965, '103.114.210.211', 'selva@gmail.com', '$2b$10$Nu3dVFKtC230fPTofzH/6.DDfgbY97Y5r1ge/FtreDr', 1, 0, 'Login successful', '2023-05-03 12:43:19', '2023-05-03 07:13:19'),
+(966, '103.114.210.211', 'kumar@gmail.com', '$2b$10$gBYjfuvEmdUddsh5BmbV..Fqu.H8ny0Lm.bQ2kEq/jK', 1, 0, 'Login successful', '2023-05-03 19:23:12', '2023-05-03 13:53:12'),
+(967, '103.114.210.211', 'kumar@gmail.com', '$2b$10$.RR1qBZIK55PmDuXTOGFG.6Co6lXLVxEpaAShVyjG.5', 1, 0, 'Login successful', '2023-05-04 09:26:09', '2023-05-04 03:56:09'),
+(968, '103.194.242.18', 'sanjay@gmail.com', '$2b$10$c4h50XQO/2Y9f/kg90VLjOaj4HpwQiNWMw4L6TjRqxQ', 1, 0, 'Login successful', '2023-05-04 09:26:42', '2023-05-04 03:56:42'),
+(969, '103.194.242.18', 'satheesh@gmail.com', '$2b$10$poD/BB9jlzDiXPGq4tgGVuRIGD/JzvFEiSvaMMe2Qfx', 1, 0, 'Login successful', '2023-05-04 09:31:51', '2023-05-04 04:01:51'),
+(970, '103.194.242.18', 'satheesh@gmail.com', '$2b$10$k8h1s2LFRoJrUiWbZoEXQeacDbVmdcAJFiRsIXY7huj', 1, 0, 'Login successful', '2023-05-04 09:31:51', '2023-05-04 04:01:51'),
+(971, '103.194.242.18', 'satheesh@gmail.com', '$2b$10$dbcpzMRzGlOr5rCeF6kG3uQzRQKk.qSe8EA29mzvvkY', 1, 0, 'Login successful', '2023-05-04 09:31:52', '2023-05-04 04:01:52'),
+(972, '103.194.242.18', 'selva@gmail.com', '$2b$10$di3F3xT.JcQcDN5nAQExB.zMdMx4e5LkrWOQXQ6s8Bt', 1, 1, 'Login failed', '2023-05-04 09:32:23', '2023-05-04 04:02:23'),
+(973, '103.194.242.18', 'selva@gmail.com', '$2b$10$iu386RJnrcXC38NVv8omPeLu4ecJm9V7FrvhTx6U7.O', 2, 0, 'Login successful', '2023-05-04 09:32:33', '2023-05-04 04:02:33'),
+(974, '203.223.189.230', 'kumar@gmail.com', '$2b$10$D6tXxjTds89XbzFUEyxOienNBhQxJVpT.JUv3sdPLwU', 1, 0, 'Login successful', '2023-05-04 09:43:04', '2023-05-04 04:13:04'),
+(975, '203.223.189.230', 'selva@gmail.com', '$2b$10$y4l2F.8qDivVCAA.7mXgzuYsjSgSo9fRi0bZjVNH8C3', 1, 0, 'Login successful', '2023-05-04 09:43:50', '2023-05-04 04:13:50'),
+(976, '103.194.242.18', 'kumar@gmail.com', '$2b$10$7lU42uXBuc.Ib5ug5DF0euuOJ/hebUOrjmlFY1WZvfm', 1, 0, 'Login successful', '2023-05-04 09:44:31', '2023-05-04 04:14:31'),
+(977, '103.194.242.18', 'kumar@gmail.com', '$2b$10$dpfYJy/Sf9sQgiCJdgJH5.gk7I6hT.lKvZFIBalAxIg', 1, 0, 'Login successful', '2023-05-04 10:15:49', '2023-05-04 04:45:49'),
+(978, '103.194.242.18', 'selva@gmail.com', '$2b$10$OGNOzn8MfNWtpb6ozw5C8unadbmh9Y4KThIPq0juGvS', 1, 0, 'Login successful', '2023-05-04 10:19:28', '2023-05-04 04:49:28');
 
 -- --------------------------------------------------------
 
@@ -403,7 +520,7 @@ CREATE TABLE `master_products` (
   `updated_by` varchar(50) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `master_products`
@@ -431,13 +548,13 @@ CREATE TABLE `project` (
   `duration` date DEFAULT NULL,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
-  `project_manager` varchar(200) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `project_manager` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `deadline` date NOT NULL,
-  `status` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+  `status` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `date` date DEFAULT NULL,
   `priority` varchar(100) NOT NULL,
-  `description` varchar(250) CHARACTER SET utf8mb4  NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+  `description` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `project`
@@ -448,7 +565,7 @@ INSERT INTO `project` (`id`, `project_name`, `created_dt`, `category`, `client`,
 (4, 'TNPCB', '2022-10-05', 'App Development', 'PCB', '2022-11-27', '1899-11-26', '2023-11-26', 'Satheesh ', '2023-03-15', 'Completed', '2022-03-03', 'High', 'Tamilnadu Pollution Control Board'),
 (5, 'KASC', '2022-05-00', 'Website Design', 'KASC', '2022-11-26', '1899-11-26', '1899-11-26', 'Kumar ', '2022-10-01', '', '2022-08-26', 'Low', 'Kongunadu Arts and Science college'),
 (6, 'SCET', '2022-06-08', 'App development', 'SCET', '2022-12-29', '1899-11-28', '1899-11-28', 'Ganesh', '2023-01-11', 'Pending', '2022-11-28', 'Medium', 'Sengunthar college'),
-(7, 'SREC', '2023-02-01', 'App development', 'SREC', '1899-11-28', '1899-11-28', '1899-11-28', 'Kiruba', '2023-05-01', 'InProgress', '2022-01-28', 'Medium', 'Ramakrishna College');
+(7, 'SREC', '2023-02-01', 'App development', 'SREC', '1899-11-28', '1899-11-28', '1899-11-28', 'Kiruba', '2023-05-01', 'InProgress', '2022-01-28', 'Medium', '1) Need Registration process with upload ability against courses to Department HOD or advisors.\r\n2) Fast forward process - (Course skip and forward process) - to study in the forthcoming semester with limitations of the semester number.\r\n3) Need cert');
 
 -- --------------------------------------------------------
 
@@ -465,7 +582,7 @@ CREATE TABLE `project_code_details` (
   `updated_by` varchar(50) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -483,7 +600,7 @@ CREATE TABLE `project_code_master` (
   `updated_by` varchar(50) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -501,7 +618,7 @@ CREATE TABLE `project_phase_master` (
   `updated_by` varchar(50) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -515,7 +632,7 @@ CREATE TABLE `punchin_punchout` (
   `punchin_time` datetime DEFAULT NULL,
   `punchout_time` datetime DEFAULT NULL,
   `work_hours` time DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `punchin_punchout`
@@ -559,7 +676,7 @@ CREATE TABLE `sign_in` (
   `password` varchar(150) NOT NULL,
   `confirmpassword` varchar(150) NOT NULL,
   `role` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `sign_in`
@@ -593,27 +710,29 @@ CREATE TABLE `task` (
   `client` varchar(50) NOT NULL,
   `control_code` varchar(50) NOT NULL,
   `category` varchar(150) NOT NULL,
-  `task_assignperson` varchar(150) CHARACTER SET utf8mb4  NOT NULL,
+  `task_assignperson` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `deadline` date NOT NULL,
   `description` varchar(150) NOT NULL,
   `duration` time NOT NULL,
-  `assignto` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+  `assignto` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `status` varchar(200) NOT NULL,
   `comments` varchar(200) NOT NULL,
   `created_dt` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `task`
 --
 
 INSERT INTO `task` (`id`, `task_name`, `client`, `control_code`, `category`, `task_assignperson`, `deadline`, `description`, `duration`, `assignto`, `status`, `comments`, `created_dt`) VALUES
-(2, 'academic portal - reg', 'SEC Tiruchengode - COE', 'E-005', '', 'Satheesh', '2023-11-22', 'ENOVA website - need a  resumes or ', '00:00:00', '9', 'InProgress', 'Pending Cust Verifn and closure', '2023-05-18'),
-(4, 'KNCET_ERP_Batch 2020_Assignment_Report', 'KNCET - PORTAL', 'N-002', '', 'satheesh', '1899-11-28', 'KNCET Assignment report error', '04:00:00', '4', 'Completed', 'High', '2023-01-09'),
+(2, 'academic portal - reg', 'SEC Tiruchengode - COE', 'E-005', '', 'Satheesh', '2023-11-22', 'The above scenario, Need permanent fixes, As per satheesh sir instruction, once removed the registration based flag, get the confirmation, appropriat', '00:00:00', '9', 'InProgress', 'Pending Cust Verifn and closure', '2023-05-18'),
+(4, 'KNCET_ERP_Batch 2020_Assignment_Report', 'KNCET - PORTAL', 'N-002', '', 'satheesh', '1899-11-27', 'KNCET Assignment report error', '04:00:00', '4', 'Completed', 'High', '2023-01-09'),
 (12, 'Reg fees head settlement...', 'Esec - Non Coe', 'M-001', '', 'Satheesh', '2023-08-15', 'Fix the fee settlement error', '06:05:00', '3', '', 'critical', '2023-01-13'),
 (13, 'academic portal - reg', 'SEC Tiruchengode - COE', 'E-006', '', 'Satheesh', '2023-04-03', 'error', '05:00:00', '11', 'InProgress', 'High', '2023-02-01'),
-(30, 'E- Academics', 'SEC', 'D-001', '', 'satheesh', '2023-10-27', 'Ticket Number - #13869 - KNCET_ERP_Assignment', '05:00:00', '11', 'Completed', 'Process On', '2023-06-27'),
-(32, 'Test', 'KASC', 'D-001', '', 'Satheesh', '2023-04-05', '44545', '08:00:10', '11', '', 'pending', '2023-04-03');
+(30, 'E- Academics', 'SEC', 'D-001', '', 'satheesh', '2023-10-27', '1) Need Registration process with upload ability against courses to Department HOD or advisors.\r\n2) Fast forward process - (Course skip and forward pr', '05:00:00', '11', 'Completed', 'Process On', '2023-06-27'),
+(32, 'Test', 'KASC', 'D-001', '', 'Satheesh', '2023-04-05', '44545', '08:00:10', '11', '', 'pending', '2023-04-03'),
+(45, 'Test', 'KASC', 'D001', 'IDE,IAD', '', '2023-05-24', 'Test', '00:00:00', '', '', '', '0000-00-00'),
+(46, 'DDDD', '', 'KASC', 'EDE,IAD', 'satheesh', '2023-05-09', 'DDD', '00:00:00', '', '', '', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -632,7 +751,7 @@ CREATE TABLE `task_details_history` (
   `created_by` varchar(50) NOT NULL,
   `created_date` varchar(50) NOT NULL,
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -642,7 +761,7 @@ CREATE TABLE `task_details_history` (
 
 CREATE TABLE `task_details_master` (
   `task_details_master_id` int NOT NULL,
-  `task_name` varchar(50) CHARACTER SET utf8mb4  NOT NULL,
+  `task_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `assigned_to` int NOT NULL,
   `assigned_by` int NOT NULL,
   `project_id` int NOT NULL,
@@ -658,7 +777,7 @@ CREATE TABLE `task_details_master` (
   `updated_by` varchar(50) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -674,7 +793,7 @@ CREATE TABLE `task_status_master` (
   `updated_by` varchar(50) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -685,29 +804,22 @@ CREATE TABLE `task_status_master` (
 CREATE TABLE `ticket_view` (
   `id` int NOT NULL,
   `subject` varchar(50) NOT NULL,
-  `assignname` varchar(20) NOT NULL,
-  `date` date NOT NULL,
+  `assign_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `created_date` date NOT NULL,
   `status` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `ticket_view`
 --
 
-INSERT INTO `ticket_view` (`id`, `subject`, `assignname`, `date`, `status`) VALUES
-(1, 'dfsdfa', 'dsfdsf', '2023-03-03', '1'),
-(2, 'Tamil', 'tamilarasan', '2023-03-03', '1'),
-(3, 'Tamil', 'TT', '0000-00-00', ''),
-(4, 'KASC', 'MD', '2023-02-24', '2'),
-(5, '', 'gerre', '0000-00-00', ''),
-(6, '', 'gerre', '0000-00-00', ''),
-(7, '', 'gerre', '0000-00-00', ''),
-(8, '', 'gerre', '0000-00-00', ''),
-(10, 'BUG', 'KK', '0000-00-00', ''),
-(11, 'BUG', 'KK', '2023-02-26', '1'),
-(12, 'Sample ticket subjec', '', '0000-00-00', ''),
-(13, 'PSG', 'Admin', '2023-02-22', '1'),
-(14, 'PSG', 'Admin', '2023-02-22', '1');
+INSERT INTO `ticket_view` (`id`, `subject`, `assign_name`, `created_date`, `status`) VALUES
+(2, 'Enhancement', 'tamilarasan', '2023-03-03', 'Waiting'),
+(3, 'Enhancement', 'Vignesh', '2023-03-03', 'Waiting'),
+(10, 'Design', 'Gopal', '2023-04-01', 'Completed'),
+(11, 'BUG', 'Sriram', '2023-02-26', 'Decline'),
+(12, 'Sample ticket subjec', 'Sanjay', '2023-05-02', 'Completed'),
+(24, 'testt', 't', '0000-00-00', '');
 
 -- --------------------------------------------------------
 
@@ -731,23 +843,24 @@ CREATE TABLE `users` (
   `created_by` varchar(50) NOT NULL,
   `updated_by` varchar(50) NOT NULL,
   `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+  `updated_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `reset_password_token` int DEFAULT NULL,
+  `reset_password_expires` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `user_role_id`, `user_group_id`, `first_name`, `last_name`, `user_email`, `designation`, `phone`, `address`, `password`, `description`, `role`, `created_by`, `updated_by`, `created_date`, `updated_date`) VALUES
-(3, 2, 2, 'sanjay', 'madan', 'sanjay@gmail.comm', 'project manager', '7845789620', 'coimbatore', 'sanjay123', 'Mr.Sanjay madan  have a three years of experience in php mysql and also as a role of Project manager', '1', 'admin', 'admin', '2023-03-06 15:46:43', '2023-03-06 15:46:43'),
-(4, 2, 2, 'Harshanth', 'R', 'harshanth@gmail.com', 'Programmer Analyst', '7854784589', 'coimbatore', 'harshanth123', 'Mr.Harsanth have a five years of experience in php mysql and angular and also working for mobile application', '1', 'admin', 'admin', '2023-03-06 15:58:04', '2023-03-06 15:58:04'),
-(5, 2, 2, 'gopala', 'kannan', 'gopal@gmail.com', 'senior designer', '8956745787', 'coimbatore', 'gopal123', 'Mr.Pranesh he have a twelve years of experience in designing and also a senior designer', '1', 'admin', 'admin', '2023-03-06 16:00:30', '2023-03-06 16:00:30'),
-(7, 1, 2, 'satheesh', 'R', 'satheesh@gmail.com', 'senior manager', '9856985691', 'coimbatore', 'satheesh123', 'He has 10 years of experience in php.and also he is the senior manager in the enova', '0', 'admin', 'admin', '2023-03-29 09:32:41', '2023-03-29 09:32:41'),
-(8, 2, 4, 'utharakumar', 'R', 'uthara@gmail.com', 'Programmer Analyst', '7854784578', 'Coimbatore', 'uthara123', '', '1', '', '', '2023-04-01 09:46:09', '2023-04-01 09:46:09'),
-(9, 2, 4, 'shanmugapriyan', 'S', 'shanmugapriyan@gmail.com', 'programmer analyst', '7845784587', 'Coimbatore', 'shanmugapriyan123', '', '1', '', '', '2023-04-01 10:04:24', '2023-04-01 10:04:24'),
-(10, 2, 4, 'venkatesh', 'V', 'venkatesh@gmail.com', 'programmer analyst', '8956895698', 'Coimbatore', 'venkatesh123', '', '1', '', '', '2023-04-01 10:06:29', '2023-04-01 10:06:29'),
-(11, 2, 4, 'selva', 'kumar', 'selva@gmail.com', 'programmer analyst', '7856457845', 'Coimbatore', 'selva123', '', '1', '', '', '2023-04-01 10:07:38', '2023-04-01 10:07:38'),
-(12, 1, 1, 'Kumar', 'K', 'kumar@gmail.com', 'Managing Director', '7845784587', 'Coimbatore', 'kumar123', 'Managing Director of Enova software and hardware solutions pvt ltd', '0', 'admin', 'admin', '2023-04-01 10:18:21', '2023-04-01 10:18:21');
+INSERT INTO `users` (`user_id`, `user_role_id`, `user_group_id`, `first_name`, `last_name`, `user_email`, `designation`, `phone`, `address`, `password`, `description`, `role`, `created_by`, `updated_by`, `created_date`, `updated_date`, `reset_password_token`, `reset_password_expires`) VALUES
+(3, 2, 2, 'sanjay', 'madan', 'sanjay@gmail.com', 'project manager', '7845789620', 'coimbatore', 'sanjay123', 'Mr.Sanjay madan  have a three years of experience in php mysql and also as a role of Project manager', '1', 'admin', 'admin', '2023-03-06 15:46:43', '2023-03-06 15:46:43', 707451, '2023-05-02 14:47:41'),
+(4, 2, 2, 'Harshanth', 'R', 'harshanth@gmail.com', 'Programmer Analyst', '7854784589', 'coimbatore', 'harshanth123', 'Mr.Harsanth have a five years of experience in php mysql and angular and also working for mobile application', '1', 'admin', 'admin', '2023-03-06 15:58:04', '2023-03-06 15:58:04', 607489, '2023-04-29 17:48:03'),
+(7, 1, 2, 'satheesh', 'R', 'satheesh@gmail.com', 'senior manager', '9856985691', 'coimbatore', 'satheesh123', 'He has 10 years of experience in php.and also he is the senior manager in the enova', '0', 'admin', 'admin', '2023-03-29 09:32:41', '2023-03-29 09:32:41', NULL, NULL),
+(8, 2, 4, 'utharakumar', 'R', 'uthara@gmail.com', 'Programmer Analyst', '7854784578', 'Coimbatore', 'uthara123', '', '1', '', '', '2023-04-01 09:46:09', '2023-04-01 09:46:09', NULL, NULL),
+(9, 2, 4, 'shanmugapriyan', 'S', 'shanmugapriyan@gmail.com', 'programmer analyst', '7845784587', 'Coimbatore', 'shanmugapriyan123', '', '1', '', '', '2023-04-01 10:04:24', '2023-04-01 10:04:24', NULL, NULL),
+(10, 2, 4, 'venkatesh', 'V', 'venkatesh@gmail.com', 'programmer analyst', '8956895698', 'Coimbatore', 'venkatesh123', '', '1', '', '', '2023-04-01 10:06:29', '2023-04-01 10:06:29', NULL, NULL),
+(11, 2, 4, 'selva', 'kumar', 'selva@gmail.com', 'programmer analyst', '7856457845', 'Coimbatore', 'selva123', '', '1', '', '', '2023-04-01 10:07:38', '2023-04-01 10:07:38', NULL, NULL),
+(12, 1, 1, 'Kumar', 'K', 'kumar@gmail.com', 'Managing Director', '7845784587', 'Coimbatore', 'kumar123', 'Managing Director of Enova software and hardware solutions pvt ltd', '0', 'admin', 'admin', '2023-04-01 10:18:21', '2023-04-01 10:18:21', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -759,7 +872,7 @@ CREATE TABLE `users_login` (
   `id` int NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -775,7 +888,7 @@ CREATE TABLE `user_groups` (
   `updated_date` datetime NOT NULL,
   `created_by` varchar(100) NOT NULL,
   `updated_by` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `user_groups`
@@ -804,7 +917,7 @@ CREATE TABLE `user_roles` (
   `updated_by` varchar(100) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `user_roles`
@@ -828,7 +941,7 @@ CREATE TABLE `vertical_master` (
   `vertical_types` varchar(200) NOT NULL,
   `created_date` datetime NOT NULL,
   `updated_date` timestamp NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `vertical_master`
@@ -838,6 +951,58 @@ INSERT INTO `vertical_master` (`vertical_id`, `vertical_types`, `created_date`, 
 (1, 'college', '2023-03-02 12:25:25', '2023-03-02 06:55:25'),
 (2, 'college', '2023-02-27 12:25:25', '2023-02-27 06:55:25'),
 (3, 'school', '2023-02-27 12:33:44', '2023-02-27 07:03:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `worktype_project`
+--
+
+CREATE TABLE `worktype_project` (
+  `id` int NOT NULL,
+  `code` varchar(50) NOT NULL,
+  `description` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `worktype_project`
+--
+
+INSERT INTO `worktype_project` (`id`, `code`, `description`) VALUES
+(1, 'E', 'Enhancement'),
+(2, 'I', 'Implement'),
+(3, 'B', 'Bug fix'),
+(4, 'M', 'maintanence');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `worktype_task`
+--
+
+CREATE TABLE `worktype_task` (
+  `id` int NOT NULL,
+  `code` varchar(100) NOT NULL,
+  `description` varchar(150) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `worktype_task`
+--
+
+INSERT INTO `worktype_task` (`id`, `code`, `description`) VALUES
+(1, 'EAD', 'Enhancement Analysis and Design'),
+(2, 'EDE', 'Ehancement Development'),
+(3, 'ETE', 'Enhancement Testing'),
+(4, 'IAD', 'Implementation Analysis and Design'),
+(5, 'IDE', 'Implementation Development'),
+(6, 'ITE', 'Implementation Testing'),
+(7, 'BAD', 'Bux Analysis and Design'),
+(8, 'BDE', 'Bux Development'),
+(9, 'BTE', 'Bux Testing'),
+(10, 'MAD', 'Maintenance Analysis and Design'),
+(11, 'MDE', 'Maintenance Development'),
+(12, 'MTE', 'Maintenance Testing');
 
 --
 -- Indexes for dumped tables
@@ -890,6 +1055,12 @@ ALTER TABLE `designation`
 -- Indexes for table `image`
 --
 ALTER TABLE `image`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `leaves`
+--
+ALTER TABLE `leaves`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1014,6 +1185,18 @@ ALTER TABLE `vertical_master`
   ADD PRIMARY KEY (`vertical_id`);
 
 --
+-- Indexes for table `worktype_project`
+--
+ALTER TABLE `worktype_project`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `worktype_task`
+--
+ALTER TABLE `worktype_task`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1033,7 +1216,7 @@ ALTER TABLE `client_contact_details`
 -- AUTO_INCREMENT for table `client_master`
 --
 ALTER TABLE `client_master`
-  MODIFY `client_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
+  MODIFY `client_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=227;
 
 --
 -- AUTO_INCREMENT for table `customer_project_details`
@@ -1060,10 +1243,16 @@ ALTER TABLE `image`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `leaves`
+--
+ALTER TABLE `leaves`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `login_history`
 --
 ALTER TABLE `login_history`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=878;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=979;
 
 --
 -- AUTO_INCREMENT for table `master_products`
@@ -1111,7 +1300,7 @@ ALTER TABLE `sign_in`
 -- AUTO_INCREMENT for table `task`
 --
 ALTER TABLE `task`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `task_details_history`
@@ -1135,7 +1324,7 @@ ALTER TABLE `task_status_master`
 -- AUTO_INCREMENT for table `ticket_view`
 --
 ALTER TABLE `ticket_view`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -1166,6 +1355,18 @@ ALTER TABLE `user_roles`
 --
 ALTER TABLE `vertical_master`
   MODIFY `vertical_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `worktype_project`
+--
+ALTER TABLE `worktype_project`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `worktype_task`
+--
+ALTER TABLE `worktype_task`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
